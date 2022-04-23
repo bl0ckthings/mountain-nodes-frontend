@@ -62,7 +62,7 @@ const Subtext = styled.div`
     justify-content: space-evenly;
     height: 100%;
     h5{
-        font-size: 20px;
+        font-size: 19px;
         font-weight: 300;
     }
 
