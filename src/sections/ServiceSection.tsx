@@ -43,7 +43,7 @@ const Card = styled.div`
     border: solid 2px #FFFD92;
     background-color:#3D0A00;
     width: 40%;
-    height: 380px;
+    height: 350px;
 `
 const Logo = styled.img`
     width: 52px;
