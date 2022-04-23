@@ -7,6 +7,11 @@ const NavbarContainer = styled.div`
     justify-content: center;
     width: 100%;
     margin: 0;
+
+    @media (max-width:425px){
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 const NavbarItems = styled.div`
@@ -24,6 +29,11 @@ const NavbarItems = styled.div`
         border-radius:  48px;
         background-color: rgba(255,255,255,0.1);
         border: 3px solid rgba(255,255,255,0.4);
+    }
+
+    @media (max-width:425px){
+        padding: 10px 20px;
+        margin:10px
     }
 `
 
