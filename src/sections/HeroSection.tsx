@@ -45,6 +45,11 @@ const Logo = styled.img`
     height: 52px;
 `
 
+const IconSocials = styled.img`
+    width:30px;
+    height:30px;
+`
+
 const Button = styled.button<{ secondary?: boolean }>`
     display: flex;
     width: fit-content;
@@ -72,7 +77,13 @@ const ButtonContainer = styled.div`
     border-image: linear-gradient(90deg, #fff,rgba(255,255,255,0)) 1;
 `
 
-const Social = styled.a`
+const Social = styled.div`
+    display: flex;
+    place-content: center;
+    border: solid 2px #fff;
+    border-radius: 999px;
+    padding: 10px;
+    background-color: rgba(255,255,255,0.3);
     transition: .1s ease-in-out;
     &:hover{
         filter: brightness(1.2);
@@ -87,16 +98,16 @@ const HeroSection = () => {
                 <Content>
                     <h1 className="title">MOUNTAIN NODES</h1>
                     <h3 className="subtitle">The peaks of the strongest <br /> and highest yields.</h3>
-                    <Powered> <h4 >Powered by</h4> <Logo src={process.env.PUBLIC_URL + "/img/avax.png"} /></Powered>
+                    <Powered> <h4 >Powered by</h4> <IconSocials src={process.env.PUBLIC_URL + "/img/avax.png"} /></Powered>
                     <ButtonContainer>
                         <Button><h4>Launch dAPP</h4> <Logo src={process.env.PUBLIC_URL + "/img/rightarrow.png"} /> </Button>
                         <Button secondary><h4>Know More</h4> <Logo src={process.env.PUBLIC_URL + "/img/downarrow.png"} /></Button>
                     </ButtonContainer>
                 </Content>
                 <SocialNetwork>
-                    <Social href="https://discord.com/" target={'_blank'}><Logo src={process.env.PUBLIC_URL + "/img/discord.png"} /></Social>
-                    <Social href="https://www.instagram.com/?hl=fr" target={'_blank'}><Logo src={process.env.PUBLIC_URL + "/img/instagram.png"} /></Social>
-                    <Social href="https://twitter.com/?lang=fr" target={'_blank'}><Logo src={process.env.PUBLIC_URL + "/img/twitter.png"}/></Social>
+                    <Social><IconSocials src={process.env.PUBLIC_URL + "/img/discord.png"} /></Social>
+                    <Social><IconSocials src={process.env.PUBLIC_URL + "/img/instagram.png"} /></Social>
+                    <Social><IconSocials src={process.env.PUBLIC_URL + "/img/Twitter.png"}/></Social>
                 </SocialNetwork>
             </SuperFrame>
         </Section>
