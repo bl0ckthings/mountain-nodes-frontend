@@ -23,9 +23,11 @@ const Content = styled.div`
     height: auto;
     
     @media (max-width:425px){
+
         .title{
             font-size:3.594rem ;
         }
+        
         .subtitle{
             font-size:1.25rem;
         }
@@ -52,9 +54,11 @@ const Powered = styled.div`
     }
 
     @media (max-width:425px){
+
         h4{
             font-size: 1rem;
         }
+
         img{
             width:30px;
             height:30px
@@ -91,6 +95,7 @@ const Button = styled.button<{ secondary?: boolean }>`
         font-weight:200;
     }
     `}
+
     @media (max-width:425px){
         h4{
             font-size: 1rem;
@@ -109,7 +114,6 @@ const ButtonContainer = styled.div`
     margin: 50px 30px 30px 0;
     border: 2px solid ;
     border-radius: 10px;
-    border-image: linear-gradient(90deg, #fff,rgba(255,255,255,0)) 1;
 
     @media (max-width:425px){
     margin: 50px 20px 20px 0;
@@ -126,6 +130,7 @@ const Social = styled.div`
     background-color: rgba(255,255,255,0.3);
     transition: .1s ease-in-out;
     cursor: pointer;
+
     @keyframes shake {
         0%{transform:rotateZ(0)}
         33%{transform:rotateZ(10deg)}
