@@ -13,7 +13,6 @@ const SuperFrame = styled.div`
     width:  100%;
     max-width: 1400px;
     height: 100%;
-    margin-top: 60px;
 `
 const Content = styled.div`
     display: flex;
@@ -154,7 +153,7 @@ const Social = styled.div`
 
 const HeroSection = () => {
     return (
-        <Section style={{ background: 'rgb(14,127,215)' }}>
+        <Section style={{ background:`url(${process.env.PUBLIC_URL + "/img/IceLoop.gif"})`,backgroundSize:'cover', backgroundPosition:'center center'}}>
             <Navbar />
             <SuperFrame>
                 <Content>
