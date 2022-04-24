@@ -1,12 +1,10 @@
-import { Section } from "../components/Containers"
-
-
+import { ParallaxSection } from "../components/Containers"
 
 const ServiceSection = () => {
     return (
-        <Section style={{ background: 'rgb(148,71,0)' }}>
+        <ParallaxSection style={{ backgroundImage:`url(${process.env.PUBLIC_URL + "/img/backgrounds/ServicesSection_Background.png"})`}}>
 
-        </Section>
+        </ParallaxSection>
     )
 }
 

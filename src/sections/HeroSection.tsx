@@ -1,17 +1,16 @@
-import React from "react";
 import styled, { css } from "styled-components";
-import { Section } from "../components/Containers"
+import Button from "../components/Button";
+import { ParallaxSection } from "../components/Containers"
 import { Navbar } from "../components/Navbar/Navbar";
 
 const SuperFrame = styled.div`
-
     display: flex;
     flex-direction: row;
     align-items: center;
     text-align: start;
     margin: auto;
     width:  100%;
-    max-width: 1400px;
+    max-width: 1500px;
     height: 100%;
 `
 const Content = styled.div`
@@ -21,13 +20,12 @@ const Content = styled.div`
     width: 100%;
     height: auto;
     
-    @media (max-width:425px){
-
-        .title{
+    @media (max-width:425px) {
+        .title {
             font-size:3.594rem ;
         }
         
-        .subtitle{
+        .subtitle {
             font-size:1.25rem;
         }
     }
@@ -47,18 +45,18 @@ const Powered = styled.div`
     align-items: center;
     margin-top: 50px;
     column-gap: 15px;
-    h4{
+
+    h4 {
         font-weight: 400;
         font-size: 1.75rem;
     }
 
     @media (max-width:425px){
-
-        h4{
+        h4 {
             font-size: 1rem;
         }
 
-        img{
+        img {
             width:30px;
             height:30px
         }
@@ -75,48 +73,44 @@ const IconSocials = styled.img`
     height:30px;
 `
 
-const Button = styled.button<{ secondary?: boolean }>`
-    display: flex;
-    width: fit-content;
-    align-items: center;
-    border: 0;
-    padding: 15px 20px;
-    border-radius: 10px 0 0 10px;
-    color: #272727;
-    column-gap: 5px;
-    cursor: pointer;
-    ${props => props.secondary && css`
-    border: 1px solid white;
-    border-radius: 0 10px 10px 0;
-    background-color: rgba(255,255,255,.3);
-    color:  white;
-    h4{
-        font-weight:200;
-    }
-    `}
-
-    @media (max-width:425px){
-        h4{
-            font-size: 1rem;
-        }
-        img{
-            width: 30px;
-            height: 30px;
-        }
-    }
-  
-`
-
 const ButtonContainer = styled.div`
     display: flex;
     padding: 20px;
     margin: 50px 30px 30px 0;
-    border: 2px solid ;
     border-radius: 10px;
+    position: relative;
 
     @media (max-width:425px){
-    margin: 50px 20px 20px 0;
-    padding: 10px;
+        margin: 50px 20px 20px 0;
+        padding: 10px;
+    }
+
+    &:before, &:after {
+        content: "";
+        position: absolute;
+    }
+
+    &:before {
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border-radius: 8px;
+        background-image: linear-gradient(150deg, rgba(255, 255, 255, 0.7), transparent);
+        z-index: -2;
+    }
+
+    &:after {
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        border-radius: 8px;
+        background-image: url(${process.env.PUBLIC_URL + "img/backgrounds/HeroSection_Background.png"});
+        background-position: center center;
+        background-size: cover;
+        background-attachment: fixed;
+        z-index: -1;
     }
 `
 
@@ -136,24 +130,25 @@ const Social = styled.div`
         66%{transform:rotateZ(-10deg)}
         100%{transform:rotateZ(0deg)}
     }
-    &:hover{
+
+    &:hover {
         animation: shake 0.7s ;
         background-color: rgba(255,255,255,0.5);
     }
 
-    @media (max-width:425px){
+    @media (max-width:425px) {
         padding:5px;
-        img{
+
+        img {
             width: 20px;
             height: 20px;
         }
     }
-
 `
 
 const HeroSection = () => {
     return (
-        <Section style={{ background:`url(${process.env.PUBLIC_URL + "/img/IceLoop.gif"})`,backgroundSize:'cover', backgroundPosition:'center center'}}>
+        <ParallaxSection style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/HeroSection_Background.png"})` }}>
             <Navbar />
             <SuperFrame>
                 <Content>
@@ -171,7 +166,7 @@ const HeroSection = () => {
                     <Social><IconSocials src={process.env.PUBLIC_URL + "/img/Twitter.png"} /></Social>
                 </SocialNetwork>
             </SuperFrame>
-        </Section>
+        </ParallaxSection>
     )
 }
 
