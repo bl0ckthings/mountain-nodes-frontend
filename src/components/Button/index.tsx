@@ -37,7 +37,7 @@ const Button = styled.button<{ secondary?: boolean }>`
         }
     `}
 
-    @media (max-width:425px){
+    @media (max-width: 800px){
         h4 {
             font-size: 1rem;
         }

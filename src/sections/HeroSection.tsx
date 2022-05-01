@@ -1,4 +1,5 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
+import { AnimatedText } from "../components/AnimatedText";
 import Button from "../components/Button";
 import { ParallaxSection } from "../components/Containers"
 import { Navbar } from "../components/Navbar/Navbar";
@@ -12,8 +13,13 @@ const SuperFrame = styled.div`
     width:  100%;
     max-width: 1500px;
     height: 100%;
+
+    @media (max-width: 800px) {
+        flex-direction: column;
+    }
 `
 const Content = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -34,9 +40,14 @@ const Content = styled.div`
 const SocialNetwork = styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
+    gap: 12px;
     width: auto;
     height: auto;
+
+    @media (max-width: 800px) {
+        flex-direction: row;
+        margin-top: 64px;
+    }
 `
 
 const Powered = styled.div`
@@ -51,7 +62,7 @@ const Powered = styled.div`
         font-size: 1.75rem;
     }
 
-    @media (max-width:425px){
+    @media (max-width: 800px){
         h4 {
             font-size: 1rem;
         }
@@ -75,19 +86,24 @@ const IconSocials = styled.img`
 
 const ButtonContainer = styled.div`
     display: flex;
-    padding: 20px;
-    margin: 50px 30px 30px 0;
+    padding: 24px;
+    margin: 48px 0px;
     border-radius: 10px;
     position: relative;
 
-    @media (max-width:425px){
-        margin: 50px 20px 20px 0;
-        padding: 10px;
+    @media (max-width: 800px){
+        margin: 48px 0px;
+        width: 100%;
+    }
+
+    & * {
+        z-index: 1;
     }
 
     &:before, &:after {
         content: "";
         position: absolute;
+        z-index: 0;
     }
 
     &:before {
@@ -97,7 +113,6 @@ const ButtonContainer = styled.div`
         bottom: -3px;
         border-radius: 8px;
         background-image: linear-gradient(150deg, rgba(255, 255, 255, 0.7), transparent);
-        z-index: -2;
     }
 
     &:after {
@@ -110,7 +125,6 @@ const ButtonContainer = styled.div`
         background-position: center center;
         background-size: cover;
         background-attachment: fixed;
-        z-index: -1;
     }
 `
 
@@ -146,18 +160,46 @@ const Social = styled.div`
     }
 `
 
+const overlayAnimation = keyframes`
+    0% {
+        transform: skewX(20deg) scaleX(4) translateX(-10%);
+    }
+
+    100% {
+        transform: skewX(20deg) scaleX(4) translateX(100%);
+    }
+`
+
+const Overlay = styled.div`
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    transform: skewX(20deg) scaleX(4) translateX(-10%);
+    transform-origin: left;
+    animation: ${overlayAnimation} 0.8s 0.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1000;
+    overflow: hidden;
+`
+
 const HeroSection = () => {
     return (
-        <ParallaxSection style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/HeroSection_Background.png"})` }}>
-            <Navbar />
+        <ParallaxSection id="home" style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/HeroSection_Background.png"})` }}>
+            <Overlay/>
             <SuperFrame>
                 <Content>
-                    <h1 className="title">MOUNTAIN NODES</h1>
+                    <AnimatedText delay={0.7} level="h1" className="title">MOUNTAIN NODES</AnimatedText>
                     <h3 className="subtitle">The peaks of the strongest <br /> and highest yields.</h3>
-                    <Powered> <h4 >Powered by</h4> <Logo src={process.env.PUBLIC_URL + "/img/avax.png"} /></Powered>
+                    <Powered> <h4>Powered by</h4> <Logo src={process.env.PUBLIC_URL + "/img/avax.png"} /></Powered>
                     <ButtonContainer>
                         <Button><h4>Launch dAPP</h4> <Logo src={process.env.PUBLIC_URL + "/img/rightarrow.png"} /> </Button>
-                        <Button secondary><h4>Know More</h4> <Logo src={process.env.PUBLIC_URL + "/img/downarrow.png"} /></Button>
+                        <Button secondary><h4>Whitepaper</h4> <Logo src={process.env.PUBLIC_URL + "/img/downarrow.png"} /></Button>
                     </ButtonContainer>
                 </Content>
                 <SocialNetwork>

@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const Section = styled.div`
-    position: sticky;
-    top: 0;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -10,7 +9,9 @@ export const Section = styled.div`
     padding: 32px;
     width: 100%;
     min-height: 100vh;
+    height: auto;
     margin: 0;
+    overflow-x: hidden;
 `;
 
 

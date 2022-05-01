@@ -1,18 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
-const NavbarContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin: 0;
-
-    @media (max-width:425px){
-        flex-direction: column;
-        align-items: center;
-    }
-`;
 
 const NavbarItems = styled.div`
     border-radius:  0;
@@ -35,20 +22,60 @@ const NavbarItems = styled.div`
         opacity: 0.4;
     }
 
-    @media (max-width:425px){
+    @media (max-width: 800px){
         padding: 10px 20px;
-        margin:10px
+        margin: 12px;
+        font-size: 2vmax;
     }
 `
 
+const NavbarContainer = styled.div<{opened?: boolean}>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    top: 32px;
+    z-index: 200;
+    position: fixed;
+    transition: all 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+
+    @media (max-width: 800px){
+        flex-direction: column;
+        align-items: center;
+        background: ${p => p.opened ? "black" : "transparent"};
+        width: 100vw;
+        height: ${p => p.opened ? "100vh" : "8vh"};
+        top: 0px;
+        & ${NavbarItems}:not(.exclude) {
+            display: ${p => p.opened ? "flex" : "none"};
+        }
+    
+        & ${NavbarItems}.exclude {
+            display: ${p => p.opened ? "none" : "flex"};
+        }
+    }
+
+    .exclude {
+        display: none;
+    }
+`;
+
 export const Navbar: React.FC = () => {
+    const [navOpened, setNavOpened] = useState(false);
+
+    const scrollAndClose = (target: string) => {
+        document.getElementById(target)?.scrollIntoView({ behavior: "smooth" });
+        setNavOpened(false);
+    }
+    
     return (
-        <NavbarContainer>
-            <NavbarItems>HOME</NavbarItems>
-            <NavbarItems>SERVICES</NavbarItems>
-            <NavbarItems>ABOUT</NavbarItems>
-            <NavbarItems>WHITEPAPER</NavbarItems>
-            <NavbarItems>JOIN COMMUNITY</NavbarItems>
+        <NavbarContainer opened={navOpened}>
+            <NavbarItems className="exclude" onClick={() => setNavOpened(!navOpened)}>MENU</NavbarItems>
+            <NavbarItems onClick={() => scrollAndClose("home")}>HOME</NavbarItems>
+            <NavbarItems onClick={() => scrollAndClose("services")}>SERVICES</NavbarItems>
+            <NavbarItems onClick={() => scrollAndClose("roadmap")}>ROADMAP</NavbarItems>
+            <NavbarItems onClick={() => window.open('https://discord.gg/mountain-nodes')}>JOIN COMMUNITY</NavbarItems>
         </NavbarContainer>
     )
 }
