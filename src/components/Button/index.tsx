@@ -14,8 +14,16 @@ const Button = styled.button<{ secondary?: boolean }>`
     transition: all 0.2s ease-in-out;
     background-color: rgba(255, 255, 255, 0.7);
 
+    & img {
+        transition: all 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
     &:hover {
         background-color: rgba(255, 255, 255, 0.9);
+
+        & img.hovering {
+            transform: translateX(15%);
+        }
     }
     
     ${props => props.secondary && css`

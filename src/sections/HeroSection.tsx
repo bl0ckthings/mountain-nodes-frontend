@@ -1,8 +1,8 @@
+import { useState } from "react";
 import styled, { css, keyframes } from "styled-components";
 import { AnimatedText } from "../components/AnimatedText";
 import Button from "../components/Button";
 import { ParallaxSection } from "../components/Containers"
-import { Navbar } from "../components/Navbar/Navbar";
 
 const SuperFrame = styled.div`
     display: flex;
@@ -91,9 +91,14 @@ const ButtonContainer = styled.div`
     border-radius: 10px;
     position: relative;
 
+    
     @media (max-width: 800px){
         margin: 48px 0px;
         width: 100%;
+        
+        & ${Button} {
+            width: 50%;
+        }
     }
 
     & * {
@@ -170,7 +175,27 @@ const overlayAnimation = keyframes`
     }
 `
 
-const Overlay = styled.div`
+const overlayAnimationReverse = keyframes`
+    0% {
+        transform: skewX(20deg) scaleX(4) translateX(100%);
+    }
+
+    50% {
+        transform: skewX(20deg) scaleX(4) translateX(-10%);
+    }
+    
+    80% {
+        opacity: 1;
+        transform: skewX(20deg) scaleX(4) translateX(-10%);
+    }
+    
+    100% {
+        opacity: 0;
+        transform: skewX(20deg) scaleX(4) translateX(-10%);
+    }
+`
+
+const Overlay = styled.div<{ playAnimation?: boolean }>`
     position: absolute;
     top: 0;
     bottom: 0;
@@ -181,7 +206,13 @@ const Overlay = styled.div`
     background: black;
     transform: skewX(20deg) scaleX(4) translateX(-10%);
     transform-origin: left;
-    animation: ${overlayAnimation} 0.8s 0.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+
+    ${p => p.playAnimation ? css`
+        animation: ${overlayAnimationReverse} 1.6s 0s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    ` : css`
+        animation: ${overlayAnimation} 0.8s 0.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    `
+    }
     pointer-events: none;
     user-select: none;
     z-index: 1000;
@@ -189,16 +220,22 @@ const Overlay = styled.div`
 `
 
 const HeroSection = () => {
+    const [playAnimation, setPlayAnimation] = useState(false);
+
+    const openDapp = () => {
+        setPlayAnimation(true);
+    }
+
     return (
         <ParallaxSection id="home" style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/HeroSection_Background.png"})` }}>
-            <Overlay/>
+            <Overlay playAnimation={playAnimation} />
             <SuperFrame>
                 <Content>
                     <AnimatedText delay={0.7} level="h1" className="title">MOUNTAIN NODES</AnimatedText>
                     <h3 className="subtitle">The peaks of the strongest <br /> and highest yields.</h3>
                     <Powered> <h4>Powered by</h4> <Logo src={process.env.PUBLIC_URL + "/img/avax.png"} /></Powered>
                     <ButtonContainer>
-                        <Button><h4>Launch dAPP</h4> <Logo src={process.env.PUBLIC_URL + "/img/rightarrow.png"} /> </Button>
+                        <Button onClick={openDapp}><h4>Launch dAPP</h4> <Logo className='hovering' src={process.env.PUBLIC_URL + "/img/rightarrow.png"} /> </Button>
                         <Button secondary><h4>Whitepaper</h4> <Logo src={process.env.PUBLIC_URL + "/img/downarrow.png"} /></Button>
                     </ButtonContainer>
                 </Content>

@@ -6,26 +6,23 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: space-around;
     width: 100%;
-
-    @media (max-width: 800px) {
-        height: auto;
-    }
 `
 
 const Services = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 24px;
     flex-direction: row;
     align-items: center;
     justify-content: stretch;
-    padding: 0px 10vw;
     margin-top: 10vh;
     height: 45vh;
+    width: 100%;
 
     @media (max-width: 800px) {
-        flex-direction: column;
-        height: 100vh;
-        width: 100%;
-        padding: 0px 5vw;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        min-height: 100vh;
     }
 `
 
@@ -36,18 +33,23 @@ const Service = styled.div`
     justify-content: start;
     height: 100%;
     padding: 48px;
-    margin: 48px;
     background: rgba(61, 10, 0, 0.7);
     border: 3px solid rgb(255, 253, 146);
     border-radius: 48px;
     backdrop-filter: blur(16px);
+    width: 100%;
 
     & p {
         font-size: 90%;
     }
-
+    
     @media (max-width: 800px) {
         width: 100%;
+        padding: 16px;
+
+        & p {
+            font-size: 110%;
+        }
     }
 `
 
@@ -69,9 +71,9 @@ const Icon = styled.img`
 
 const ServiceSection = () => {
     return (
-        <ParallaxSection id="services" style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/ServicesSection_Background.png"})`, padding: "128px 64px" }}>
+        <ParallaxSection id="services" style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/ServicesSection_Background.png"})` }}>
             <Container>
-                <h1 style={{ color: "#fffd92", fontSize: "5vmax" }} className="title">NEXT-GEN SERVICES</h1>
+                <h1 style={{ color: "#fffd92", fontSize: "5vmax", overflow: 'unset', textOverflow: 'unset', whiteSpace: 'unset' }} className="title">NEXT-GEN SERVICES</h1>
                 <h4>Our innovative solutions to unlock the true potential of our protocol</h4>
                 <Services>
                     <Service>
