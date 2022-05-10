@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { IconSocials } from "../../sections/HeroSection";
 
 const NavbarItems = styled.div`
-    border-radius:  0;
+    border-radius: 0;
     padding: 12px 32px;  
     color: rgba(255,255,255,0.7);
     font-size: 1.2vmax;
@@ -27,7 +28,12 @@ const NavbarItems = styled.div`
         margin: 12px;
         font-size: 2vmax;
     }
-`
+
+    `
+    const DappNavContainer = styled.div`
+    display: flex;
+    
+    `
 
 const NavbarContainer = styled.div<{opened?: boolean}>`
     display: flex;
@@ -76,6 +82,26 @@ export const Navbar: React.FC = () => {
             <NavbarItems onClick={() => scrollAndClose("services")}>SERVICES</NavbarItems>
             <NavbarItems onClick={() => scrollAndClose("roadmap")}>ROADMAP</NavbarItems>
             <NavbarItems onClick={() => window.open('https://discord.gg/mountain-nodes')}>JOIN COMMUNITY</NavbarItems>
+        </NavbarContainer>
+    )
+}
+
+export const NavbarDApp: React.FC = () => {
+    const [navOpened, setNavOpened] = useState(false);
+
+    const scrollAndClose = (target: string) => {
+        document.getElementById(target)?.scrollIntoView({ behavior: "smooth" });
+        setNavOpened(false);
+    }
+    
+    return (
+        <NavbarContainer opened={navOpened}>
+            <NavbarItems className="exclude" onClick={() => setNavOpened(!navOpened)}>MENU</NavbarItems>
+            <IconSocials src={process.env.PUBLIC_URL + "img/logo.png"}></IconSocials>
+            <NavbarItems onClick={() => scrollAndClose("home")}>HOME</NavbarItems>
+            <NavbarItems onClick={() => scrollAndClose("services")}>MINT NODE</NavbarItems>
+            <NavbarItems onClick={() => scrollAndClose("roadmap")}>TRADE $MNT</NavbarItems>
+            <NavbarItems onClick={() => window.open('https://discord.gg/mountain-nodes')}>TOKENS</NavbarItems>
         </NavbarContainer>
     )
 }
