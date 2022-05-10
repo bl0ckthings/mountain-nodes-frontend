@@ -16,6 +16,32 @@ const Container = styled.div`
 
 `
 
+const NodeRow = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`
+
+const NodeContainer = styled(Container)`
+    flex-direction: column;
+    align-items: stretch;
+    width: 40vw;
+    height: 60vh;
+
+    & .rewards {
+        font-weight: 600;
+    }
+
+    & video {
+        align-self: center;
+    }
+    & h3 {
+        align-self: center;
+        font-weight: 500;
+    }
+`
+
+
 const TextContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -33,9 +59,16 @@ const CardContent = styled.div`
     font-size: 20px;
     line-height: 26px;
     color: rgb(133, 133, 133);
-`
+    `
 const ContentValue = styled.div`
 
+`
+
+export const BlankCard = styled(Container)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 `
 
 export const ButtonCard: React.FC<{ cardContent: string, contentValue: string }> = (props) => {
@@ -69,9 +102,17 @@ export const TextOnlyCard: React.FC<{ cardLeftContent: string, leftContentValue:
     )
 }
 
-export const BlankCard = styled(Container)`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-`
+
+export const NodeCard: React.FC<{ nodeName: string, videoUrl: string }> = (props) => {
+    return (
+        <NodeContainer className="node">
+            <video src={props.videoUrl} width="500" autoPlay loop muted disablePictureInPicture></video>
+            <h3>{props.nodeName}</h3>
+            <div>
+            <NodeRow><div>Cost</div><div>??? MTN</div></NodeRow>
+            <NodeRow><div>Rewards per Day</div><div className="rewards">??? MTN</div></NodeRow>
+            <NodeRow><div>Monthly Fee</div><div>??? $</div></NodeRow>
+            </div >
+        </NodeContainer >
+    )
+}
