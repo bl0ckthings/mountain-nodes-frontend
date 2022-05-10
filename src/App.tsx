@@ -5,7 +5,7 @@ import RoadmapSection from './sections/RoadmapSection';
 import HeroSection from './sections/HeroSection';
 import ServiceSection from './sections/ServiceSection';
 
-const AppContainer = styled.div`
+export const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

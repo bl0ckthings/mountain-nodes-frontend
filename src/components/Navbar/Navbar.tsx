@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { IconSocials } from "../../sections/HeroSection";
+import Button from "../Button";
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import Web3Modal from 'web3modal';
+import {useEthers } from '@usedapp/core';
 
 const NavbarItems = styled.div`
     border-radius: 0;
@@ -30,15 +34,15 @@ const NavbarItems = styled.div`
     }
 
     `
-    const DappNavContainer = styled.div`
-    display: flex;
-    
+const DappNavContainer = styled.div`
+    display: inline-flex;
+
     `
 
-const NavbarContainer = styled.div<{opened?: boolean}>`
+const NavbarContainer = styled.div<{ opened?: boolean }>`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     width: 100%;
     margin: 0;
     top: 32px;
@@ -74,7 +78,7 @@ export const Navbar: React.FC = () => {
         document.getElementById(target)?.scrollIntoView({ behavior: "smooth" });
         setNavOpened(false);
     }
-    
+
     return (
         <NavbarContainer opened={navOpened}>
             <NavbarItems className="exclude" onClick={() => setNavOpened(!navOpened)}>MENU</NavbarItems>
@@ -93,15 +97,49 @@ export const NavbarDApp: React.FC = () => {
         document.getElementById(target)?.scrollIntoView({ behavior: "smooth" });
         setNavOpened(false);
     }
+    const {account, activate} = useEthers();    
+    const handleConnect = async ()=>{
+        try{
+            const providerOptions = {
+                injected: {
+                    display: {
+                        name:'Metamask',
+                        description: 'Connect with the provider of your wallet',
+                    },
+                    package:null,
+                },
+                walletconnect:{
+                    package:WalletConnectProvider,
+                    options:{
+                        rpc:{
+
+                        }
+                    },
+                },
+            }
+            const web3modal = new Web3Modal({
+                providerOptions,
+            })
+
+            const provider = await web3modal.connect();
+            await activate(provider);
+        }
+        catch (error){
+            
+        }
+    }
     
     return (
         <NavbarContainer opened={navOpened}>
             <NavbarItems className="exclude" onClick={() => setNavOpened(!navOpened)}>MENU</NavbarItems>
             <IconSocials src={process.env.PUBLIC_URL + "img/logo.png"}></IconSocials>
-            <NavbarItems onClick={() => scrollAndClose("home")}>HOME</NavbarItems>
-            <NavbarItems onClick={() => scrollAndClose("services")}>MINT NODE</NavbarItems>
-            <NavbarItems onClick={() => scrollAndClose("roadmap")}>TRADE $MNT</NavbarItems>
-            <NavbarItems onClick={() => window.open('https://discord.gg/mountain-nodes')}>TOKENS</NavbarItems>
+            <DappNavContainer>
+                <NavbarItems onClick={() => scrollAndClose("home")}>HOME</NavbarItems>
+                <NavbarItems onClick={() => scrollAndClose("services")}>MINT NODE</NavbarItems>
+                <NavbarItems onClick={() => scrollAndClose("roadmap")}>TRADE $MNT</NavbarItems>
+                <NavbarItems onClick={() => window.open('https://discord.gg/mountain-nodes')}>TOKENS</NavbarItems>
+                <Button className="rounded" secondary onClick={handleConnect}>Connect Wallet</Button>
+            </DappNavContainer>
         </NavbarContainer>
     )
 }
