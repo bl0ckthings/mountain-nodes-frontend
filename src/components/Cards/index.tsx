@@ -28,7 +28,7 @@ const CardContent = styled.div`
     font-size: 15px;
     line-height: 26px;
     color: rgb(133, 133, 133);
-`
+    `
 const ContentValue = styled.div`
     font-size:25px;
 `
