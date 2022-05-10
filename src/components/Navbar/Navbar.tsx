@@ -5,6 +5,7 @@ import Button from "../Button";
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal from 'web3modal';
 import {useEthers } from '@usedapp/core';
+import { useNavigate } from "react-router-dom";
 
 const NavbarItems = styled.div`
     border-radius: 0;
@@ -91,6 +92,9 @@ export const Navbar: React.FC = () => {
 }
 
 export const NavbarDApp: React.FC = () => {
+    
+    const navigate = useNavigate();
+    
     const [navOpened, setNavOpened] = useState(false);
 
     const scrollAndClose = (target: string) => {
@@ -134,8 +138,8 @@ export const NavbarDApp: React.FC = () => {
             <NavbarItems className="exclude" onClick={() => setNavOpened(!navOpened)}>MENU</NavbarItems>
             <IconSocials src={process.env.PUBLIC_URL + "img/logo.png"}></IconSocials>
             <DappNavContainer>
-                <NavbarItems onClick={() => scrollAndClose("home")}>HOME</NavbarItems>
-                <NavbarItems onClick={() => scrollAndClose("services")}>MINT NODE</NavbarItems>
+                <NavbarItems onClick={() => navigate('/app')}>HOME</NavbarItems>
+                <NavbarItems onClick={() => navigate('/mint-node')}>MINT NODE</NavbarItems>
                 <NavbarItems onClick={() => scrollAndClose("roadmap")}>TRADE $MNT</NavbarItems>
                 <NavbarItems onClick={() => window.open('https://discord.gg/mountain-nodes')}>TOKENS</NavbarItems>
                 <Button className="rounded" secondary onClick={handleConnect}>Connect Wallet</Button>

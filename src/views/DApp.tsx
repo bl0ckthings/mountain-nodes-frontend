@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AppContainer } from '../App';
-import Button from '../components/Button';
-import { BlankCard, ButtonCard, NodeCard, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
 
@@ -21,18 +19,6 @@ const DApp = () => {
         <AppContainer style={{ backgroundColor: 'black' }}>
             <NavbarDApp />
             <Container>
-                {/* <ButtonCard cardContent='titleTest' contentValue='contentValueTest' />
-                <TextOnlyCard cardLeftContent='leftContent' leftContentValue='leftContentValue' cardRightContent='rightContent' rightContentValue='rightContentValue' />
-                <TextOnlyCard cardLeftContent='leftContent' leftContentValue='leftContentValue'/>
-                <BlankCard>
-                    <div>BlankCardTest</div
-                    ><div>test</div>
-                    <div>test</div>
-                    <Button secondary className='rounded'>Test</Button>
-                </BlankCard> */}
-                <NodeCard nodeName='NodeCardTest1' videoUrl={process.env.PUBLIC_URL + "/media/fuji.mp4"} />
-                <NodeCard nodeName='NodeCardTest2' videoUrl={process.env.PUBLIC_URL + "/media/fuji.mp4"} />
-                <NodeCard nodeName='NodeCardTest3' videoUrl={process.env.PUBLIC_URL + "/media/fuji.mp4"} />
             </Container>
         </AppContainer>
     )

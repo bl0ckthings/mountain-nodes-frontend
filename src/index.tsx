@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import DApp from './views/DApp';
+import Nodes from './views/Nodes';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,7 +17,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/app" element={<DApp/>} />
-        
+        <Route path='/mint-node' element={<Nodes/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
