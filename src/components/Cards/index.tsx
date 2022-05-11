@@ -22,7 +22,7 @@ const NodeRow = styled.div`
 const NodeContainer = styled(Container)`
     flex-direction: column;
     align-items: stretch;
-    width: 40vw;
+    width: 100%;
     height: 60vh;
 
     & .rewards {
@@ -61,7 +61,7 @@ const ContentValue = styled.div`
 const ButtonValue = styled.div`
     font-size: 18px;
 `
-const CardButton = styled.button`
+export const CardButton = styled.button`
     border: 0;
     border-radius:12px;
     padding: 16px 48px;

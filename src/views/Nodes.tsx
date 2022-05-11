@@ -12,7 +12,6 @@ const Container = styled(Section)`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-
 `
 
 const Nodes = () => {
