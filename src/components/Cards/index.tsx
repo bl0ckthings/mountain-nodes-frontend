@@ -5,12 +5,15 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.2));
     backdrop-filter: blur(16px);
-    padding: 20px;
-    margin: 1vw;
-    height:15%;
+    padding: 16px 24px;
+    height: 100%;
+
+    @media (max-width: 800px) {
+        align-items: center;
+    }
 `
 
 const NodeRow = styled.div`
@@ -44,37 +47,59 @@ const TextContainer = styled.div`
     align-items: flex-start;
     justify-content: center;
 
-    /* margin: 8px; */
-
-    & .right {
+    &.right {
         align-items: flex-end;
     }
 `
-const CardContent = styled.div`
-    font-size: 15px;
-    line-height: 26px;
-    color: rgb(133, 133, 133);
+const CardContent = styled.p`
+    color: rgba(255, 255, 255, 0.6);
 `
-const ContentValue = styled.div`
-    font-size:25px;
+const ContentValue = styled.h5`
 `
-const ButtonValue = styled.div`
-    font-size: 18px;
-`
+
 export const CardButton = styled.button`
     border: 0;
     border-radius:12px;
-    padding: 16px 48px;
-    color: #888888;
-    font-size: 100%;
+    font-size: var(--font-size-base);
+    padding: 12px 32px;
+    color: white;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    background-color: #1C1C1C;
+    transition: all 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+    background-color: #ffffff00;
+    border: 1px solid white;
+    transform: perspective(200px);
+    transform-style: flat;
+    
+    &:hover {
+        background: white;
+        color: black;
+        box-shadow: 0px 0px 72px rgba(255, 255, 255, 0.45);
+        transform: perspective(200px) rotateY(-5deg);
+        z-index: 2;
+    }
+    
+    &:active {
+        z-index: 2;
+        box-shadow: none;
+        transform: perspective(200px) rotateY(-5deg) translateZ(-12px);
+    }
+    
+    @media (max-width: 800px) {
+        padding: 8px 16px;
+        border-radius: 6px;
+        
+        &:hover {
+            transform: perspective(200px);
+        }
+
+        &:active {
+            transform: perspective(200px);
+        }
+    }
 `
 
 export const ButtonCard: React.FC<{ cardContent: string, contentValue: string, buttonValue: string }> = (props) => {
     return (
-
         <Container>
             <TextContainer>
                 <CardContent>{props.cardContent}</CardContent>
@@ -82,7 +107,6 @@ export const ButtonCard: React.FC<{ cardContent: string, contentValue: string, b
             </TextContainer>
             <CardButton>{props.buttonValue}</CardButton>
         </Container>
-
     )
 }
 
@@ -94,10 +118,13 @@ export const TextOnlyCard: React.FC<{ cardLeftContent: string, leftContentValue:
                 <CardContent>{props.cardLeftContent}</CardContent>
                 <ContentValue>{props.leftContentValue}</ContentValue>
             </TextContainer>
-            <TextContainer className='right'>
-                <CardContent>{props.cardRightContent}</CardContent>
-                <ContentValue>{props.rightContentValue}</ContentValue>
-            </TextContainer>
+            {
+                (props.cardRightContent && props.rightContentValue) &&
+                <TextContainer className='right'>
+                    <CardContent>{props.cardRightContent}</CardContent>
+                    <ContentValue>{props.rightContentValue}</ContentValue>
+                </TextContainer>
+            }
         </Container>
 
     )
@@ -108,8 +135,6 @@ export const BlankCard = styled(Container)`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height:250px;
-    font-size:25px;
 `
 
 export const NodeCard: React.FC<{ nodeName: string, videoUrl: string }> = (props) => {
@@ -121,7 +146,6 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string }> = (props
                 <NodeRow><div>Cost</div><div>??? MTN</div></NodeRow>
                 <NodeRow><div>Rewards per Day</div><div className="rewards">??? MTN</div></NodeRow>
                 <NodeRow><div>Monthly Fee</div><div>??? $</div></NodeRow>
-
             </div >
         </NodeContainer >
     )

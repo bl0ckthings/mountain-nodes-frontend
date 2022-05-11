@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { IconSocials } from "../../sections/HeroSection";
-import Button from "../Button";
+import Button, { ConnectButton } from "../Button";
 import WalletConnectProvider from '@walletconnect/web3-provider';
-import Web3Modal from 'web3modal';
-import {useEthers } from '@usedapp/core';
+import { useEthers } from '@usedapp/core';
 import { useNavigate } from "react-router-dom";
+import { CardButton } from "../Cards";
 
 const NavbarItems = styled.div`
     border-radius: 0;
@@ -36,34 +36,56 @@ const NavbarItems = styled.div`
 
     `
 const DappNavContainer = styled.div`
-    display: inline-flex;
-
-    `
-
-const NavbarContainer = styled.div<{ opened?: boolean }>`
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+
+    @media (max-width: 800px) {
+        flex-direction: column;
+    }
+`
+
+const NavbarContainer = styled.div<{ opened?: boolean, position?: string }>`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     margin: 0;
     top: 32px;
     z-index: 200;
-    position: fixed;
+    position: ${p => p.position ?? "fixed"};
     transition: all 0.3s cubic-bezier(0.77, 0, 0.175, 1);
 
     @media (max-width: 800px){
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
+        justify-content: ${p => p.opened ? "center" : "space-between"};
+        position: ${p => p.opened ? "fixed" : "unset"};
         background: ${p => p.opened ? "black" : "transparent"};
         width: 100vw;
         height: ${p => p.opened ? "100vh" : "8vh"};
         top: 0px;
+        padding: 0px ${p => p.opened ? "0px" : "32px"};
+
+        & ${DappNavContainer}:not(.exclude) {
+            display: ${p => p.opened ? "flex" : "none"};
+        }
+
+        & ${DappNavContainer}.exclude {
+            display: ${p => p.opened ? "none" : "flex"};
+        }
+
         & ${NavbarItems}:not(.exclude) {
             display: ${p => p.opened ? "flex" : "none"};
         }
-    
+        
         & ${NavbarItems}.exclude {
             display: ${p => p.opened ? "none" : "flex"};
+        }
+
+        & .dapp-button {
+            /* position: absolute; */
+            right: 15%;
         }
     }
 
@@ -71,6 +93,16 @@ const NavbarContainer = styled.div<{ opened?: boolean }>`
         display: none;
     }
 `;
+
+const Logo = styled.img`
+    width: 48px;
+    height: 48px;
+
+    @media (max-width: 800px) {
+        /* position: absolute; */
+        left: 15%;
+    }
+`
 
 export const Navbar: React.FC = () => {
     const [navOpened, setNavOpened] = useState(false);
@@ -92,58 +124,29 @@ export const Navbar: React.FC = () => {
 }
 
 export const NavbarDApp: React.FC = () => {
-    
     const navigate = useNavigate();
-    
     const [navOpened, setNavOpened] = useState(false);
 
     const scrollAndClose = (target: string) => {
         document.getElementById(target)?.scrollIntoView({ behavior: "smooth" });
         setNavOpened(false);
     }
-    const {account, activate} = useEthers();    
-    const handleConnect = async ()=>{
-        try{
-            const providerOptions = {
-                injected: {
-                    display: {
-                        name:'Metamask',
-                        description: 'Connect with the provider of your wallet',
-                    },
-                    package:null,
-                },
-                walletconnect:{
-                    package:WalletConnectProvider,
-                    options:{
-                        rpc:{
 
-                        }
-                    },
-                },
-            }
-            const web3modal = new Web3Modal({
-                providerOptions,
-            })
-
-            const provider = await web3modal.connect();
-            await activate(provider);
-        }
-        catch (error){
-            
-        }
-    }
-    
     return (
-        <NavbarContainer opened={navOpened}>
-            <NavbarItems className="exclude" onClick={() => setNavOpened(!navOpened)}>MENU</NavbarItems>
-            <IconSocials src={process.env.PUBLIC_URL + "img/logo.png"}></IconSocials>
+        <NavbarContainer opened={navOpened} position="unset">
+            {
+                !navOpened && <Logo src={process.env.PUBLIC_URL + "img/logo.png"}></Logo>
+            }
+            <NavbarItems className='exclude' onClick={() => setNavOpened(!navOpened)}>MENU</NavbarItems>
             <DappNavContainer>
                 <NavbarItems onClick={() => navigate('/app')}>HOME</NavbarItems>
                 <NavbarItems onClick={() => navigate('/mint-node')}>MINT NODE</NavbarItems>
                 <NavbarItems onClick={() => scrollAndClose("roadmap")}>TRADE $MNT</NavbarItems>
                 <NavbarItems onClick={() => window.open('https://discord.gg/mountain-nodes')}>TOKENS</NavbarItems>
-                <Button className="rounded" secondary onClick={handleConnect}>Connect Wallet</Button>
             </DappNavContainer>
+            {
+                !navOpened && <ConnectButton className="hide-on-mobile" />
+            }
         </NavbarContainer>
     )
 }

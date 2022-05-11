@@ -81,8 +81,8 @@ const Logo = styled.img`
 `
 
 export const IconSocials = styled.img`
-    width:30px;
-    height:30px;
+    width: 32px;
+    height: 32px;
 `
 
 const ButtonContainer = styled.div`
@@ -226,7 +226,9 @@ const HeroSection = () => {
 
     const openDapp = () => {
         setPlayAnimation(true);
-        navigate('/app');
+        setTimeout(() => {
+            navigate('/app');
+        }, 1280);
     }
 
     return (

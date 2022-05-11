@@ -14,7 +14,6 @@ export const Section = styled.div`
     overflow-x: hidden;
 `;
 
-
 export const ParallaxSection = styled(Section)`
     background-size: cover;
     background-position: center center;
