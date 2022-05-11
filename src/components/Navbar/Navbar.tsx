@@ -45,10 +45,10 @@ const DappNavContainer = styled.div`
     }
 `
 
-const NavbarContainer = styled.div<{ opened?: boolean, position?: string }>`
+const NavbarContainer = styled.div<{ opened?: boolean, position?: string, justifyContent?: string }>`
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: ${p => p.justifyContent ?? "center"};
     width: 100%;
     margin: 0;
     top: 32px;
@@ -57,10 +57,18 @@ const NavbarContainer = styled.div<{ opened?: boolean, position?: string }>`
     transition: all 0.3s cubic-bezier(0.77, 0, 0.175, 1);
 
     @media (max-width: 800px){
-        flex-direction: row;
         align-items: center;
-        justify-content: ${p => p.opened ? "center" : "space-between"};
-        position: ${p => p.opened ? "fixed" : "unset"};
+
+        &.variable-position {
+            flex-direction: row;
+            justify-content: ${p => p.opened ? "center" : "space-between"};
+            position: ${p => p.opened ? "fixed" : "unset"};
+        }
+
+        &:not(.variable-position) {
+            flex-direction: column;
+        }
+
         background: ${p => p.opened ? "black" : "transparent"};
         width: 100vw;
         height: ${p => p.opened ? "100vh" : "8vh"};
@@ -133,7 +141,7 @@ export const NavbarDApp: React.FC = () => {
     }
 
     return (
-        <NavbarContainer opened={navOpened} position="unset">
+        <NavbarContainer className="variable-position" justifyContent="space-between" opened={navOpened} position="unset">
             {
                 !navOpened && <Logo src={process.env.PUBLIC_URL + "img/logo.png"}></Logo>
             }

@@ -14,7 +14,7 @@ const Container = styled.div`
     @media (max-width: 800px) {
         align-items: center;
     }
-`
+`   
 
 const NodeRow = styled.div`
     display: flex;
