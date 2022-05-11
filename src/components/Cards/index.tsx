@@ -5,12 +5,12 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 25px;
+    border-radius: 10px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(16px);
     padding: 20px;
     margin: 1vw;
-
+    height:15%;
 `
 
 const NodeRow = styled.div`
@@ -108,7 +108,7 @@ export const BlankCard = styled(Container)`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height:300px;
+    height:250px;
     font-size:25px;
 `
 

@@ -12,18 +12,21 @@ const Container = styled(Section)`
     flex-direction: row;
     width:100%;
     height:100vh;
+    justify-content:center;
 `
 
 const CardContainer = styled.div`
 display:flex;
-width:48%;
+width:42%;
+height:95%;
 margin-top:80px;
 flex-direction:column;
 `
 
 const CardContainer2 = styled.div`
 display:flex;
-width:48%;
+width:42%;
+height:95%;
 margin-top:80px;
 flex-direction:column;
 `
