@@ -160,14 +160,6 @@ const BottomGrid = styled.div`
     }
 `
 
-const Card = styled.div`
-    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
-    border-radius: 16px;
-    backdrop-filter: blur(32px);
-    width: 100%;
-    height: 100%;
-`
-
 const GridTitle = styled.h5<{ span?: number }>`
     grid-column: span ${p => p.span ?? 2};
 
@@ -191,6 +183,13 @@ const Footer = styled.div`
         display: flex;
     }
 `
+const BottomSmallCard = styled.div`
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+    border-radius: 16px;
+    backdrop-filter: blur(32px);
+    width: 100%;
+    height: 100%;
+`
 
 const DApp = () => {
     return (
@@ -208,15 +207,14 @@ const DApp = () => {
                         <Text>You don't own any nodes</Text>
                         <CardButton>Mint your first node</CardButton>
                     </BlankCard>
-                    <Card />
                 </TopGrid>
                 <BottomGrid>
                     <GridTitle span={3}>Protocol Stats</GridTitle>
-                    <Card />
-                    <Card />
-                    <Card />
+                    <TextOnlyCard cardLeftContent='Total Nodes'leftContentValue='0'></TextOnlyCard>
+                    <TextOnlyCard cardLeftContent='Total MTN supply'leftContentValue='6 545 765 MTN'></TextOnlyCard>
+                    <TextOnlyCard cardLeftContent='Calculating MTN'leftContentValue='1.5739 MTN'></TextOnlyCard>
+                    
                 </BottomGrid>
-                
                 <Footer>
                     <ConnectButton/>
                 </Footer>
