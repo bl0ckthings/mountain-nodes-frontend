@@ -1,18 +1,11 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { AppContainer } from '../App';
-import { ConnectButton } from '../components/Button';
+import Button, { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: row;
-    width:100%;
-    height: 100%;
-    justify-content:center;
-`
 
 const CardContainer = styled.div`
     display:flex;
@@ -20,17 +13,59 @@ const CardContainer = styled.div`
     height:95%;
     margin-top:80px;
     flex-direction:column;
+    `
+
+const Container = styled.div`
+        display: flex;
+        flex-direction: column;
+        row-gap:30px;
+        width:100%;
+        height: 100%;
+
+        & div {
+            width: 100%;
+        }
+
+        & div:nth-child(2){
+            row-gap: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+    `
+
+const CardInputContainer = styled.div`
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    background-color: #222;
+    color:#fff;
+    border: solid 1px;;
+    border-radius: 8px;
+    :focus{
+        outline-width:0;
+    }
 `
 
 const CardInput = styled.input`
     width: 90%;
-    height: 30px;
+    /* height: 30px; */
+    height: 100%;
+    padding: 4px 8px;
     border: none;
     background-color: #222;
     color:#fff;
-    border: solid 1px;
-    border-right:none;
-    border-radius: 5px 0 0 5px;
+    /* border: solid 1px; */
+    /* border-right:none; */
+    /* border-radius: 5px 0 0 5px; */
+    border-radius: 12px;
+
+    font-size: var(--font-size-base);
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    line-height: 1.3;
+
     :focus{
         outline-width:0;
     }
@@ -44,29 +79,24 @@ const BigCardContainer = styled.div`
     gap:10px;
     flex-direction:column;
 `
-const Inputbutton = styled.button`
-    border-radius: 0 5px 5px 0;
-    width: fit-content;
-    height: 30px;
-    background-color: #222;
+const Inputbutton = styled(CardButton)`
+    /* width: fit-content; */
+    /* height: 30px; */
+    /* background-color: #222; */
+    border: none;
     color: #fff;
     cursor:pointer;
-    border: solid 1px;
-    border-left:none;
-    width:20%;
+    /* border: solid 1px; */
+    /* border-left:none; */
+    /* width:20%; */
     justify-content:end;
     :hover{
+        transition: none;
         filter:brightness(1.2);
     }
 `
-const BigCardButton = styled.button`
-    border: 0;
-    border-radius:12px;
-    padding: 8px 30px;
-    color: #888888;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    background-color: #1C1C1C;
+const BigCardButton = styled(CardButton)`
+    padding: 0px 30px;
 `
 const InputContainer = styled.div`
     width: 100%;
@@ -108,7 +138,8 @@ const Text = styled.h5`
 `
 const InputWrapper = styled.div`
     display:flex;
-    column-gap:15px;
+    column-gap:15px;   
+    width: 100% ;
 `
 
 const unfade = keyframes`
@@ -192,6 +223,11 @@ const Footer = styled.div`
     }
 `
 
+const handleMaxClicked = () => {
+
+}
+
+
 const DApp = () => {
     return (
         <>
@@ -208,7 +244,26 @@ const DApp = () => {
                         <Text>You don't own any nodes</Text>
                         <CardButton>Mint your first node</CardButton>
                     </BlankCard>
-                    <Card />
+                    <BlankCard>
+                        <Container>
+                            <div>
+                                <Text>Flexible Node</Text>
+                                <CardButton className=' rounded fakeButton'>Current Value: 0.0000 / 100 MNT</CardButton>
+                            </div>
+
+                            <div>
+                                <InputWrapper>
+                                    <CardInputContainer>
+                                        <CardInput></CardInput>
+                                        <CardButton className='inputMaxButton' onClick={handleMaxClicked}>Max</CardButton>
+                                    </CardInputContainer>
+                                    <CardButton>Loading</CardButton>
+                                </InputWrapper>
+                                <CardButton style={{ width: '100%' }} className='rounded'>Claim / Compound MTN</CardButton>
+                            </div>
+                            
+                        </Container>
+                    </BlankCard>
                 </TopGrid>
                 <BottomGrid>
                     <GridTitle span={3}>Protocol Stats</GridTitle>
@@ -216,9 +271,9 @@ const DApp = () => {
                     <Card />
                     <Card />
                 </BottomGrid>
-                
+
                 <Footer>
-                    <ConnectButton/>
+                    <ConnectButton />
                 </Footer>
             </Section>
         </>

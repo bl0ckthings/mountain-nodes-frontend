@@ -14,7 +14,7 @@ const Container = styled.div`
     @media (max-width: 800px) {
         align-items: center;
     }
-`   
+`
 
 const NodeRow = styled.div`
     display: flex;
@@ -70,19 +70,37 @@ export const CardButton = styled.button`
     transform: perspective(200px);
     transform-style: flat;
     
-    &:hover {
+    :not(:not(.inputMaxButton)) {
+        border: none;
+        padding: 0 16px;
+        text-align: right;
+        cursor:pointer;
+        :hover{
+        filter:brightness(1.2);
+        }
+
+    }
+
+    :not(.inputMaxButton){       
+        &:hover {
         background: white;
         color: black;
         box-shadow: 0px 0px 72px rgba(255, 255, 255, 0.45);
         transform: perspective(200px) rotateY(-5deg);
         z-index: 2;
-    }
+        }
     
     &:active {
         z-index: 2;
         box-shadow: none;
         transform: perspective(200px) rotateY(-5deg) translateZ(-12px);
-    }
+        }
+
+    &.fakeButton {
+        width: 100%;
+        pointer-events: none;
+        background-color: rgba(34, 34, 34, 0.7);
+     }
     
     @media (max-width: 800px) {
         padding: 8px 16px;
@@ -96,6 +114,10 @@ export const CardButton = styled.button`
             transform: perspective(200px);
         }
     }
+   
+    }
+
+   
 `
 
 export const ButtonCard: React.FC<{ cardContent: string, contentValue: string, buttonValue: string }> = (props) => {
