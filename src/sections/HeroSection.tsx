@@ -99,7 +99,8 @@ const ButtonContainer = styled.div`
         
         & ${Button} {
             width: 100%;
-            padding: 8px 16px ;
+            padding: 8px 16px;
+            justify-content: center;
         }
     }
     @media (max-width: 400px){
