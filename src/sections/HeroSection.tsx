@@ -98,9 +98,20 @@ const ButtonContainer = styled.div`
         width: 100%;
         
         & ${Button} {
-            width: 50%;
+            width: 100%;
+            padding: 8px 16px;
+            justify-content: center;
         }
     }
+    @media (max-width: 400px){
+        ${Button} {
+            padding : 4px 8px;       
+            width: 50%;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+    
 
     & * {
         z-index: 1;
