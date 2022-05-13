@@ -95,9 +95,11 @@ export const ConnectButton: React.FC<{className?: string}> = (props) => {
         }
     }
 
-    return (
+    return ( 
+        
         <CardButton className={"rounded dapp-button " + props.className} onClick={handleConnect}>Connect Wallet</CardButton>
-    )
+        
+        )
 }
 
 export default Button;

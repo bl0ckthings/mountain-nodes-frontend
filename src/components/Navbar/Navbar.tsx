@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { IconSocials } from "../../sections/HeroSection";
-import Button, { ConnectButton } from "../Button";
-import WalletConnectProvider from '@walletconnect/web3-provider';
-import { useEthers } from '@usedapp/core';
+import { ConnectButton } from "../Button";
 import { useNavigate } from "react-router-dom";
-import { CardButton } from "../Cards";
 
 const NavbarItems = styled.div`
     border-radius: 0;
