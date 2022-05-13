@@ -170,16 +170,16 @@ const DApp = () => {
                                 </InputWrapper>
                                 <CardButton style={{ width: '100%' }} className='rounded'>Claim / Compound MTN</CardButton>
                             </div>
-                            
+
                         </Container>
                     </BlankCard>
                 </TopGrid>
                 <BottomGrid>
                     <GridTitle span={3}>Protocol Stats</GridTitle>
-                    <TextOnlyCard cardLeftContent='Total Nodes'leftContentValue='0'></TextOnlyCard>
-                    <TextOnlyCard cardLeftContent='Total MTN supply'leftContentValue='6 545 765 MTN'></TextOnlyCard>
-                    <TextOnlyCard cardLeftContent='Calculating MTN'leftContentValue='1.5739 MTN'></TextOnlyCard>
-                    
+                    <TextOnlyCard cardLeftContent='Total Nodes' leftContentValue='0'></TextOnlyCard>
+                    <TextOnlyCard cardLeftContent='Total MTN supply' leftContentValue='6 545 765 MTN'></TextOnlyCard>
+                    <TextOnlyCard cardLeftContent='Calculating MTN' leftContentValue='1.5739 MTN'></TextOnlyCard>
+
                 </BottomGrid>
                 <Footer>
                     <ConnectButton />

@@ -165,9 +165,9 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string }> = (props
             <video src={props.videoUrl} width="500" autoPlay loop muted disablePictureInPicture></video>
             <h3>{props.nodeName}</h3>
             <div>
-                <NodeRow><div>Cost</div><div>??? MTN</div></NodeRow>
-                <NodeRow><div>Rewards per Day</div><div className="rewards">??? MTN</div></NodeRow>
-                <NodeRow><div>Monthly Fee</div><div>??? $</div></NodeRow>
+                <NodeRow><div>Cost</div><div>{props.price} MTN</div></NodeRow>
+                <NodeRow><div>Rewards per Day</div><div className="rewards">{props.reward} MTN</div></NodeRow>
+                <NodeRow><div>Monthly Fee</div><div>{props.fee} $</div></NodeRow>
             </div >
         </NodeContainer >
     )
