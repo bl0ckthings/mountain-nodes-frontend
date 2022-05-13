@@ -19,9 +19,9 @@ const Nodes = () => {
         <AppContainer style={{ backgroundColor: 'black' }}>
             <NavbarDApp />
             <Container>
-                <NodeCard nodeName='NodeCardTest1' videoUrl={process.env.PUBLIC_URL + "/media/fuji.mp4"} price='props' fee='props' reward='props' />
-                <NodeCard nodeName='NodeCardTest2' videoUrl={process.env.PUBLIC_URL + "/media/fuji.mp4"} price='props' fee='props' reward='props'  />
-                <NodeCard nodeName='NodeCardTest3' videoUrl={process.env.PUBLIC_URL + "/media/fuji.mp4"} price='props' fee='props' reward='props' />
+                <NodeCard nodeName='NodeCardTest1' videoUrl={process.env.PUBLIC_URL + "/media/fuji.mp4"} price={24} fee={53} reward={9} />
+                <NodeCard nodeName='NodeCardTest2' videoUrl={process.env.PUBLIC_URL + "/media/fuji.mp4"} price={25} fee={75} reward={36}  />
+                <NodeCard nodeName='NodeCardTest3' videoUrl={process.env.PUBLIC_URL + "/media/fuji.mp4"} price={23} fee={34} reward={56} />
             </Container>
         </AppContainer>
     )

@@ -159,10 +159,10 @@ export const BlankCard = styled(Container)`
     justify-content: center;
 `
 
-export const NodeCard: React.FC<{ nodeName: string, videoUrl: string }> = (props) => {
+export const NodeCard: React.FC<{ nodeName: string, videoUrl: string , price:number , reward: number, fee:number  }> = (props) => {
     return (
         <NodeContainer className="node">
-            <video src={props.videoUrl} width="500" autoPlay loop muted disablePictureInPicture></video>
+            <video src={props.videoUrl} width="500px" autoPlay loop muted disablePictureInPicture></video>
             <h3>{props.nodeName}</h3>
             <div>
                 <NodeRow><div>Cost</div><div>{props.price} MTN</div></NodeRow>
