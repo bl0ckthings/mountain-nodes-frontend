@@ -46,7 +46,7 @@ const CardInput = styled.input`
     /* border: solid 1px; */
     /* border-right:none; */
     /* border-radius: 5px 0 0 5px; */
-    border-radius: 12px;
+    border-radius: 8px;
 
     font-size: var(--font-size-base);
     margin: 0;

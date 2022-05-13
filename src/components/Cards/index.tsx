@@ -59,7 +59,7 @@ const ContentValue = styled.h5`
 
 export const CardButton = styled.button`
     border: 0;
-    border-radius:12px;
+    border-radius:8px;
     font-size: var(--font-size-base);
     padding: 12px 32px;
     color: white;
