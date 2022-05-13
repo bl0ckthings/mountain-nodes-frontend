@@ -67,7 +67,7 @@ export const CardButton = styled.button`
     transition: all 0.3s cubic-bezier(0.77, 0, 0.175, 1);
     background-color: #ffffff00;
     border: 1px solid white;
-    transform: perspective(200px);
+   // transform: perspective(200px);
     transform-style: flat;
     
     :not(:not(.inputMaxButton)) {
@@ -86,14 +86,17 @@ export const CardButton = styled.button`
         background: white;
         color: black;
         box-shadow: 0px 0px 72px rgba(255, 255, 255, 0.45);
-        transform: perspective(200px) rotateY(-5deg);
+       // transform: perspective(200px) rotateY(-5deg);
         z-index: 2;
+        transform: scale(0.98);
         }
     
     &:active {
+        transition:0s;
+
         z-index: 2;
-        box-shadow: none;
-        transform: perspective(200px) rotateY(-5deg) translateZ(-12px);
+        transform: scale(1.005);
+        //transform: perspective(200px) rotateY(-5deg) translateZ(-12px);
         }
 
     &.fakeButton {
@@ -107,11 +110,11 @@ export const CardButton = styled.button`
         border-radius: 6px;
         
         &:hover {
-            transform: perspective(200px);
+           // transform: perspective(200px);
         }
 
         &:active {
-            transform: perspective(200px);
+            //transform: perspective(200px);
         }
     }
    
