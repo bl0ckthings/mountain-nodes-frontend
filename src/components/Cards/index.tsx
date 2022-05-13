@@ -88,14 +88,13 @@ export const CardButton = styled.button`
         box-shadow: 0px 0px 72px rgba(255, 255, 255, 0.45);
        // transform: perspective(200px) rotateY(-5deg);
         z-index: 2;
-        transform: scale(0.98);
         }
     
     &:active {
         transition:0s;
 
         z-index: 2;
-        transform: scale(1.005);
+        transform: scale(0.98);
         //transform: perspective(200px) rotateY(-5deg) translateZ(-12px);
         }
 
