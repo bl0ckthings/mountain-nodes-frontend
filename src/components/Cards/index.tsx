@@ -14,7 +14,7 @@ const Container = styled.div`
     @media (max-width: 800px) {
         align-items: center;
     }
-`    
+`
 
 const NodeRow = styled.div`
     display: flex;
@@ -22,11 +22,16 @@ const NodeRow = styled.div`
     justify-content: space-between;
 `
 
+
 const NodeContainer = styled(Container)`
     flex-direction: column;
     align-items: stretch;
-    width: 100%;
-    height: 60vh;
+    justify-content: space-evenly;
+    width: 60%;
+    height: 100%;
+
+    margin: 8px;
+    width: 90%;
 
     & .rewards {
         font-weight: 600;
@@ -37,8 +42,16 @@ const NodeContainer = styled(Container)`
     }
     & h3 {
         align-self: center;
-        font-weight: 500;
+        font-weight: 500;        
+        margin: 32px;
     }
+
+    &:hover {
+        transform: scale(1.04);
+        transition: 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+        box-shadow: 0px 0px 48px rgba(255, 255, 255, 0.25);
+    }
+
 `
 
 const TextContainer = styled.div`
@@ -161,7 +174,7 @@ export const BlankCard = styled(Container)`
     justify-content: center;
 `
 
-export const NodeCard: React.FC<{ nodeName: string, videoUrl: string , price:number , reward: number, fee:number  }> = (props) => {
+export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number }> = (props) => {
     return (
         <NodeContainer className="node">
             <video src={props.videoUrl} width="500px" autoPlay loop muted disablePictureInPicture></video>
