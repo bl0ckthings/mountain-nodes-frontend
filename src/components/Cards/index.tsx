@@ -14,7 +14,7 @@ const Container = styled.div`
     @media (max-width: 800px) {
         align-items: center;
     }
-`
+`    
 
 const NodeRow = styled.div`
     display: flex;
@@ -64,7 +64,7 @@ export const CardButton = styled.button`
     padding: 12px 32px;
     color: white;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+    //transition: all 0.3s cubic-bezier(0.77, 0, 0.175, 1);
     background-color: #ffffff00;
     border: 1px solid white;
    // transform: perspective(200px);
@@ -94,7 +94,7 @@ export const CardButton = styled.button`
         transition:0s;
 
         z-index: 2;
-        transform: scale(0.98);
+        transform: scale(0.99);
         //transform: perspective(200px) rotateY(-5deg) translateZ(-12px);
         }
 
