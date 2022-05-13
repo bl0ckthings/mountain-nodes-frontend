@@ -112,7 +112,6 @@ const ButtonContainer = styled.div`
         }
     }
     
-
     & * {
         z-index: 1;
     }
@@ -144,7 +143,6 @@ const ButtonContainer = styled.div`
         background-attachment: fixed;
     }
 `
-
 const Social = styled.div`
     display: flex;
     place-content: center;
