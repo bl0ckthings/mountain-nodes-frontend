@@ -101,6 +101,7 @@ const NavbarContainer = styled.div<{ opened?: boolean, position?: string, justif
 const Logo = styled.img`
     width: 48px;
     height: 48px;
+    cursor: pointer;
 
     @media (max-width: 800px) {
         /* position: absolute; */
@@ -139,7 +140,7 @@ export const NavbarDApp: React.FC = () => {
     return (
         <NavbarContainer className="variable-position" justifyContent="space-between" opened={navOpened} position="unset">
             {
-                !navOpened && <Logo src={process.env.PUBLIC_URL + "img/logo.png"}></Logo>
+                !navOpened && <Logo src={process.env.PUBLIC_URL + "img/logo.png"} onClick={() => navigate('/')}></Logo>
             }
             <NavbarItems className='exclude' onClick={() => setNavOpened(!navOpened)}>MENU</NavbarItems>
             <DappNavContainer>

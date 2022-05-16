@@ -29,7 +29,7 @@ const GridContainer = styled.div`
 
 const Nodes = () => {
     return (
-        <AppContainer style={{ backgroundColor: 'black' }}>
+        <AppContainer style={{ backgroundColor: 'black', backgroundPosition: 'center' }}>
             <div><NavbarDApp /></div>
             <NodeWrapper>
                 <GridContainer>
