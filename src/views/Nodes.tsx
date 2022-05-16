@@ -7,6 +7,7 @@ import { NavbarDApp } from "../components/Navbar/Navbar";
 const NodeWrapper = styled(Section)`
     background-image: url(${process.env.PUBLIC_URL + "/img/backgrounds/background.png"});
     background-size: cover;
+    background-position: center;
     
     & h3{
         text-align: center;
@@ -26,11 +27,20 @@ const GridContainer = styled.div`
     }
 
 `
+const NavContainer = styled.div`
+    @media (max-width: 800px) {
+        & > * {
+            right: 0;
+        }
+    }
+`
 
 const Nodes = () => {
     return (
-        <AppContainer style={{ backgroundColor: 'black', backgroundPosition: 'center' }}>
-            <div><NavbarDApp /></div>
+        <AppContainer style={{ backgroundColor: 'black', backgroundPosition: 'center center' }}>
+            <NavContainer>
+                <NavbarDApp />
+            </NavContainer>
             <NodeWrapper>
                 <GridContainer>
                     <NodeCard nodeName='Ice Node' videoUrl={process.env.PUBLIC_URL + "/media/ice.webm"} price={24} fee={53} reward={9} />
