@@ -1,4 +1,4 @@
-import { useEthers } from "@usedapp/core";
+import { Mainnet, useEthers } from "@usedapp/core";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from 'web3modal';
 import styled, { css } from "styled-components";
@@ -62,7 +62,7 @@ const Button = styled.button<{ secondary?: boolean }>`
 `
 
 export const ConnectButton: React.FC<{className?: string}> = (props) => {
-    const { account, activate } = useEthers();
+    const { account, activate, library } = useEthers();
 
     const handleConnect = async () => {
         try {

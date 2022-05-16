@@ -1,3 +1,4 @@
+import { useEthers } from '@usedapp/core';
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { ConnectButton } from '../components/Button';
@@ -149,11 +150,11 @@ const DApp = () => {
                     <TextOnlyCard cardLeftContent='Rewards' leftContentValue='0.0000 MTN' cardRightContent='USD per day' rightContentValue='$0.00' />
                     <ButtonCard cardContent='Monthly Fee' contentValue='0.0000 MTN' buttonValue='Pay all fees' />
                     <TextOnlyCard cardLeftContent='Rewards' leftContentValue='0.0000 MTN' cardRightContent='USD per day' rightContentValue='$0.00' />
-                    <BlankCard>
+                    <BlankCard style={{ gridColumn: "2 span" }}>
                         <Text>You don't own any nodes</Text>
                         <CardButton>Mint your first node</CardButton>
                     </BlankCard>
-                    <BlankCard>
+                    {/* <BlankCard>
                         <Container>
                             <div>
                                 <Text>Flexible Node</Text>
@@ -172,7 +173,7 @@ const DApp = () => {
                             </div>
 
                         </Container>
-                    </BlankCard>
+                    </BlankCard> */}
                 </TopGrid>
                 <BottomGrid>
                     <GridTitle span={3}>Protocol Stats</GridTitle>

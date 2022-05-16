@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { Video } from "../Video";
 
 const Container = styled.div`
     display: flex;
@@ -29,9 +30,10 @@ const NodeContainer = styled(Container)`
     justify-content: space-evenly;
     width: 60%;
     height: 100%;
-
     margin: 8px;
     width: 90%;
+    transition: 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+    overflow: hidden;
 
     & .rewards {
         font-weight: 600;
@@ -40,15 +42,18 @@ const NodeContainer = styled(Container)`
     & video {
         align-self: center;
     }
+
     & h3 {
+        text-align: center;
         align-self: center;
         font-weight: 500;        
         margin: 32px;
     }
 
     &:hover {
-        transform: scale(1.04);
-        transition: 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+        cursor: pointer;
+        border: 1px solid white;
+        transform: translateZ(0px);
         box-shadow: 0px 0px 48px rgba(255, 255, 255, 0.25);
     }
 
@@ -77,19 +82,21 @@ export const CardButton = styled.button`
     padding: 12px 32px;
     color: white;
     cursor: pointer;
-    //transition: all 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+    transition: all 0.3s cubic-bezier(0.77, 0, 0.175, 1);
     background-color: #ffffff00;
     border: 1px solid white;
-   // transform: perspective(200px);
+    transform: perspective(200px);
     transform-style: flat;
     
-    :not(:not(.inputMaxButton)) {
+    &.inputMaxButton {
         border: none;
         padding: 0 16px;
         text-align: right;
         cursor:pointer;
+        opacity: 0.8;
+        
         :hover{
-        filter:brightness(1.2);
+            opacity: 1;
         }
 
     }
@@ -174,10 +181,45 @@ export const BlankCard = styled(Container)`
     justify-content: center;
 `
 
-export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number }> = (props) => {
+const Overlay = styled.div`
+    display: flex;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(32px);
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    z-index: 999;
+`
+
+const CloseOverlay = styled.img`
+    background: white;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    z-index: 5;
+`
+
+export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number, fallbackImage?: string }> = (props) => {
+    const [overlayOpened, setOverlayOpened] = useState(false);
+
     return (
-        <NodeContainer className="node">
-            <video src={props.videoUrl} width="500px" autoPlay loop muted disablePictureInPicture></video>
+        <NodeContainer onClick={(e) => {
+            setOverlayOpened(true);
+        }} className="node">
+            {
+                overlayOpened &&
+                <Overlay>
+                    <CloseOverlay onClick={(e) => {
+                        setOverlayOpened(false);
+                        e.stopPropagation();
+                    }} />
+                </Overlay>
+            }
+            <Video fallbackImage={props.fallbackImage} src={props.videoUrl} isMuted loop></Video>
             <h3>{props.nodeName}</h3>
             <div>
                 <NodeRow><div>Cost</div><div>{props.price} MTN</div></NodeRow>

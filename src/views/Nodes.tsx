@@ -1,54 +1,54 @@
 import styled from "styled-components";
-import { AppContainer } from "../App";
 import { NodeCard } from "../components/Cards";
 import { Section } from "../components/Containers";
 import { NavbarDApp } from "../components/Navbar/Navbar";
-
-const NodeWrapper = styled(Section)`
-    background-image: url(${process.env.PUBLIC_URL + "/img/backgrounds/background.png"});
-    background-size: cover;
-    background-position: center;
-    
-    & h3{
-        text-align: center;
-    }
-    
-`
 
 const GridContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
+    margin-top: 48px;
+    perspective: 700px;
+
+    @media (min-width: 800px) {
+        & .node:first-child {
+            transform: rotateY(-7deg) translateZ(-50px);
+        }
+        
+        & .node:last-child {
+            transform: rotateY(7deg) translateZ(-50px);
+        }
     
-    @media (max-width: 900px) {
+        & .node:hover {
+            &:first-child {
+                transform: rotateY(-5deg) translateZ(-40px);
+            }
+    
+            &:last-child {
+                transform: rotateY(5deg) translateZ(-40px);
+            }
+    
+            transform: translateZ(20px);
+        }
+    }
+    
+    @media (max-width: 800px) {
         grid-template-columns: repeat(1, 1fr);    
         grid-template-rows: repeat(3, 1fr) ;
         grid-row-gap: 48px;
-    }
-
-`
-const NavContainer = styled.div`
-    @media (max-width: 800px) {
-        & > * {
-            right: 0;
-        }
     }
 `
 
 const Nodes = () => {
     return (
-        <AppContainer style={{ backgroundColor: 'black', backgroundPosition: 'center center' }}>
-            <NavContainer>
-                <NavbarDApp />
-            </NavContainer>
-            <NodeWrapper>
-                <GridContainer>
-                    <NodeCard nodeName='Ice Node' videoUrl={process.env.PUBLIC_URL + "/media/ice.webm"} price={24} fee={53} reward={9} />
-                    <NodeCard nodeName='Lava Node' videoUrl={process.env.PUBLIC_URL + "/media/lava.webm"} price={25} fee={75} reward={36} />
-                    <NodeCard nodeName='Green Node' videoUrl={process.env.PUBLIC_URL + "/media/green.webm"} price={23} fee={34} reward={56} />
-                </GridContainer>
-            </NodeWrapper>
-        </AppContainer>
+        <Section style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/background.png"})`, backgroundPosition: 'center', backgroundSize: 'cover', alignItems: "center" }}>
+            <NavbarDApp />
+            <GridContainer>
+                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Glace.png"} nodeName='Ice Node' videoUrl={process.env.PUBLIC_URL + "/media/ice.webm"} price={24} fee={53} reward={9} />
+                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Lave.png"} nodeName='Lava Node' videoUrl={process.env.PUBLIC_URL + "/media/lava.webm"} price={25} fee={75} reward={36} />
+                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Green.png"} nodeName='Green Node' videoUrl={process.env.PUBLIC_URL + "/media/green.webm"} price={23} fee={34} reward={56} />
+            </GridContainer>
+        </Section>
     )
 }
 
