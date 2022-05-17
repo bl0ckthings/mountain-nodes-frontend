@@ -202,8 +202,50 @@ const CloseOverlay = styled.img`
     top: 16px;
     z-index: 5;
 `
+const OverlayContainer=styled.div`
+    display:grid;
+    width:100%;
+    height:100%;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:0.3fr 0.5fr 1fr;
+    
+`
+const OverlayTitle=styled.div`
+    grid-column:span 2;
+    font-size:var(--font-size-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+const OverlayGridContent=styled.div`
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+`
+const OverlayBottomContent=styled.div`
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr 1.5fr;
+    grid-template-rows:0.2fr 1fr;
+    padding:10px;
+    width:100%;
+    grid-column:span 2;
+    text-align:center;
+`
 
-export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number, fallbackImage?: string }> = (props) => {
+const GridBottomTitle=styled.p`
+    color:rgba(255,255,255,0.5);
+`
+const GridBottomContent=styled.div`
+    text-align:start;
+    display:flex;
+    flex-direction:column;
+`
+
+const NodeName=styled.span<{color:string}>`
+    color:${p=>p.color};
+`
+export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number, fallbackImage?: string, color: string , MTNprice: number}> = (props) => {
     const [overlayOpened, setOverlayOpened] = useState(false);
 
     return (
@@ -216,8 +258,35 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                     <CloseOverlay onClick={(e) => {
                         setOverlayOpened(false);
                         e.stopPropagation();
-                    }} />
-                </Overlay>
+                    }} />                   
+                    <OverlayContainer>
+                            <OverlayTitle>MINT {props.nodeName}</OverlayTitle>
+
+                            <OverlayGridContent>
+                                <span>MTN Price</span>
+                                <span>$34</span>
+                            </OverlayGridContent>
+
+                            <OverlayGridContent>
+                                <span>Wallet Node Limit</span>
+                                <span>0/20,000</span>
+                            </OverlayGridContent>
+                            <OverlayBottomContent>
+                                <GridBottomTitle style={{textAlign:'start'}}>Cost</GridBottomTitle>
+                                <GridBottomTitle>Balance</GridBottomTitle>
+                                <GridBottomTitle>Cost in $</GridBottomTitle>
+                                <GridBottomTitle>Discount</GridBottomTitle>
+
+                                <GridBottomContent>
+                                    <NodeName color={props.color}>MTN</NodeName>
+                                    <span>{props.MTNprice}</span>
+                                </GridBottomContent>
+
+
+                            </OverlayBottomContent>
+                            
+                    </OverlayContainer>
+            </Overlay>
             }
             <Video fallbackImage={props.fallbackImage} src={props.videoUrl} isMuted loop></Video>
             <h3>{props.nodeName}</h3>
@@ -226,6 +295,7 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                 <NodeRow><div>Rewards per Day</div><div className="rewards">{props.reward} MTN</div></NodeRow>
                 <NodeRow><div>Monthly Fee</div><div>{props.fee} $</div></NodeRow>
             </div >
-        </NodeContainer >
+            
+        </NodeContainer>
     )
 }
