@@ -38,3 +38,18 @@ export const useGetNumberOfNodes = (chainId: number, account: string) => {
 
     return value[0];
 }
+
+export const useGetNodePrice = (chainId: number, nodeId: number) => {
+    const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
+    const { value, error } = useCall({contract: MountainContract, method: "getNodePrice", args: [nodeId]}, {chainId: chainId}) ?? {};
+
+    if (error) {
+        return 333;
+    }
+
+    if (!value) {
+        return 444;
+    }
+
+    return value[0];
+}
