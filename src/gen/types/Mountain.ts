@@ -26,7 +26,7 @@ import type {
   OnEvent,
 } from "./common";
 
-export interface MtnContractInterface extends utils.Interface {
+export interface MountainInterface extends utils.Interface {
   functions: {
     "_isBlacklisted(address)": FunctionFragment;
     "_isWhitelisted(address)": FunctionFragment;
@@ -760,12 +760,12 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface MtnContract extends BaseContract {
+export interface Mountain extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: MtnContractInterface;
+  interface: MountainInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

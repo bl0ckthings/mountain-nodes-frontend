@@ -1,3 +1,4 @@
+import { useEthers } from '@usedapp/core';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
@@ -5,6 +6,7 @@ import { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
+import { useGetNumberOfNodes } from '../hooks';
 
 const Container = styled.div`
         display: flex;
@@ -143,6 +145,15 @@ const DApp = () => {
   
     const navigate = useNavigate();
 
+
+    const {account, chainId } = useEthers();
+
+    const getNumOfNodes = useGetNumberOfNodes(chainId!, account!);
+
+    const handleNumberOfNodes = () => {
+        console.log(getNumOfNodes);
+    }
+
     return (
         <>
             <Overlay />
@@ -158,6 +169,8 @@ const DApp = () => {
                         <Text>You don't own any nodes</Text>
                         <CardButton onClick={() => navigate('/mint-node')}>Mint your first node</CardButton>
                     </BlankCard>
+
+                    {/* <CardButton onClick={handleNumberOfNodes}>Get number of nodes test</CardButton> */}
                     {/* <BlankCard>
                         <Container>
                             <div>

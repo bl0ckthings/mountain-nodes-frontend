@@ -4,7 +4,7 @@
 
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
-import type { MtnContract, MtnContractInterface } from "../MtnContract";
+import type { Mountain, MountainInterface } from "../Mountain";
 
 const _abi = [
   {
@@ -1293,15 +1293,15 @@ const _abi = [
   },
 ];
 
-export class MtnContract__factory {
+export class Mountain__factory {
   static readonly abi = _abi;
-  static createInterface(): MtnContractInterface {
-    return new utils.Interface(_abi) as MtnContractInterface;
+  static createInterface(): MountainInterface {
+    return new utils.Interface(_abi) as MountainInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): MtnContract {
-    return new Contract(address, _abi, signerOrProvider) as MtnContract;
+  ): Mountain {
+    return new Contract(address, _abi, signerOrProvider) as Mountain;
   }
 }
