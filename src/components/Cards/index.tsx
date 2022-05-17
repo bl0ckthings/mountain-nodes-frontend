@@ -124,6 +124,21 @@ export const CardButton = styled.button`
         background-color: rgba(34, 34, 34, 0.7);
      }
     
+     &.wrongNetwork {
+        background-color: rgb(229, 68, 68);
+        color: white;
+        border: 1px solid rgb(229, 68, 68);
+         &:hover{
+             background-color: rgb(255, 53, 65);
+             border: 1px solid rgba(255, 118, 127, 0.8);
+             box-shadow: 0px 0px 72px rgba(255, 96, 107, 0.75)
+         }
+
+         &:active{
+             background-color: rgb(207, 42, 53);
+         }
+     }
+
     @media (max-width: 800px) {
         padding: 8px 16px;
         border-radius: 6px;
