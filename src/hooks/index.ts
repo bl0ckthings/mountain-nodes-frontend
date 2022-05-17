@@ -53,3 +53,18 @@ export const useGetNodePrice = (chainId: number, nodeId: number) => {
 
     return value[0];
 }
+
+export const useIsNodeOwner = (chainId: number, account: string) => {
+    const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
+    const { value, error } = useCall({contract: MountainContract, method: "isNodeOwner", args: [account]}, {chainId: chainId}) ?? {};
+
+    if (error) {
+        return false;
+    }
+
+    if (!value) {
+        return false;
+    }
+
+    return value[0];
+}
