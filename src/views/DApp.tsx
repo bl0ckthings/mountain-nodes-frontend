@@ -1,5 +1,5 @@
-import { useEthers } from '@usedapp/core';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
@@ -138,7 +138,11 @@ const Footer = styled.div`
 const handleMaxClicked = () => {
 
 }
+
 const DApp = () => {
+  
+    const navigate = useNavigate();
+
     return (
         <>
             <Overlay />
@@ -152,7 +156,7 @@ const DApp = () => {
                     <TextOnlyCard cardLeftContent='Rewards' leftContentValue='0.0000 MTN' cardRightContent='USD per day' rightContentValue='$0.00' />
                     <BlankCard style={{ gridColumn: "2 span" }}>
                         <Text>You don't own any nodes</Text>
-                        <CardButton>Mint your first node</CardButton>
+                        <CardButton onClick={() => navigate('/mint-node')}>Mint your first node</CardButton>
                     </BlankCard>
                     {/* <BlankCard>
                         <Container>

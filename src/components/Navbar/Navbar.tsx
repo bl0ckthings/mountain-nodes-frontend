@@ -137,6 +137,7 @@ export const NavbarDApp: React.FC = () => {
         setNavOpened(false);
     }
 
+    
     return (
         <NavbarContainer className="variable-position" justifyContent="space-between" opened={navOpened} position="unset">
             {
