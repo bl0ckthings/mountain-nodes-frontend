@@ -41,12 +41,12 @@ const GridContainer = styled.div`
 
 const Nodes = () => {
     return (
-        <Section style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/background.png"})`, backgroundPosition: 'center', backgroundSize: 'cover', alignItems: "center" }}>
+        <Section style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/background.png"})`, backgroundPosition: 'center', backgroundSize: 'cover', alignItems: "center",  }}>
             <NavbarDApp />
             <GridContainer>
-                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Glace.png"} nodeName='Ice Node' videoUrl={process.env.PUBLIC_URL + "/media/ice.webm"} price={24} fee={53} reward={9} />
-                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Lave.png"} nodeName='Lava Node' videoUrl={process.env.PUBLIC_URL + "/media/lava.webm"} price={25} fee={75} reward={36} />
-                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Green.png"} nodeName='Green Node' videoUrl={process.env.PUBLIC_URL + "/media/green.webm"} price={23} fee={34} reward={56} />
+                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Glace.png"} discount={0.2}cost={112} balance={10} MTNprice={200.00} nodeName='Ice Node' color='blue' videoUrl={process.env.PUBLIC_URL + "/media/ice.webm"} price={24} fee={53} reward={9} />
+                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Lave.png"} discount={1.1} cost={180} balance={17} MTNprice={150.00} nodeName='Lava Node' color='red' videoUrl={process.env.PUBLIC_URL + "/media/lava.webm"} price={25} fee={75} reward={36} />
+                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Green.png"} discount={0.7} cost={87} balance={9} MTNprice={100.00} nodeName='Green Node' color='green' videoUrl={process.env.PUBLIC_URL + "/media/green.webm"} price={23} fee={34} reward={56} />
             </GridContainer>
         </Section>
     )
