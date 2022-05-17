@@ -1,8 +1,9 @@
-import { Mainnet, useEthers } from "@usedapp/core";
+import { AvalancheTestnet, Mainnet, shortenAddress, useEthers } from "@usedapp/core";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from 'web3modal';
 import styled, { css } from "styled-components";
 import { CardButton } from "../Cards";
+import { useEffect } from "react";
 
 const Button = styled.button<{ secondary?: boolean }>`
     display: flex;
@@ -62,7 +63,7 @@ const Button = styled.button<{ secondary?: boolean }>`
 `
 
 export const ConnectButton: React.FC<{className?: string}> = (props) => {
-    const { account, activate, library } = useEthers();
+    const { account, activate, library, chainId, switchNetwork, deactivate } = useEthers();
 
     const handleConnect = async () => {
         try {
@@ -89,14 +90,23 @@ export const ConnectButton: React.FC<{className?: string}> = (props) => {
 
             const provider = await web3modal.connect();
             await activate(provider);
+            console.log(account);
         }
         catch (error) {
 
         }
     }
 
+
+
+    const isRightNetwork: boolean = chainId == AvalancheTestnet.chainId;
     return ( 
-        
+        account ?
+            isRightNetwork ?
+            <CardButton onClick={deactivate}>{shortenAddress(account)}</CardButton>
+            :
+            <CardButton className="wrongNetwork" onClick={() => switchNetwork(AvalancheTestnet.chainId)}>Switch Network</CardButton>
+        :
         <CardButton className={"rounded dapp-button " + props.className} onClick={handleConnect}>Connect Wallet</CardButton>
         
         )
