@@ -157,8 +157,6 @@ const DApp = () => {
     // }
 
     // const getNodePrice = useGetNodePrice (chainId!, 0)
-    // console.log("node price : " + getNodePrice);
-    // console.log("owner : " + isNodeOwner);
 
     return (
         <>

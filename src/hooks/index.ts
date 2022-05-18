@@ -1,5 +1,5 @@
-import { ChainId, useCall } from "@usedapp/core";
-import { Contract, ethers } from "ethers";
+import { ChainId, useCall, useContractFunction } from "@usedapp/core";
+import { BigNumber, Contract, ethers } from "ethers";
 import { useEffect, useRef } from "react";
 
 import MountainAbi from '../abi/Mountain.json';
@@ -82,4 +82,12 @@ export const useGetAccountNodeByIndex = (chainId: number, account: string, index
     }
 
     return value[0];
+}
+
+
+export const useCreateNodeAndTransferToPools = (chainId: number) => {
+    const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
+    const {state, send} = useContractFunction(MountainContract, "createNodeAndTransferToPools", {transactionName: 'Mint Node'} );
+
+    return {send, state};
 }

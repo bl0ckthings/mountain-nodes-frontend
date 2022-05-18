@@ -1,7 +1,8 @@
 import { useEthers, useTokenBalance } from "@usedapp/core";
-import React, { useState } from "react";
+import { utils } from "ethers";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { HandleMint } from "../functions/Functions";
+import { useCreateNodeAndTransferToPools } from "../../hooks";
 import { Video } from "../Video";
 import test from './test.svg';
 
@@ -271,9 +272,14 @@ const GridBottomText=styled.h6`
     margin:0;
     text-align:center;
 `
-export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number, fallbackImage?: string, color: string , MTNprice: number, cost: number,balance: number,discount: number}> = (props) => {
+export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number, fallbackImage?: string, color: string , MTNprice: number, cost: number,balance: number,discount: number, nodeType: number}> = (props) => {
     const [overlayOpened, setOverlayOpened] = useState(false);
 
+    
+    const {account, chainId } = useEthers();
+
+    const { send: sendCreateNodeAndTransfer, state: createNodeAndTransferState } = useCreateNodeAndTransferToPools(chainId!);
+    
     return (
         <NodeContainer onClick={(e) => {
             setOverlayOpened(true);
@@ -317,7 +323,7 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                                     <GridBottomText>{props.discount}</GridBottomText>
                                 </GridBottomContent>
                             </OverlayBottomContent>
-                            <CardButton onClick={HandleMint}>Confirm Mint</CardButton>
+                            <CardButton onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, "0x0000000000000000000000000000000000000000")}>Confirm Mint</CardButton>
                     </OverlayContainer>
             </Overlay>
             }
