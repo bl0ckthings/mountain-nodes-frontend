@@ -1,5 +1,7 @@
+import { useEthers, useTokenBalance } from "@usedapp/core";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { HandleMint } from "../functions/Functions";
 import { Video } from "../Video";
 import test from './test.svg';
 
@@ -315,7 +317,7 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                                     <GridBottomText>{props.discount}</GridBottomText>
                                 </GridBottomContent>
                             </OverlayBottomContent>
-                            
+                            <CardButton onClick={HandleMint}>Confirm Mint</CardButton>
                     </OverlayContainer>
             </Overlay>
             }
