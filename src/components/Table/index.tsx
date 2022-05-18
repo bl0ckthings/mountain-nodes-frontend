@@ -29,16 +29,17 @@ const NodeIcon = styled.img`
 
 export const Table: React.FC = () => {
 const { account, chainId } = useEthers();
-const node = useNodeMapping(chainId!, 1);
-console.log(node[0])
+const node = useNodeMapping(chainId!, 6);
 const nodeId = node[0]
 const nodeType = node[2]
 let nodeText = ''
-nodeType && nodeType.toNumber() === 0 ? nodeText="Lava Node" : nodeType && nodeType.toNumber() === 1 ? nodeText="Green Node" : nodeType && nodeType.toNumber() === 2 ? nodeText="Ice Node" :nodeText= "Error"
-  return (
+let nodeIcon = nodeType && nodeType.toNumber() === 0 ? process.env.PUBLIC_URL + 'media/Lave.png' :  nodeType && nodeType.toNumber() === 1 ? process.env.PUBLIC_URL + 'media/Green.png' :nodeType && nodeType.toNumber() === 2 ? process.env.PUBLIC_URL + 'media/Glace.png' : 'null'
+console.log(nodeIcon)
+nodeType && nodeType.toNumber() === 0 ? nodeText="Lava" : nodeType && nodeType.toNumber() === 1 ? nodeText="Green" : nodeType && nodeType.toNumber() === 2 ? nodeText="Ice" :nodeText= "Error"
+return (
     <>
         <TableContent>
-        <TableColumn></TableColumn>
+        <TableColumn><NodeIcon src={nodeIcon}/></TableColumn>
         <TableColumn>{nodeId && nodeId.toNumber()}</TableColumn>
         <TableColumn>{nodeText}</TableColumn>
       </TableContent>
