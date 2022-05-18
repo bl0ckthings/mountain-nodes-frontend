@@ -6,7 +6,7 @@ import { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
-import { useGetNumberOfNodes } from '../hooks';
+import { useGetNodePrice, useGetNumberOfNodes, useIsNodeOwner } from '../hooks';
 
 const Container = styled.div`
         display: flex;
@@ -148,11 +148,17 @@ const DApp = () => {
 
     const {account, chainId } = useEthers();
 
-    const getNumOfNodes = useGetNumberOfNodes(chainId!, account!);
+    // const getNumOfNodes = useGetNumberOfNodes(chainId!, account!);
+    
+    // const isNodeOwner = useIsNodeOwner(chainId!, account!);
 
-    const handleNumberOfNodes = () => {
-        console.log(getNumOfNodes);
-    }
+    // const handleNumberOfNodes = () => {
+    //     console.log(getNumOfNodes);
+    // }
+
+    // const getNodePrice = useGetNodePrice (chainId!, 0)
+    // console.log("node price : " + getNodePrice);
+    // console.log("owner : " + isNodeOwner);
 
     return (
         <>

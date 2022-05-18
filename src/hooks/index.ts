@@ -68,3 +68,18 @@ export const useIsNodeOwner = (chainId: number, account: string) => {
 
     return value[0];
 }
+
+export const useGetAccountNodeByIndex = (chainId: number, account: string, index: number) => {
+    const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
+    const { value, error } = useCall({contract: MountainContract, method: "accountNodes", args: [account, index]}, {chainId: chainId}) ?? {};
+
+    if (error) {
+        return 333;
+    }
+
+    if (!value) {
+        return 444;
+    }
+
+    return value[0];
+}
