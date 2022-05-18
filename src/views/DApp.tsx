@@ -6,7 +6,7 @@ import { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
-import { useGetNodePrice, useGetNumberOfNodes, useIsNodeOwner } from '../hooks';
+import { useClaimAllRewards, useGetNodePrice, useGetNumberOfNodes, useIsNodeOwner } from '../hooks';
 
 const Container = styled.div`
         display: flex;
@@ -158,6 +158,10 @@ const DApp = () => {
 
     // const getNodePrice = useGetNodePrice (chainId!, 0)
 
+    // const rewards 
+
+    const { send: sendClaimAllRewards, state: claimAllRewardsState } = useClaimAllRewards(chainId!);
+
     return (
         <>
             <Overlay />
@@ -165,10 +169,10 @@ const DApp = () => {
                 <NavbarDApp />
                 <TopGrid>
                     <GridTitle>Dashboard</GridTitle>
-                    <ButtonCard cardContent='Rewards' contentValue='0.0000 MTN' buttonValue='Claim/Compound' />
-                    <TextOnlyCard cardLeftContent='Rewards' leftContentValue='0.0000 MTN' cardRightContent='USD per day' rightContentValue='$0.00' />
+                    <ButtonCard  handleClick={() => sendClaimAllRewards()} cardContent='Rewards' contentValue='0.0000 MTN' buttonValue='Claim/Compound' />
+                    <TextOnlyCard cardLeftContent='Rewards per day' leftContentValue='0.0000 MTN' cardRightContent='USD per day' rightContentValue='$0.00' />
                     <ButtonCard cardContent='Monthly Fee' contentValue='0.0000 MTN' buttonValue='Pay all fees' />
-                    <TextOnlyCard cardLeftContent='Rewards' leftContentValue='0.0000 MTN' cardRightContent='USD per day' rightContentValue='$0.00' />
+                    <TextOnlyCard cardLeftContent='MTN Price' leftContentValue='0.0000 $' cardRightContent='MTN Balance' rightContentValue='$0.00' />
                     <BlankCard style={{ gridColumn: "2 span" }}>
                         <Text>You don't own any nodes</Text>
                         <CardButton onClick={() => navigate('/mint-node')}>Mint your first node</CardButton>

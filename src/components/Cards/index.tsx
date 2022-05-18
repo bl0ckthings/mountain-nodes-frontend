@@ -161,14 +161,14 @@ export const CardButton = styled.button`
    
 `
 
-export const ButtonCard: React.FC<{ cardContent: string, contentValue: string, buttonValue: string }> = (props) => {
+export const ButtonCard: React.FC<{ cardContent: string, contentValue: string, buttonValue: string, handleClick?: React.MouseEventHandler<HTMLButtonElement> | undefined }> = (props) => {
     return (
         <Container>
             <TextContainer>
                 <CardContent>{props.cardContent}</CardContent>
                 <ContentValue>{props.contentValue}</ContentValue>
             </TextContainer>
-            <CardButton>{props.buttonValue}</CardButton>
+            <CardButton onClick={props.handleClick}>{props.buttonValue}</CardButton>
         </Container>
     )
 }
@@ -323,7 +323,7 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                                     <GridBottomText>{props.discount}</GridBottomText>
                                 </GridBottomContent>
                             </OverlayBottomContent>
-                            <CardButton onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, "0x0000000000000000000000000000000000000000")}>Confirm Mint</CardButton>
+                            <CardButton onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, "0x000000000000000000000000000000")}>Confirm Mint</CardButton>
                     </OverlayContainer>
             </Overlay>
             }
