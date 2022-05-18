@@ -6,6 +6,7 @@ import { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
+import { Table } from '../components/Table';
 import { useGetNodePrice, useGetNumberOfNodes, useIsNodeOwner } from '../hooks';
 
 const Container = styled.div`
@@ -158,6 +159,8 @@ const DApp = () => {
 
     // const getNodePrice = useGetNodePrice (chainId!, 0)
 
+    let nodeMsg= useIsNodeOwner(chainId!, account!) 
+
     return (
         <>
             <Overlay />
@@ -170,8 +173,15 @@ const DApp = () => {
                     <ButtonCard cardContent='Monthly Fee' contentValue='0.0000 MTN' buttonValue='Pay all fees' />
                     <TextOnlyCard cardLeftContent='Rewards' leftContentValue='0.0000 MTN' cardRightContent='USD per day' rightContentValue='$0.00' />
                     <BlankCard style={{ gridColumn: "2 span" }}>
-                        <Text>You don't own any nodes</Text>
+
+                        {nodeMsg? 
+                        <Table/> 
+                        : <>
+                        <Text>You dont own any nodes</Text>                       
                         <CardButton onClick={() => navigate('/mint-node')}>Mint your first node</CardButton>
+                        </>
+                        }
+
                     </BlankCard>
 
                     {/* <CardButton onClick={handleNumberOfNodes}>Get number of nodes test</CardButton> */}

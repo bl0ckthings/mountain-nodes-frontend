@@ -91,3 +91,18 @@ export const useCreateNodeAndTransferToPools = (chainId: number) => {
 
     return {send, state};
 }
+
+export const useNodeMapping = (chainId: number, nodeId:number)=>{
+    const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
+    const {value,error} = useCall({contract:MountainContract, method:"nodeMapping", args:[nodeId]}, {chainId:chainId}) ??{};
+    
+    if (error) {
+        return [];
+    }
+
+    if (!value) {
+        return [];
+    }
+
+    return value;
+}
