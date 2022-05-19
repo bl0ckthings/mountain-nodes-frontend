@@ -14,18 +14,19 @@ const TableContent = styled.div`
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr ;
 `;
 
 const TableColumn = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: top;
+  align-items: center;
+  font-size:var(--font-size-base);
 `;
 const NodeIcon = styled.img`
-  width: 24px;
-  height: 24px;
+  width: 48px;
+  height: 48px;
 `;
 
 export const Table: React.FC = () => {
@@ -44,6 +45,12 @@ export const Table: React.FC = () => {
         <TableColumn>{nodeId && nodeId.toNumber()}</TableColumn>
         <TableColumn>{nodeText}</TableColumn>
       </TableContent>
+      <TableContent>
+        <TableColumn><NodeIcon src={nodeIcon}/></TableColumn>
+        <TableColumn>{nodeId && nodeId.toNumber()}</TableColumn>
+        <TableColumn>{nodeText}</TableColumn>
+      </TableContent>
+      
     </>
   );
 };
