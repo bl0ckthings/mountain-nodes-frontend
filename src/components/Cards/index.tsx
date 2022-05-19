@@ -221,7 +221,7 @@ const CloseOverlay = styled.img`
     border-radius:5px;
     z-index: 5;
 `
-const OverlayContainer=styled.div`
+const OverlayContainer = styled.div`
     display:grid;
     width:100%;
     height:100%;
@@ -229,20 +229,20 @@ const OverlayContainer=styled.div`
     grid-template-rows:0.3fr 0.5fr 1fr;
     padding:15px;
 `
-const OverlayTitle=styled.div`
+const OverlayTitle = styled.div`
     grid-column:span 2;
     font-size:var(--font-size-md);
     display: flex;
     justify-content: center;
     align-items: center;
 `
-const OverlayGridContent=styled.div`
+const OverlayGridContent = styled.div`
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
 `
-const OverlayBottomContent=styled.div`
+const OverlayBottomContent = styled.div`
     display:grid;
     grid-template-columns:1fr 1fr 1fr 1.5fr;
     grid-template-rows:0.2fr 1fr 1.5fr;
@@ -252,11 +252,11 @@ const OverlayBottomContent=styled.div`
     text-align:center;
 `
 
-const GridBottomTitle=styled.p`
+const GridBottomTitle = styled.p`
     color:rgba(255,255,255,0.5);
     padding:15px;
 `
-const GridBottomContent=styled.div`
+const GridBottomContent = styled.div`
     text-align:start;
     display:flex;
     flex-direction:column;
@@ -264,68 +264,79 @@ const GridBottomContent=styled.div`
     padding:15px;
 `
 
-const NodeName=styled.span<{color:string}>`
-    color:${p=>p.color};
+const NodeName = styled.span<{ color: string }>`
+    color:${p => p.color};
 `
 
-const GridBottomText=styled.h6`
+const GridBottomText = styled.h6`
     margin:0;
     text-align:center;
 `
-export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number, fallbackImage?: string, color: string , MTNprice: number, cost: number,balance: number,discount: number, nodeType: number}> = (props) => {
+export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number, fallbackImage?: string, color: string, MTNprice: number, cost: number, balance: number, discount: number, nodeType: number }> = (props) => {
     const [overlayOpened, setOverlayOpened] = useState(false);
 
-    
-    const {account, chainId } = useEthers();
+
+    const { account, chainId } = useEthers();
 
     const { send: sendCreateNodeAndTransfer, state: createNodeAndTransferState } = useCreateNodeAndTransferToPools(chainId!);
-    
+
+    useEffect(() => {
+        if (createNodeAndTransferState.status === "Success") {
+            alert("Successfully minted node");
+        }
+
+        if (createNodeAndTransferState.status === "Fail") {
+            alert("Failed to mint node");
+        }
+
+    }, [createNodeAndTransferState])
+
     return (
         <NodeContainer onClick={(e) => {
             setOverlayOpened(true);
         }} className="node">
-            { 
+            {
                 overlayOpened &&
                 <Overlay>
                     <CloseOverlay src={test} onClick={(e) => {
                         setOverlayOpened(false);
                         e.stopPropagation();
-                    }} />                   
+                    }} />
                     <OverlayContainer>
-                            <OverlayTitle>MINT {props.nodeName}</OverlayTitle>
+                        <OverlayTitle>MINT {props.nodeName}</OverlayTitle>
 
-                            <OverlayGridContent>
-                                <span>MTN Price</span>
-                                <span>$34</span>
-                            </OverlayGridContent>
+                        <OverlayGridContent>
+                            <span>MTN Price</span>
+                            <span>$34</span>
+                        </OverlayGridContent>
 
-                            <OverlayGridContent>
-                                <span>Wallet Node Limit</span>
-                                <span>0/20,000</span>
-                            </OverlayGridContent>
-                            <OverlayBottomContent>
-                                <GridBottomTitle style={{textAlign:'start'}}>Cost</GridBottomTitle>
-                                <GridBottomTitle>Balance</GridBottomTitle>
-                                <GridBottomTitle>Cost in $</GridBottomTitle>
-                                <GridBottomTitle>Discount</GridBottomTitle>
+                        <OverlayGridContent>
+                            <span>Wallet Node Limit</span>
+                            <span>0/20,000</span>
+                        </OverlayGridContent>
+                        <OverlayBottomContent>
+                            <GridBottomTitle style={{ textAlign: 'start' }}>Cost</GridBottomTitle>
+                            <GridBottomTitle>Balance</GridBottomTitle>
+                            <GridBottomTitle>Cost in $</GridBottomTitle>
+                            <GridBottomTitle>Discount</GridBottomTitle>
 
-                                <GridBottomContent>
-                                    <NodeName color={props.color}>MTN</NodeName>
-                                    <GridBottomText style={{textAlign:'start'}}>{props.MTNprice}</GridBottomText>
-                                </GridBottomContent>
-                                <GridBottomContent>
-                                    <GridBottomText>{props.balance}</GridBottomText>
-                                </GridBottomContent>
-                                <GridBottomContent>
-                                    <GridBottomText>$ {props.cost}</GridBottomText>
-                                </GridBottomContent>
-                                <GridBottomContent>
-                                    <GridBottomText>{props.discount}</GridBottomText>
-                                </GridBottomContent>
-                            </OverlayBottomContent>
-                            <CardButton onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, "0x0000000000000000000000000000000000000000")}>Confirm Mint</CardButton>
+                            <GridBottomContent>
+                                <NodeName color={props.color}>MTN</NodeName>
+                                <GridBottomText style={{ textAlign: 'start' }}>{props.MTNprice}</GridBottomText>
+                            </GridBottomContent>
+                            <GridBottomContent>
+                                <GridBottomText>{props.balance}</GridBottomText>
+                            </GridBottomContent>
+                            <GridBottomContent>
+                                <GridBottomText>$ {props.cost}</GridBottomText>
+                            </GridBottomContent>
+                            <GridBottomContent>
+                                <GridBottomText>{props.discount}</GridBottomText>
+                            </GridBottomContent>
+                        </OverlayBottomContent>
+                        <CardButton onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, "0x0000000000000000000000000000000000000000")}>Confirm Mint</CardButton>
                     </OverlayContainer>
-            </Overlay>
+                </Overlay>
             }
             <Video fallbackImage={props.fallbackImage} src={props.videoUrl} isMuted loop></Video>
             <h3>{props.nodeName}</h3>
@@ -334,7 +345,7 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                 <NodeRow><div>Rewards per Day</div><div className="rewards">{props.reward} MTN</div></NodeRow>
                 <NodeRow><div>Monthly Fee</div><div>{props.fee} $</div></NodeRow>
             </div >
-            
+
         </NodeContainer>
     )
 }

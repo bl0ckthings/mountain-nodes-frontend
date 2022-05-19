@@ -5,10 +5,11 @@ import {
   useGetAccountNodeByIndex,
   useNodeMapping,
   useClaimRewards,
+  useCalculateRewards,
 } from "../../hooks";
 import { ChainId, useCall, useEthers } from "@usedapp/core";
 import { constants } from "perf_hooks";
-import { BigNumber } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { CardButton } from "../Cards";
 
 const TableContent = styled.div`
@@ -61,43 +62,45 @@ export const Table: React.FC = () => {
 
 const NewTableRow: React.FC<{ accountNodeIndex: number }> = (props) => {
 
-  
+
   const { account, chainId } = useEthers();
   const accountNodes = useGetAccountNodeByIndex(chainId!, account!, props.accountNodeIndex);
-  
+
   const nodeId = accountNodes;
   const nodes = useNodeMapping(chainId!, nodeId.toNumber());
   const nodeType = nodes[2]
   let type = nodeType && nodeType.toNumber() === 0 ? "Ice" : nodeType && nodeType.toNumber() === 1 ? "Earth" : nodeType && nodeType.toNumber() === 2 ? "Fire" : "Error"
-  
+
   let nodeIcon = nodeType && nodeType.toNumber() === 0 ? process.env.PUBLIC_URL + 'media/Glace.png' : nodeType && nodeType.toNumber() === 1 ? process.env.PUBLIC_URL + 'media/Green.png' : nodeType && nodeType.toNumber() === 2 ? process.env.PUBLIC_URL + 'media/Lave.png' : 'null'
-  
+
   const { send: sendClaimRewards, state: claimRewardsState } = useClaimRewards(chainId!);
-  
-  const claimRewardsFromOneNode = () => {
-    sendClaimRewards(nodeId);
+
+  const claimRewardsFromOneNode = (id: BigNumber) => {
+    sendClaimRewards(id);
+    console.log(id);
   }
 
-  
-  useEffect( () => {
+
+  useEffect(() => {
     if (claimRewardsState.status === "Success") {
       alert("Successfully claimed rewards");
     }
-    
-    if  (claimRewardsState.status === "Fail") {
+
+    if (claimRewardsState.status === "Fail") {
       alert("Failed to claim rewards");
     }
-    
+
   }, [claimRewardsState])
 
-
+  const nodeRewards = useCalculateRewards(chainId!, nodeId.toNumber());
   return (
-    
+
     <tr>
       <td><NodeIcon src={nodeIcon}></NodeIcon></td>
       <td>{nodeId && nodeId.toNumber()}</td>
       <td>{type}</td>
-      <td className="btnContainer"><CardButton onClick={claimRewardsFromOneNode}>Claim Rewards</CardButton></td>
+      <td className="nodeRewardAmmount">{Number(utils.formatEther(nodeRewards)).toFixed(3)}</td>
+      <td className="btnContainer"><CardButton onClick={() => claimRewardsFromOneNode(nodeId)}>Claim Rewards</CardButton></td>
     </tr>
   );
 }
@@ -109,13 +112,13 @@ export const TableComponent: React.FC = () => {
   const indexArr: number[] = [];
   const length = useGetNumberOfNodes(chainId!, account!);
 
-  const zebi = () => {
+  const createArrayOfNodeIndexes = () => {
     for (let i = 0; i < length.toNumber(); i++) {
       indexArr.push(i);
 
     }
   }
-  zebi();
+  createArrayOfNodeIndexes();
 
   return (
     <TableContainer>
@@ -176,16 +179,21 @@ const NewTable = styled.table`
     padding: 8px;
   }
 
+  & th {
+    font-weight: 400;
+  }
+
   & tr:not(.headersRow) {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  & .btnContainer{
+  & .btnContainer {
     width: 10%;
   }
 
-
-
+  & .nodeRewardAmmount {
+    font-weight: 600;
+  }
 
 `

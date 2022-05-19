@@ -110,13 +110,27 @@ export const useNodeMapping = (chainId: number, nodeId: number) => {
 export const useClaimAllRewards = (chainId: number) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
     const { state, send } = useContractFunction(MountainContract, "claimAllRewards", { transactionName: 'Claim all rewards' });
-    
+
     return { send, state };
 }
 
 export const useClaimRewards = (chainId: number) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
     const { state, send } = useContractFunction(MountainContract, "claimRewards", { transactionName: 'Claim rewards' });
-    
+
     return { send, state };
+}
+
+export const useCalculateRewards = (chainId: number, nodeId: number) => {
+    const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
+    const { value, error } = useCall({ contract: MountainContract, method: "calculateRewards", args: [nodeId] }, { chainId: chainId }) ?? {};
+
+    if (error) {
+        return BigNumber.from(0);
+    }
+    if (!value) {
+        return BigNumber.from(0);
+    }
+
+    return value[0];
 }

@@ -1,13 +1,14 @@
 import { useEthers } from '@usedapp/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
-import { useClaimAllRewards, useIsNodeOwner, useGetNodePrice, useGetNumberOfNodes } from '../hooks';
+import { useClaimAllRewards, useIsNodeOwner, useGetNodePrice, useGetNumberOfNodes, useGetAccountNodeByIndex, useCalculateRewards, useNodeMapping } from '../hooks';
 import { TableComponent, Table } from '../components/Table';
+import { BigNumber } from 'ethers';
 
 const Container = styled.div`
         display: flex;
@@ -143,26 +144,29 @@ const handleMaxClicked = () => {
 }
 
 const DApp = () => {
-  
+
     const navigate = useNavigate();
 
 
-    const {account, chainId } = useEthers();
-
-    // const getNumOfNodes = useGetNumberOfNodes(chainId!, account!);
-    
-    // const isNodeOwner = useIsNodeOwner(chainId!, account!);
-
-    // const handleNumberOfNodes = () => {
-    //     console.log(getNumOfNodes);
-    // }
-
-    // const getNodePrice = useGetNodePrice (chainId!, 0)
-
-    // const rewards 
+    const { account, chainId } = useEthers();
 
     const { send: sendClaimAllRewards, state: claimAllRewardsState } = useClaimAllRewards(chainId!);
-    let isUserNodeOwner= useIsNodeOwner(chainId!, account!) 
+
+    useEffect(() => {
+        if (claimAllRewardsState.status === 'Success') {
+            alert("Successfully claimed all rewards");
+        }
+
+        if (claimAllRewardsState.status === 'Fail') {
+            alert("Failed to claim all rewards");
+        }
+
+    }, [claimAllRewardsState])
+    let isUserNodeOwner = useIsNodeOwner(chainId!, account!)
+
+    // const nodeId = accountNodes;
+    // const nodes = useNodeMapping(chainId!, nodeId.toNumber());
+    // const nodeType = nodes[2]
 
     return (
         <>
@@ -171,19 +175,19 @@ const DApp = () => {
                 <NavbarDApp />
                 <TopGrid>
                     <GridTitle>Dashboard</GridTitle>
-                    <ButtonCard  handleClick={() => sendClaimAllRewards()} cardContent='Rewards' contentValue='0.0000 MTN' buttonValue='Claim/Compound' />
+                    <ButtonCard handleClick={() => sendClaimAllRewards()} cardContent='Rewards' contentValue="000" buttonValue='Claim/Compound' />
                     <TextOnlyCard cardLeftContent='Rewards per day' leftContentValue='0.0000 MTN' cardRightContent='USD per day' rightContentValue='$0.00' />
                     <ButtonCard cardContent='Monthly Fee' contentValue='0.0000 MTN' buttonValue='Pay all fees' />
                     <TextOnlyCard cardLeftContent='MTN Price' leftContentValue='0.0000 $' cardRightContent='MTN Balance' rightContentValue='$0.00' />
                     <BlankCard style={{ gridColumn: "2 span" }}>
 
-                        {isUserNodeOwner? 
-                        // <Table/> 
-                        <TableComponent />
-                        : <>
-                        <Text>You dont own any nodes</Text>                       
-                        <CardButton onClick={() => navigate('/mint-node')}>Mint your first node</CardButton>
-                        </>
+                        {isUserNodeOwner ?
+                            // <Table/> 
+                            <TableComponent />
+                            : <>
+                                <Text>You dont own any nodes</Text>
+                                <CardButton onClick={() => navigate('/mint-node')}>Mint your first node</CardButton>
+                            </>
                         }
 
                     </BlankCard>
