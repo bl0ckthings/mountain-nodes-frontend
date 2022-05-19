@@ -6,7 +6,7 @@ import { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
-import { useClaimAllRewards, useIsNodeOwner, useGetNodePrice, useGetNumberOfNodes, useGetAccountNodeByIndex, useCalculateRewards, useNodeMapping, useBalanceOf } from '../hooks';
+import { useClaimAllRewards, useIsNodeOwner, useGetNodePrice, useGetNumberOfNodes, useGetAccountNodeByIndex, useCalculateRewards, useNodeMapping, useBalanceOf, useTotalSupply } from '../hooks';
 import { TableComponent, Table } from '../components/Table';
 import { BigNumber, utils } from 'ethers';
 
@@ -170,7 +170,7 @@ const DApp = () => {
     const mtnBalance = useBalanceOf(chainId!, account!);    
 
     const formattedBalance: string = Number(utils.formatEther(mtnBalance)).toFixed(4).toString();
-
+    const totalSupply: string = utils.commify(utils.formatEther(useTotalSupply(chainId!))) + ' MTN';
 
     return (
         <>
@@ -221,8 +221,8 @@ const DApp = () => {
                 <BottomGrid>
                     <GridTitle span={3}>Protocol Stats</GridTitle>
                     <TextOnlyCard cardLeftContent='Total Nodes' leftContentValue='0'></TextOnlyCard>
-                    <TextOnlyCard cardLeftContent='Total MTN supply' leftContentValue='6 545 765 MTN'></TextOnlyCard>
-                    <TextOnlyCard cardLeftContent='Calculating MTN' leftContentValue='1.5739 MTN'></TextOnlyCard>
+                    <TextOnlyCard cardLeftContent='Total MTN supply' leftContentValue={totalSupply}></TextOnlyCard>
+                    <TextOnlyCard cardLeftContent='Calculating MTN' leftContentValue={totalSupply}></TextOnlyCard>
 
                 </BottomGrid>
                 <Footer>

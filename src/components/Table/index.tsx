@@ -99,7 +99,7 @@ const NewTableRow: React.FC<{ accountNodeIndex: number }> = (props) => {
       <td><NodeIcon src={nodeIcon}></NodeIcon></td>
       <td>{nodeId && nodeId.toNumber()}</td>
       <td>{type}</td>
-      <td className="nodeRewardAmmount">{Number(utils.formatEther(nodeRewards)).toFixed(3)}</td>
+      <td className="nodeRewardAmmount">{Number(utils.formatEther(nodeRewards)).toFixed(4)}</td>
       <td className="btnContainer"><CardButton onClick={() => claimRewardsFromOneNode(nodeId)}>Claim Rewards</CardButton></td>
     </tr>
   );
