@@ -7,7 +7,7 @@ import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/C
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
 import { useClaimAllRewards, useIsNodeOwner, useGetNodePrice, useGetNumberOfNodes } from '../hooks';
-import { Table } from '../components/Table';
+import { NewTable, Table } from '../components/Table';
 
 const Container = styled.div`
         display: flex;
@@ -162,7 +162,7 @@ const DApp = () => {
     // const rewards 
 
     const { send: sendClaimAllRewards, state: claimAllRewardsState } = useClaimAllRewards(chainId!);
-    let nodeMsg= useIsNodeOwner(chainId!, account!) 
+    let isUserNodeOwner= useIsNodeOwner(chainId!, account!) 
 
     return (
         <>
@@ -177,8 +177,9 @@ const DApp = () => {
                     <TextOnlyCard cardLeftContent='MTN Price' leftContentValue='0.0000 $' cardRightContent='MTN Balance' rightContentValue='$0.00' />
                     <BlankCard style={{ gridColumn: "2 span" }}>
 
-                        {nodeMsg? 
-                        <Table/> 
+                        {isUserNodeOwner? 
+                        // <Table/> 
+                        <NewTable />
                         : <>
                         <Text>You dont own any nodes</Text>                       
                         <CardButton onClick={() => navigate('/mint-node')}>Mint your first node</CardButton>

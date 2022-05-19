@@ -323,7 +323,7 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                                     <GridBottomText>{props.discount}</GridBottomText>
                                 </GridBottomContent>
                             </OverlayBottomContent>
-                            <CardButton onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, "0x000000000000000000000000000000")}>Confirm Mint</CardButton>
+                            <CardButton onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, "0x0000000000000000000000000000000000000000")}>Confirm Mint</CardButton>
                     </OverlayContainer>
             </Overlay>
             }

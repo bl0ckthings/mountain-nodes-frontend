@@ -26,14 +26,14 @@ const MountainInterface = new ethers.utils.Interface(MountainAbi);
 
 export const useGetNumberOfNodes = (chainId: number, account: string) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
-    const { value, error } = useCall({contract: MountainContract, method: "getNumberOfNodes", args: [account]}, {chainId: chainId}) ?? {};
+    const { value, error } = useCall({ contract: MountainContract, method: "getNumberOfNodes", args: [account] }, { chainId: chainId }) ?? {};
 
     if (error) {
-        return 333;
+        return BigNumber.from(0);
     }
 
     if (!value) {
-        return 444;
+        return BigNumber.from(0);
     }
 
     return value[0];
@@ -41,14 +41,14 @@ export const useGetNumberOfNodes = (chainId: number, account: string) => {
 
 export const useGetNodePrice = (chainId: number, nodeId: number) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
-    const { value, error } = useCall({contract: MountainContract, method: "getNodePrice", args: [nodeId]}, {chainId: chainId}) ?? {};
+    const { value, error } = useCall({ contract: MountainContract, method: "getNodePrice", args: [nodeId] }, { chainId: chainId }) ?? {};
 
     if (error) {
-        return 333;
+        return BigNumber.from(0);
     }
 
     if (!value) {
-        return 444;
+        return BigNumber.from(0);
     }
 
     return value[0];
@@ -56,7 +56,7 @@ export const useGetNodePrice = (chainId: number, nodeId: number) => {
 
 export const useIsNodeOwner = (chainId: number, account: string) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
-    const { value, error } = useCall({contract: MountainContract, method: "isNodeOwner", args: [account]}, {chainId: chainId}) ?? {};
+    const { value, error } = useCall({ contract: MountainContract, method: "isNodeOwner", args: [account] }, { chainId: chainId }) ?? {};
 
     if (error) {
         return false;
@@ -71,31 +71,31 @@ export const useIsNodeOwner = (chainId: number, account: string) => {
 
 export const useGetAccountNodeByIndex = (chainId: number, account: string, index: number) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
-    const { value, error } = useCall({contract: MountainContract, method: "accountNodes", args: [account, index]}, {chainId: chainId}) ?? {};
+    const { value, error } = useCall({ contract: MountainContract, method: "accountNodes", args: [account, index] }, { chainId: chainId }) ?? {};
 
     if (error) {
-        return 333;
+        return BigNumber.from(0);
     }
 
     if (!value) {
-        return 444;
+        return BigNumber.from(0);
     }
 
-    return value[0];
+    return value[0] && value[0];
 }
 
 
 export const useCreateNodeAndTransferToPools = (chainId: number) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
-    const {state, send} = useContractFunction(MountainContract, "createNodeAndTransferToPools", {transactionName: 'Mint Node'} );
-    
-    return {send, state};
+    const { state, send } = useContractFunction(MountainContract, "createNodeAndTransferToPools", { transactionName: 'Mint Node' });
+
+    return { send, state };
 }
 
-export const useNodeMapping = (chainId: number, nodeId:number)=>{
+export const useNodeMapping = (chainId: number, nodeId: number) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
-    const {value,error} = useCall({contract:MountainContract, method:"nodeMapping", args:[nodeId]}, {chainId:chainId}) ??{};
-    
+    const { value, error } = useCall({ contract: MountainContract, method: "nodeMapping", args: [nodeId] }, { chainId: chainId }) ?? {};
+
     if (error) {
         return [];
     }
@@ -109,7 +109,7 @@ export const useNodeMapping = (chainId: number, nodeId:number)=>{
 
 export const useClaimAllRewards = (chainId: number) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
-    const { state, send } = useContractFunction(MountainContract, "claimAllRewards", {transactionName: 'Claim all rewards'} );
+    const { state, send } = useContractFunction(MountainContract, "claimAllRewards", { transactionName: 'Claim all rewards' });
 
     return { send, state };
 }
