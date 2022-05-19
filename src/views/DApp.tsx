@@ -6,9 +6,9 @@ import { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
-import { useClaimAllRewards, useIsNodeOwner, useGetNodePrice, useGetNumberOfNodes, useGetAccountNodeByIndex, useCalculateRewards, useNodeMapping } from '../hooks';
+import { useClaimAllRewards, useIsNodeOwner, useGetNodePrice, useGetNumberOfNodes, useGetAccountNodeByIndex, useCalculateRewards, useNodeMapping, useBalanceOf } from '../hooks';
 import { TableComponent, Table } from '../components/Table';
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 
 const Container = styled.div`
         display: flex;
@@ -162,11 +162,15 @@ const DApp = () => {
         }
 
     }, [claimAllRewardsState])
-    let isUserNodeOwner = useIsNodeOwner(chainId!, account!)
+    let isUserNodeOwner = useIsNodeOwner(chainId!, account!);
 
     // const nodeId = accountNodes;
     // const nodes = useNodeMapping(chainId!, nodeId.toNumber());
     // const nodeType = nodes[2]
+    const mtnBalance = useBalanceOf(chainId!, account!);    
+
+    const formattedBalance: string = Number(utils.formatEther(mtnBalance)).toFixed(4).toString();
+
 
     return (
         <>
@@ -178,7 +182,7 @@ const DApp = () => {
                     <ButtonCard handleClick={() => sendClaimAllRewards()} cardContent='Rewards' contentValue="000" buttonValue='Claim/Compound' />
                     <TextOnlyCard cardLeftContent='Rewards per day' leftContentValue='0.0000 MTN' cardRightContent='USD per day' rightContentValue='$0.00' />
                     <ButtonCard cardContent='Monthly Fee' contentValue='0.0000 MTN' buttonValue='Pay all fees' />
-                    <TextOnlyCard cardLeftContent='MTN Price' leftContentValue='0.0000 $' cardRightContent='MTN Balance' rightContentValue='$0.00' />
+                    <TextOnlyCard cardLeftContent='MTN Price' leftContentValue='0.0000 $' cardRightContent='MTN Balance' rightContentValue={formattedBalance} />
                     <BlankCard style={{ gridColumn: "2 span" }}>
 
                         {isUserNodeOwner ?

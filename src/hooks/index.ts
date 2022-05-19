@@ -134,3 +134,17 @@ export const useCalculateRewards = (chainId: number, nodeId: number) => {
 
     return value[0];
 }
+
+export const useBalanceOf = (chainId: number, account: string) => {
+    const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
+    const { value, error } = useCall({ contract: MountainContract, method: "balanceOf", args: [account] }, { chainId: chainId }) ?? {};
+
+    if (error) {
+        return BigNumber.from(0);
+    }
+    if (!value) {
+        return BigNumber.from(0);
+    }
+
+    return value[0];
+}
