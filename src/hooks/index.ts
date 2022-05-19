@@ -81,7 +81,7 @@ export const useGetAccountNodeByIndex = (chainId: number, account: string, index
         return 444;
     }
 
-    return value[0];
+    return value;
 }
 
 
