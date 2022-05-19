@@ -4,10 +4,12 @@ import {
   useGetNumberOfNodes,
   useGetAccountNodeByIndex,
   useNodeMapping,
+  useClaimRewards,
 } from "../../hooks";
 import { ChainId, useCall, useEthers } from "@usedapp/core";
 import { constants } from "perf_hooks";
 import { BigNumber } from "ethers";
+import { CardButton } from "../Cards";
 
 const TableContent = styled.div`
   width: 100%;
@@ -46,11 +48,11 @@ export const Table: React.FC = () => {
         <TableColumn>{nodeText}</TableColumn>
       </TableContent>
       <TableContent>
-        <TableColumn><NodeIcon src={nodeIcon}/></TableColumn>
+        <TableColumn><NodeIcon src={nodeIcon} /></TableColumn>
         <TableColumn>{nodeId && nodeId.toNumber()}</TableColumn>
         <TableColumn>{nodeText}</TableColumn>
       </TableContent>
-      
+
     </>
   );
 };
@@ -59,27 +61,48 @@ export const Table: React.FC = () => {
 
 const NewTableRow: React.FC<{ accountNodeIndex: number }> = (props) => {
 
+  
   const { account, chainId } = useEthers();
   const accountNodes = useGetAccountNodeByIndex(chainId!, account!, props.accountNodeIndex);
-
+  
   const nodeId = accountNodes;
   const nodes = useNodeMapping(chainId!, nodeId.toNumber());
   const nodeType = nodes[2]
   let type = nodeType && nodeType.toNumber() === 0 ? "Ice" : nodeType && nodeType.toNumber() === 1 ? "Earth" : nodeType && nodeType.toNumber() === 2 ? "Fire" : "Error"
-
+  
   let nodeIcon = nodeType && nodeType.toNumber() === 0 ? process.env.PUBLIC_URL + 'media/Glace.png' : nodeType && nodeType.toNumber() === 1 ? process.env.PUBLIC_URL + 'media/Green.png' : nodeType && nodeType.toNumber() === 2 ? process.env.PUBLIC_URL + 'media/Lave.png' : 'null'
+  
+  const { send: sendClaimRewards, state: claimRewardsState } = useClaimRewards(chainId!);
+  
+  const claimRewardsFromOneNode = () => {
+    sendClaimRewards(nodeId);
+  }
+
+  
+  useEffect( () => {
+    if (claimRewardsState.status === "Success") {
+      alert("Successfully claimed rewards");
+    }
+    
+    if  (claimRewardsState.status === "Fail") {
+      alert("Failed to claim rewards");
+    }
+    
+  }, [claimRewardsState])
+
 
   return (
-
+    
     <tr>
       <td><NodeIcon src={nodeIcon}></NodeIcon></td>
       <td>{nodeId && nodeId.toNumber()}</td>
       <td>{type}</td>
+      <td className="btnContainer"><CardButton onClick={claimRewardsFromOneNode}>Claim Rewards</CardButton></td>
     </tr>
   );
 }
 
-export const NewTable: React.FC = () => {
+export const TableComponent: React.FC = () => {
 
   const { account, chainId } = useEthers();
 
@@ -95,27 +118,74 @@ export const NewTable: React.FC = () => {
   zebi();
 
   return (
-    <table>
-      <thead>Owned Nodes</thead>
-      <tbody>
-        <td>Icon</td>
-        <td>ID</td>
-        <td>Type</td>
-        {
-          indexArr.map((value) => {
-            return (
-              <NewTableRow accountNodeIndex={value} />
-            );
-          })
-        }
-      </tbody>
-    </table>
-
+    <TableContainer>
+      <NewTable>
+        <thead>
+          <tr className="headersRow">
+            <th></th>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Rewards</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            indexArr.map((value) => {
+              return (
+                <NewTableRow accountNodeIndex={value} />
+              );
+            })
+          }
+        </tbody>
+      </NewTable>
+    </TableContainer>
   );
 }
 
-// const TableContainer = styled.div`
-//   & ${NewTable} {
-    
-//   }
-// `
+const TableContainer = styled.div`
+  margin: 8px;
+  width: 100%;
+  max-height: 24vh;
+  
+  overflow-y: auto;
+  
+  @media (max-width: 800px) {
+    display: flex;
+    width: 100%;
+    max-height: 12vh;
+
+  }
+`
+
+const NewTable = styled.table`
+  border-radius: 5px;
+  font-size: medium;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  white-space: nowrap;
+
+  border-collapse: collapse;
+  overflow-y: auto;
+
+  & thead {
+    text-align: center;
+  }
+  & td, th {
+    text-align: center;
+    padding: 8px;
+  }
+
+  & tr:not(.headersRow) {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  & .btnContainer{
+    width: 10%;
+  }
+
+
+
+
+`
