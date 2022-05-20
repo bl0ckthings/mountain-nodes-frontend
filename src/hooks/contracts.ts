@@ -3,6 +3,6 @@ import { ContractAddress } from "./types";
 
 export const applicationContracts: {[key: string]: ContractAddress} = {
     "Mountain": {
-        [AvalancheTestnet.chainId]: "0x6735cb75c2B66193fdCC18C44e557E2Bd9A1d672"
+        [AvalancheTestnet.chainId]: "0x2968cC756FB2CBc2e1a1c17267f69Ff651041d6a"
     }
 }

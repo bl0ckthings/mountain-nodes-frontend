@@ -2,7 +2,7 @@ import { useEthers, useTokenBalance } from "@usedapp/core";
 import { utils } from "ethers";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useCreateNodeAndTransferToPools } from "../../hooks";
+import { useCreateNodeAndTransferToPools, useGetAccountNodeByIndex, useGetNumberOfNodes } from "../../hooks";
 import { Video } from "../Video";
 import test from './test.svg';
 

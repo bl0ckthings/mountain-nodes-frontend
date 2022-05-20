@@ -45,7 +45,7 @@ const Nodes = () => {
             <NavbarDApp />
             <GridContainer>
                 <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Glace.png"} discount={0.2}cost={112} balance={10} MTNprice={200.00} nodeName='Ice Node' color='blue' videoUrl={process.env.PUBLIC_URL + "/media/ice.webm"} price={10} fee={53} reward={9} nodeType={0} />
-                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Lave.png"} discount={1.1} cost={180} balance={17} MTNprice={150.00} nodeName='Fire Node' color='red' videoUrl={process.env.PUBLIC_URL + "/media/lava.webm"} price={20} fee={75} reward={36} nodeType={2} />
+                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Lave.png"} discount={1.1} cost={180} balance={2} MTNprice={150.00} nodeName='Fire Node' color='red' videoUrl={process.env.PUBLIC_URL + "/media/lava.webm"} price={20} fee={75} reward={36} nodeType={2} />
                 <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Green.png"} discount={0.7} cost={87} balance={9} MTNprice={100.00} nodeName='Earth Node' color='green' videoUrl={process.env.PUBLIC_URL + "/media/green.webm"} price={15} fee={34} reward={56} nodeType={1} />
             </GridContainer>
         </Section>

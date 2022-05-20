@@ -60,7 +60,7 @@ export const Table: React.FC = () => {
 
 
 
-const NewTableRow: React.FC<{ accountNodeIndex: number }> = (props) => {
+  const NewTableRow: React.FC<{ accountNodeIndex: number }> = (props) => {
 
 
   const { account, chainId } = useEthers();
@@ -104,7 +104,6 @@ const NewTableRow: React.FC<{ accountNodeIndex: number }> = (props) => {
     </tr>
   );
 }
-
 export const TableComponent: React.FC = () => {
 
   const { account, chainId } = useEthers();
@@ -115,10 +114,14 @@ export const TableComponent: React.FC = () => {
   const createArrayOfNodeIndexes = () => {
     for (let i = 0; i < length.toNumber(); i++) {
       indexArr.push(i);
-
+      
     }
   }
   createArrayOfNodeIndexes();
+
+  // const test =()=> indexArr.map((value)=>{
+  //   useCalculateRewards(chainId!,value)
+  // })
 
   return (
     <TableContainer>

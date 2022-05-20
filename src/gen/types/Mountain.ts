@@ -49,9 +49,12 @@ export interface MountainInterface extends utils.Interface {
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
     "endSellFeeTimestamp()": FunctionFragment;
+    "getAccountNodes()": FunctionFragment;
+    "getAllReward()": FunctionFragment;
     "getNodePrice(uint256)": FunctionFragment;
+    "getNodeReward(uint256)": FunctionFragment;
     "getNumberOfNodes(address)": FunctionFragment;
-    "getReferralCode(address)": FunctionFragment;
+    "getReferralCode()": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
     "initialAdditionnalSellFee()": FunctionFragment;
     "isNodeOwner(address)": FunctionFragment;
@@ -129,7 +132,10 @@ export interface MountainInterface extends utils.Interface {
       | "decimals"
       | "decreaseAllowance"
       | "endSellFeeTimestamp"
+      | "getAccountNodes"
+      | "getAllReward"
       | "getNodePrice"
+      | "getNodeReward"
       | "getNumberOfNodes"
       | "getReferralCode"
       | "increaseAllowance"
@@ -262,7 +268,19 @@ export interface MountainInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getAccountNodes",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAllReward",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getNodePrice",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getNodeReward",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -271,7 +289,7 @@ export interface MountainInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getReferralCode",
-    values: [string]
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "increaseAllowance",
@@ -519,7 +537,19 @@ export interface MountainInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getAccountNodes",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getAllReward",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getNodePrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getNodeReward",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -872,17 +902,28 @@ export interface Mountain extends BaseContract {
 
     endSellFeeTimestamp(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    getAccountNodes(overrides?: CallOverrides): Promise<[BigNumber[]]>;
+
+    getAllReward(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     getNodePrice(
       node_type: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    getNodeReward(
+      _id: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     getNumberOfNodes(
       account: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    getReferralCode(user: string, overrides?: CallOverrides): Promise<[string]>;
+    getReferralCode(overrides?: CallOverrides): Promise<[string]>;
 
     increaseAllowance(
       spender: string,
@@ -1173,17 +1214,28 @@ export interface Mountain extends BaseContract {
 
   endSellFeeTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
 
+  getAccountNodes(overrides?: CallOverrides): Promise<BigNumber[]>;
+
+  getAllReward(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   getNodePrice(
     node_type: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  getNodeReward(
+    _id: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   getNumberOfNodes(
     account: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  getReferralCode(user: string, overrides?: CallOverrides): Promise<string>;
+  getReferralCode(overrides?: CallOverrides): Promise<string>;
 
   increaseAllowance(
     spender: string,
@@ -1462,8 +1514,17 @@ export interface Mountain extends BaseContract {
 
     endSellFeeTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getAccountNodes(overrides?: CallOverrides): Promise<BigNumber[]>;
+
+    getAllReward(overrides?: CallOverrides): Promise<BigNumber>;
+
     getNodePrice(
       node_type: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getNodeReward(
+      _id: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1472,7 +1533,7 @@ export interface Mountain extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getReferralCode(user: string, overrides?: CallOverrides): Promise<string>;
+    getReferralCode(overrides?: CallOverrides): Promise<string>;
 
     increaseAllowance(
       spender: string,
@@ -1799,9 +1860,20 @@ export interface Mountain extends BaseContract {
 
     endSellFeeTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getAccountNodes(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getAllReward(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     getNodePrice(
       node_type: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getNodeReward(
+      _id: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     getNumberOfNodes(
@@ -1809,10 +1881,7 @@ export interface Mountain extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getReferralCode(
-      user: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    getReferralCode(overrides?: CallOverrides): Promise<BigNumber>;
 
     increaseAllowance(
       spender: string,
@@ -2108,9 +2177,20 @@ export interface Mountain extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getAccountNodes(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getAllReward(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     getNodePrice(
       node_type: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getNodeReward(
+      _id: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     getNumberOfNodes(
@@ -2118,10 +2198,7 @@ export interface Mountain extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getReferralCode(
-      user: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    getReferralCode(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     increaseAllowance(
       spender: string,

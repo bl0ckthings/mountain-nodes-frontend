@@ -171,7 +171,13 @@ const DApp = () => {
 
     const formattedBalance: string = Number(utils.formatEther(mtnBalance)).toFixed(4).toString();
     const totalSupply: string = utils.commify(utils.formatEther(useTotalSupply(chainId!))) + ' MTN';
+    const balance = useGetNumberOfNodes(chainId!,account!)
+    const accountNodes = useGetAccountNodeByIndex(chainId!, account!, 0);
 
+    const nodeId = accountNodes;
+
+    const RewardPerDay = useCalculateRewards(chainId!,nodeId.toNumber()!)
+    const test = Number(utils.formatEther(RewardPerDay)).toFixed(3)
     return (
         <>
             <Overlay />
@@ -179,9 +185,9 @@ const DApp = () => {
                 <NavbarDApp />
                 <TopGrid>
                     <GridTitle>Dashboard</GridTitle>
-                    <ButtonCard handleClick={() => sendClaimAllRewards()} cardContent='Rewards' contentValue="000" buttonValue='Claim/Compound' />
+                    <ButtonCard handleClick={() => sendClaimAllRewards()} cardContent='Rewards' contentValue={test.toString()}buttonValue='Claim/Compound' />
                     <TextOnlyCard cardLeftContent='Rewards per day' leftContentValue='0.0000 MTN' cardRightContent='USD per day' rightContentValue='$0.00' />
-                    <ButtonCard cardContent='Monthly Fee' contentValue='0.0000 MTN' buttonValue='Pay all fees' />
+                    <ButtonCard cardContent='Monthly Fee' contentValue='tgfdp' buttonValue='Pay all fees' />
                     <TextOnlyCard cardLeftContent='MTN Price' leftContentValue='0.0000 $' cardRightContent='MTN Balance' rightContentValue={formattedBalance} />
                     <BlankCard style={{ gridColumn: "2 span" }}>
 
@@ -220,7 +226,7 @@ const DApp = () => {
                 </TopGrid>
                 <BottomGrid>
                     <GridTitle span={3}>Protocol Stats</GridTitle>
-                    <TextOnlyCard cardLeftContent='Total Nodes' leftContentValue='0'></TextOnlyCard>
+                    <TextOnlyCard cardLeftContent='Total Nodes' leftContentValue={balance.toString()}></TextOnlyCard>
                     <TextOnlyCard cardLeftContent='Total MTN supply' leftContentValue={totalSupply}></TextOnlyCard>
                     <TextOnlyCard cardLeftContent='Calculating MTN' leftContentValue={totalSupply}></TextOnlyCard>
 
