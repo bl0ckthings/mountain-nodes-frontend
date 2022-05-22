@@ -1,4 +1,4 @@
-import { ChainId, useCall, useCalls, useContractFunction } from "@usedapp/core";
+import { useCall, useCalls, useContractFunction } from "@usedapp/core";
 import { BigNumber, Contract, ethers, utils } from "ethers";
 import { useEffect, useRef } from "react";
 
@@ -166,23 +166,6 @@ export const useTotalSupply = (chainId: number) => {
     return value[0];
 }
 
-// export const useGetAllNodesOfAccount = (chainId: number) => {
-//     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
-//     const { value, error } = useCall({ contract: MountainContract, method: "getAccountNodes", args: [] }, { chainId: chainId }) ?? {};
-
-//     if (error) {
-//         // console.log('ERROR : ' + error);
-//         return [BigNumber.from(1)];
-//     }
-//     if (!value) {
-//         // console.log("ya pas de valuer, bouffon !")
-//         return [BigNumber.from(2)];
-//     }
-
-//     // console.log("value : " + value[0]);
-//     return value[0];
-// }
-
 export const useGetAllNodeIdsOfAccount = (chainId: number, account: string) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
 
@@ -210,7 +193,7 @@ export const useGetAllNodeIdsOfAccount = (chainId: number, account: string) => {
     results.map(result => {
         formattedResult.push(parseInt(result?.value?.[0]))
     })
-    // return results.map(result => result?.value?.[0])
+
     return formattedResult;
 }
 
@@ -219,7 +202,7 @@ export const useGetAllRewards = (chainId: number, account: string) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
 
     const nodeIds = useGetAllNodeIdsOfAccount(chainId, account);
-    // console.log(nodeIds);
+
     const calls = nodeIds.map((index) => ({
         contract: MountainContract,
         method: 'calculateRewards',
@@ -233,26 +216,15 @@ export const useGetAllRewards = (chainId: number, account: string) => {
         }
     })
 
-
-    // return results.map(result => Number(utils.formatEther(BigNumber.from((parseInt(result?.value?.[0]).toString(), 10).toString()))).toFixed(5))
-
-
     let totalReward = 0;
     results.map(result => {
-        // totalReward += Number(utils.formatEther(BigNumber.from((parseInt(result?.value?.[0]).toString(), 10).toString())))
         totalReward += parseInt(result?.value?.[0])
     });
 
-    // const totalReward = results.reduce(
-    //   (previousValue, currentValue) => previousValue + currentValue?.value,
-    //   initialValue
-    // );
-
-    // return results.map(result => result?.value?.[0])
     return totalReward;
 }
 
-export const useDailyReward = (chainId: number, nodeType: number) => {
+const useDailyReward = (chainId: number, nodeType: number) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
     const { value, error } = useCall({ contract: MountainContract, method: "dailyReward", args: [nodeType] }, { chainId: chainId }) ?? {};
 
@@ -263,54 +235,13 @@ export const useDailyReward = (chainId: number, nodeType: number) => {
         return 0;
     }
 
-    // console.log(value[0]);
-    // let formattedValue = utils.formatEther(value[0]);
-    // let formattedNumberValue = parseInt(value[0]._hex.toString(), 10);
-
     //Result must be divided by 1000 to be usable as interest rate (since result is permille, it will return 0.something)
     let formattedValue = parseInt(value[0]?._hex) / 1000;
-    // console.log(formattedValue);
-
-    // console.log(formattedNumberValue);
 
     return formattedValue;
-    // return parseInt(value[0]._hex) / 1000;
 }
 
-
-export const useGetCurrentTimestamps = (chainId: number, account: string) => {
-    const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
-
-    const nodeIds = useGetAllNodeIdsOfAccount(chainId, account);
-    const calls = nodeIds.map((value) => ({
-        contract: MountainContract,
-        method: 'nodeMapping',
-        args: [value]
-    })) ?? []
-
-    const results = useCalls(calls) ?? []
-    results.forEach((result, idx) => {
-        if (result && result.error) {
-            console.error(`Error encountered calling nodeMapping' on ${calls[idx]?.contract.address}: ${result.error.message}`)
-        }
-    })
-
-    let timestamps: number[] = [];
-    let currentNodeIdTimestamp: number = 0;
-    results.map((result, index) => {
-        currentNodeIdTimestamp = parseInt(result?.value?.[1], 10);
-        currentNodeIdTimestamp.toString() !== "NaN" ?
-            timestamps.push(currentNodeIdTimestamp)
-            :
-            console.log('');
-        // timestamps.push(parseInt(result?.value?.[0][1]._hex, 10))
-    })
-
-    return timestamps
-}
-
-
-export const useGetAllNodeTypes = (chainId: number, account: string) => {
+const useGetAllNodeTypes = (chainId: number, account: string) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
 
     const nodeIds = useGetAllNodeIdsOfAccount(chainId, account);
@@ -334,7 +265,7 @@ export const useGetAllNodeTypes = (chainId: number, account: string) => {
     return tab;
 }
 
-export const useGetDailyInterestOfOwnedNodes = (chainId: number, account: string) => {
+const useGetDailyInterestOfOwnedNodes = (chainId: number, account: string) => {
     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
 
     const IceNodeInterest = useDailyReward(chainId, 0);
@@ -368,10 +299,7 @@ export const useGetDailyInterestOfOwnedNodes = (chainId: number, account: string
             value == '1' ?
                 rewardPerNodeArr.push(EarthNodePrice * EarthNodeInterest)
                 :
-                value == '2' ?
-                    rewardPerNodeArr.push(FireNodePrice * FireNodeInterest)
-                    :
-                    console.log('error');
+                value == '2' && rewardPerNodeArr.push(FireNodePrice * FireNodeInterest)                                     
     })
 
     // console.log(rewardPerNodeArr);
@@ -379,7 +307,7 @@ export const useGetDailyInterestOfOwnedNodes = (chainId: number, account: string
 }
 
 export const useGetDailyRewards = (chainId: number, account: string) => {
-   
+
     const dailyRewards = useGetDailyInterestOfOwnedNodes(chainId, account);
     const initialValue = 0;
     const total: number = dailyRewards.reduce(
@@ -388,4 +316,19 @@ export const useGetDailyRewards = (chainId: number, account: string) => {
     );
 
     return total.toFixed(5);
+}
+
+export const useNumberOfNodes = (chainId: number) => {
+    const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
+    const { value, error } = useCall({ contract: MountainContract, method: "numberOfNodes", args: [] }, { chainId: chainId }) ?? {};
+
+    if (error) {
+        return 0;
+    }
+
+    if (!value) {
+        return 0;
+    }
+
+    return parseInt(value[0]._hex);
 }

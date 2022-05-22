@@ -6,71 +6,13 @@ import { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
-import { useClaimAllRewards, useIsNodeOwner, useGetNumberOfNodes, useGetAccountNodeByIndex, useCalculateRewards, useNodeMapping, useBalanceOf, useTotalSupply, useGetAllNodeIdsOfAccount, useGetAllRewards, useDailyReward, useGetCurrentTimestamps, useGetAllNodeTypes, useGetNodePrice, useGetDailyInterestOfOwnedNodes, useGetDailyRewards } from '../hooks';
+import { useClaimAllRewards, useIsNodeOwner, useGetNumberOfNodes, useGetAccountNodeByIndex, useCalculateRewards, useNodeMapping, useBalanceOf, useTotalSupply, useGetAllNodeIdsOfAccount, useGetAllRewards, useGetNodePrice, useGetDailyRewards, useNumberOfNodes } from '../hooks';
 import { TableComponent, Table } from '../components/Table';
 import { BigNumber, utils } from 'ethers';
 
-const Container = styled.div`
-        display: flex;
-        flex-direction: column;
-        row-gap:30px;
-        width:100%;
-        height: 100%;
-
-        & div {
-            width: 100%;
-        }
-
-        & div:nth-child(2){
-            row-gap: 16px;
-            display: flex;
-            flex-direction: column;
-        }
-    `
-const CardInputContainer = styled.div`
-    display:flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 90%;
-    background-color: #222;
-    color:#fff;
-    border: solid 1px;;
-    border-radius: 8px;
-    :focus{
-        outline-width:0;
-    }
-`
-const CardInput = styled.input`
-    width: 90%;
-    /* height: 30px; */
-    height: 100%;
-    padding: 4px 8px;
-    border: none;
-    background-color: #222;
-    color:#fff;
-    /* border: solid 1px; */
-    /* border-right:none; */
-    /* border-radius: 5px 0 0 5px; */
-    border-radius: 8px;
-
-    font-size: var(--font-size-base);
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    line-height: 1.3;
-
-    :focus{
-        outline-width:0;
-    }
-`
 const Text = styled.h5`
     text-align:center;
     margin-bottom: 32px;
-`
-const InputWrapper = styled.div`
-    display:flex;
-    column-gap:15px;   
-    width: 100% ;
 `
 const unfade = keyframes`
     to {
@@ -139,9 +81,6 @@ const Footer = styled.div`
         display: flex;
     }
 `
-const handleMaxClicked = () => {
-
-}
 
 const DApp = () => {
 
@@ -164,44 +103,17 @@ const DApp = () => {
     }, [claimAllRewardsState])
     let isUserNodeOwner = useIsNodeOwner(chainId!, account!);
 
-    // const nodeId = accountNodes;
-    // const nodes = useNodeMapping(chainId!, nodeId.toNumber());
-    // const nodeType = nodes[2]
+
     const mtnBalance = useBalanceOf(chainId!, account!);
 
     const formattedBalance: string = Number(utils.formatEther(mtnBalance)).toFixed(4).toString();
     const totalSupply: string = utils.commify(utils.formatEther(useTotalSupply(chainId!))) + ' MTN';
-    const balance = useGetNumberOfNodes(chainId!, account!)
-    const accountNodes = useGetAccountNodeByIndex(chainId!, account!, 0);
-
-    const nodeId = accountNodes;
-
-    // const accountNodeList = useGetAllNodesOfAccount(chainId!);
-
-    const tempPrint = () => {
-        // console.log(accountNodeList[0]);
-    }
-
-    // const nodeIds = useGetAllNodeIdsOfAccount(chainId!, account!);
-
-    // const timestamps: number[] = useGetCurrentTimestamps(chainId!, account!);
-
-
+   
     const allRewards: number = useGetAllRewards(chainId!, account!);
 
-    // console.log(useGetNodePrice(chainId!, 1));
-    // const dailyRewards = useDailyReward(chainId!, 2);
-    // console.log(dailyRewards);
-
-    // const ttst = useGetDailyInterestOfOwnedNodes(chainId!, account!);
-    // const tamere = useDailyReward(chainId!, 1);
-
-    // const zebii = useGetAllNodeTypes(chainId!, account!);
-    // console.log(zebii);
-    // console.log(useGetDailyInterestOfOwnedNodes(chainId!, account!))
-    // console.log(zebi);
-
     const dailyRewards = useGetDailyRewards(chainId!, account!);
+
+    const totalNumberOfNode = useNumberOfNodes(chainId!);
 
     let totalReward: string = '0';
     allRewards.toString() !== "NaN" ?
@@ -233,31 +145,10 @@ const DApp = () => {
 
                     </BlankCard>
 
-                    {/* <CardButton onClick={handleNumberOfNodes}>Get number of nodes test</CardButton> */}
-                    {/* <BlankCard>
-                        <Container>
-                            <div>
-                                <Text>Flexible Node</Text>
-                                <CardButton className=' rounded fakeButton'>Current Value: 0.0000 / 100 MNT</CardButton>
-                            </div>
-
-                            <div>
-                                <InputWrapper>
-                                    <CardInputContainer>
-                                        <CardInput></CardInput>
-                                        <CardButton className='inputMaxButton' onClick={handleMaxClicked}>Max</CardButton>
-                                    </CardInputContainer>
-                                    <CardButton>Loading</CardButton>
-                                </InputWrapper>
-                                <CardButton style={{ width: '100%' }} className='rounded'>Claim / Compound MTN</CardButton>
-                            </div>
-
-                        </Container>
-                    </BlankCard> */}
                 </TopGrid>
                 <BottomGrid>
                     <GridTitle span={3}>Protocol Stats</GridTitle>
-                    <TextOnlyCard cardLeftContent='Total Nodes' leftContentValue={balance.toString()}></TextOnlyCard>
+                    <TextOnlyCard cardLeftContent='Total Nodes' leftContentValue={totalNumberOfNode.toString()}></TextOnlyCard>
                     <TextOnlyCard cardLeftContent='Total MTN supply' leftContentValue={totalSupply}></TextOnlyCard>
                     <TextOnlyCard cardLeftContent='Calculating MTN' leftContentValue={totalSupply}></TextOnlyCard>
 
