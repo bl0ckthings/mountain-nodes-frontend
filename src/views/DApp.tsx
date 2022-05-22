@@ -29,6 +29,15 @@ const Overlay = styled.div`
     pointer-events: none;
     animation: ${unfade} 0.32s ease-in-out forwards;
 `
+
+const GridBlankCard = styled(BlankCard)`
+    grid-column: 2 span;
+
+    @media (max-width: 800px) {
+        grid-column: unset;
+    }
+`
+
 const TopGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -40,8 +49,9 @@ const TopGrid = styled.div`
     min-height: 60vh;
 
     @media (max-width: 800px) {
-        grid-template-columns: repeat(1, 1fr);
-        grid-template-rows: 0.2fr repeat(4, 1fr) 2fr 2fr;
+        /* grid-column: unset; */
+        grid-template-columns: 1fr !important;
+        grid-template-rows: 0.2fr repeat(3, 1fr) 2fr;
     }
 `
 const BottomGrid = styled.div`
@@ -56,7 +66,14 @@ const BottomGrid = styled.div`
 
     @media (max-width: 800px) {
         grid-template-columns: repeat(1, 1fr);
-        grid-template-rows: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr) 0.5fr;
+    }
+`
+const MtnPriceCardContainer = styled.div`
+    grid-column: span 2;
+
+    @media (max-width: 800px) {
+        grid-column: unset;
     }
 `
 const GridTitle = styled.h5<{ span?: number }>`
@@ -108,7 +125,7 @@ const DApp = () => {
 
     const formattedBalance: string = Number(utils.formatEther(mtnBalance)).toFixed(4).toString();
     const totalSupply: string = utils.commify(utils.formatEther(useTotalSupply(chainId!))) + ' MTN';
-   
+
     const allRewards: number = useGetAllRewards(chainId!, account!);
 
     const dailyRewards = useGetDailyRewards(chainId!, account!);
@@ -124,16 +141,16 @@ const DApp = () => {
     return (
         <>
             <Overlay />
-            <Section style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/background.png"})`, backgroundPosition: 'center', backgroundSize: 'cover', alignItems: "center" }}>
+            <Section style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/background.png"})`, backgroundPosition: 'center', backgroundSize: 'cover', alignItems: "center", paddingTop: "16px"}}>
                 <NavbarDApp />
                 <TopGrid>
                     <GridTitle>Dashboard</GridTitle>
                     <ButtonCard handleClick={() => sendClaimAllRewards()} cardContent='Rewards' contentValue={totalReward} buttonValue='Claim/Compound' />
                     <TextOnlyCard cardLeftContent='Rewards per day' leftContentValue={dailyRewards.toString()} cardRightContent='USD per day' rightContentValue='$0.00' />
-                    <ButtonCard cardContent='Monthly Fee' contentValue='Not implemented' buttonValue='Pay all fees' />
-                    <TextOnlyCard cardLeftContent='MTN Price' leftContentValue='0.0000 $' cardRightContent='MTN Balance' rightContentValue={formattedBalance} />
-                    <BlankCard style={{ gridColumn: "2 span" }}>
-
+                    <MtnPriceCardContainer>
+                        <TextOnlyCard cardLeftContent='MTN Price' leftContentValue='0.0000 $' cardRightContent='MTN Balance' rightContentValue={formattedBalance} />
+                    </MtnPriceCardContainer>
+                    <GridBlankCard>
                         {isUserNodeOwner ?
                             // <Table/> 
                             <TableComponent />
@@ -142,9 +159,7 @@ const DApp = () => {
                                 <CardButton onClick={() => navigate('/mint-node')}>Mint your first node</CardButton>
                             </>
                         }
-
-                    </BlankCard>
-
+                    </GridBlankCard>
                 </TopGrid>
                 <BottomGrid>
                     <GridTitle span={3}>Protocol Stats</GridTitle>

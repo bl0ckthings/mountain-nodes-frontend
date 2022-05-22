@@ -34,7 +34,8 @@ const NodeContainer = styled(Container)`
     justify-content: space-evenly;
     width: 60%;
     height: 100%;
-    margin: 8px;
+    margin-bottom: 16px;
+    height: 95%;
     width: 90%;
     transition: 0.3s cubic-bezier(0.77, 0, 0.175, 1);
     overflow: hidden;
@@ -241,21 +242,27 @@ const OverlayGridContent = styled.div`
     flex-direction:column;
     justify-content:center;
     align-items:center;
-`
-const OverlayBottomContent = styled.div`
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr 1.5fr;
-    grid-template-rows:0.2fr 1fr 1.5fr;
-    padding:10px;
-    width:100%;
-    grid-column:span 2;
-    text-align:center;
-`
+    `
 
 const GridBottomTitle = styled.p`
     color:rgba(255,255,255,0.5);
     padding:15px;
 `
+
+const OverlayBottomContent = styled.div`
+    display:grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows:0.2fr 1fr 1.5fr;
+    padding:10px;
+    width:100%;
+    grid-column:span 2;
+    text-align:center;
+
+   & ${GridBottomTitle} {
+   overflow-wrap: break-word;
+   }
+`
+
 const GridBottomContent = styled.div`
     text-align:start;
     display:flex;
@@ -272,7 +279,7 @@ const GridBottomText = styled.h6`
     margin:0;
     text-align:center;
 `
-export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number, fallbackImage?: string, color: string, MTNprice: number, cost: number, balance: number, discount: number, nodeType: number }> = (props) => {
+export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number, fallbackImage?: string, color: string, MTNprice: number, cost: number, balance: number, nodeType: number }> = (props) => {
     const [overlayOpened, setOverlayOpened] = useState(false);
 
 
@@ -305,20 +312,15 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                     <OverlayContainer>
                         <OverlayTitle>MINT {props.nodeName}</OverlayTitle>
 
-                        <OverlayGridContent>
+                        <OverlayGridContent style={{gridColumn: "2 span"}}>
                             <span>MTN Price</span>
                             <span>$34</span>
                         </OverlayGridContent>
 
-                        <OverlayGridContent>
-                            <span>Wallet Node Limit</span>
-                            <span>0/20,000</span>
-                        </OverlayGridContent>
                         <OverlayBottomContent>
                             <GridBottomTitle style={{ textAlign: 'start' }}>Cost</GridBottomTitle>
                             <GridBottomTitle>Balance</GridBottomTitle>
                             <GridBottomTitle>Cost in $</GridBottomTitle>
-                            <GridBottomTitle>Discount</GridBottomTitle>
 
                             <GridBottomContent>
                                 <NodeName color={props.color}>MTN</NodeName>
@@ -330,11 +332,10 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                             <GridBottomContent>
                                 <GridBottomText>$ {props.cost}</GridBottomText>
                             </GridBottomContent>
-                            <GridBottomContent>
-                                <GridBottomText>{props.discount}</GridBottomText>
+                            <GridBottomContent style={{ gridColumn: "3 span" }}>
+                                <CardButton onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, "0x0000000000000000000000000000000000000000")}>Confirm Mint</CardButton>
                             </GridBottomContent>
                         </OverlayBottomContent>
-                        <CardButton onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, "0x0000000000000000000000000000000000000000")}>Confirm Mint</CardButton>
                     </OverlayContainer>
                 </Overlay>
             }
