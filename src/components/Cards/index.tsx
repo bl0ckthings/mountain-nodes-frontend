@@ -312,7 +312,7 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                     <OverlayContainer>
                         <OverlayTitle>MINT {props.nodeName}</OverlayTitle>
 
-                        <OverlayGridContent style={{gridColumn: "2 span"}}>
+                        <OverlayGridContent style={{ gridColumn: "2 span" }}>
                             <span>MTN Price</span>
                             <span>$34</span>
                         </OverlayGridContent>

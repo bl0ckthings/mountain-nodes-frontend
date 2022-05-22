@@ -7,7 +7,7 @@ import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/C
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
 import { useClaimAllRewards, useIsNodeOwner, useGetNumberOfNodes, useGetAccountNodeByIndex, useCalculateRewards, useNodeMapping, useBalanceOf, useTotalSupply, useGetAllNodeIdsOfAccount, useGetAllRewards, useGetNodePrice, useGetDailyRewards, useNumberOfNodes } from '../hooks';
-import { TableComponent, Table } from '../components/Table';
+import { TableComponent } from '../components/Table';
 import { BigNumber, utils } from 'ethers';
 
 const Text = styled.h5`
@@ -35,6 +35,7 @@ const GridBlankCard = styled(BlankCard)`
 
     @media (max-width: 800px) {
         grid-column: unset;
+        justify-content: stretch;
     }
 `
 
@@ -51,7 +52,7 @@ const TopGrid = styled.div`
     @media (max-width: 800px) {
         /* grid-column: unset; */
         grid-template-columns: 1fr !important;
-        grid-template-rows: 0.2fr repeat(3, 1fr) 2fr;
+        grid-template-rows: 0.2fr repeat(3, 1fr) 3fr;
     }
 `
 const BottomGrid = styled.div`
