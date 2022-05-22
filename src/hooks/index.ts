@@ -1,5 +1,5 @@
-import { ChainId, useCall, useContractFunction } from "@usedapp/core";
-import { BigNumber, Contract, ethers } from "ethers";
+import { ChainId, useCall, useCalls, useContractFunction } from "@usedapp/core";
+import { BigNumber, Contract, ethers, utils } from "ethers";
 import { useEffect, useRef } from "react";
 
 import MountainAbi from '../abi/Mountain.json';
@@ -161,4 +161,84 @@ export const useTotalSupply = (chainId: number) => {
     }
 
     return value[0];
+}
+
+// export const useGetAllNodesOfAccount = (chainId: number) => {
+//     const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
+//     const { value, error } = useCall({ contract: MountainContract, method: "getAccountNodes", args: [] }, { chainId: chainId }) ?? {};
+
+//     if (error) {
+//         // console.log('ERROR : ' + error);
+//         return [BigNumber.from(1)];
+//     }
+//     if (!value) {
+//         // console.log("ya pas de valuer, bouffon !")
+//         return [BigNumber.from(2)];
+//     }
+
+//     // console.log("value : " + value[0]);
+//     return value[0];
+// }
+
+export const useGetAllNodeIdsOfAccount = (chainId: number, account: string) => {
+    const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
+    
+
+    const nodeIndexArr: number[] = [];
+    const length = useGetNumberOfNodes(chainId, account);
+    for (let i = 0; i < length.toNumber(); i++) {
+        nodeIndexArr.push(i);
+    }
+
+    const calls = nodeIndexArr.map((index) => ({
+        contract: MountainContract,
+        method: 'accountNodes',
+        args: [account, nodeIndexArr[index]]
+    })) ?? []
+    
+    const results = useCalls(calls) ?? []
+    results.forEach((result, idx) => {
+        if(result && result.error) {
+            console.error(`Error encountered calling getAllNodeIdsOfAccount' on ${calls[idx]?.contract.address}: ${result.error.message}`)
+        }
+    })
+return results.map(result => result?.value?.[0])
+}
+
+
+export const useGetAllRewards = (chainId: number, account: string) => {
+    const MountainContract = new Contract(applicationContracts['Mountain'][chainId], MountainInterface) as Mountain;
+    
+    const nodeIds = useGetAllNodeIdsOfAccount(chainId, account);
+    // console.log(nodeIds);
+    const calls = nodeIds.map((index) => ({
+        contract: MountainContract,
+        method: 'calculateRewards',
+        args: [nodeIds[index - 1]]
+    })) ?? []
+
+    const results = useCalls(calls) ?? []
+    results.forEach((result, idx) => {
+        if(result && result.error) {
+            console.error(`Error encountered calling getAllRewards' on ${calls[idx]?.contract.address}: ${result.error.message}`)
+        }
+    })
+
+
+    // return results.map(result => Number(utils.formatEther(BigNumber.from((parseInt(result?.value?.[0]).toString(), 10).toString()))).toFixed(5))
+
+
+    let totalReward = 0;
+    results.map(result => {        
+        // totalReward += Number(utils.formatEther(BigNumber.from((parseInt(result?.value?.[0]).toString(), 10).toString())))
+        totalReward += parseInt(result?.value?.[0])
+    });
+
+    // const totalReward = results.reduce(
+    //   (previousValue, currentValue) => previousValue + currentValue?.value,
+    //   initialValue
+    // );
+    
+// return results.map(result => result?.value?.[0])
+return totalReward;
 }

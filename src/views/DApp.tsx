@@ -6,9 +6,11 @@ import { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
-import { useClaimAllRewards, useIsNodeOwner, useGetNodePrice, useGetNumberOfNodes, useGetAccountNodeByIndex, useCalculateRewards, useNodeMapping, useBalanceOf, useTotalSupply } from '../hooks';
+import { useClaimAllRewards, useIsNodeOwner, useGetNumberOfNodes, useGetAccountNodeByIndex, useCalculateRewards, useNodeMapping, useBalanceOf, useTotalSupply, useGetAllNodeIdsOfAccount, useGetAllRewards } from '../hooks';
 import { TableComponent, Table } from '../components/Table';
 import { BigNumber, utils } from 'ethers';
+import { debug } from 'console';
+import { parseBytes32String } from 'ethers/lib/utils';
 
 const Container = styled.div`
         display: flex;
@@ -167,17 +169,74 @@ const DApp = () => {
     // const nodeId = accountNodes;
     // const nodes = useNodeMapping(chainId!, nodeId.toNumber());
     // const nodeType = nodes[2]
-    const mtnBalance = useBalanceOf(chainId!, account!);    
+    const mtnBalance = useBalanceOf(chainId!, account!);
 
     const formattedBalance: string = Number(utils.formatEther(mtnBalance)).toFixed(4).toString();
     const totalSupply: string = utils.commify(utils.formatEther(useTotalSupply(chainId!))) + ' MTN';
-    const balance = useGetNumberOfNodes(chainId!,account!)
+    const balance = useGetNumberOfNodes(chainId!, account!)
     const accountNodes = useGetAccountNodeByIndex(chainId!, account!, 0);
 
     const nodeId = accountNodes;
 
-    const RewardPerDay = useCalculateRewards(chainId!,nodeId.toNumber()!)
+    const RewardPerDay = useCalculateRewards(chainId!, nodeId.toNumber()!)
     const test = Number(utils.formatEther(RewardPerDay)).toFixed(3)
+
+
+    // const accountNodeList = useGetAllNodesOfAccount(chainId!);
+
+    const tempPrint = () => {
+        // console.log(accountNodeList[0]);
+    }
+
+    const nodeIds = useGetAllNodeIdsOfAccount(chainId!, account!);
+    // const allRewards = useGetAllRewards(chainId!, account!);
+    const allRewards: number = useGetAllRewards(chainId!, account!);
+
+    let totalReward: string = 'calculating ...';
+    allRewards.toString() !== "NaN" ?
+    totalReward = Number(utils.formatEther(BigNumber.from(allRewards.toString()))).toFixed(5)
+    :
+    totalReward = 'calculating ...';
+    
+//     let rewardValue: Number = 0;
+//     let formattedReward: string = '0';
+// const getR = (): string => {
+
+//     rewardValue = parseInt(allRewards[1] && allRewards[1].toString(), 10);
+//     rewardValue.toString() !== "NaN" ?
+//     formattedReward = Number(utils.formatEther(BigNumber.from(rewardValue.toString()))).toFixed(5)
+//     :
+//     formattedReward = "0"
+
+//     return formattedReward;
+// }
+    
+
+// let rwrd = '0';
+// account ?
+// rwrd = getR()
+// :
+// rwrd = 'Please connect your wallet'
+
+
+
+// account ?
+// getR()
+// :
+// console.log("not connected yet")
+    // 
+    // allRewards[1] && console.log(utils.formatEther(allRewards[1]._hex).toFixed(4));
+
+
+    // const initialValue = 0;  
+    // const totalReward = formattedAllRewards.reduce(
+    //   (previousValue, currentValue) => previousValue + currentValue,
+    //   initialValue
+    // );
+
+    // const formattedTotalReward: string = Number(utils.formatEther(totalReward)).toFixed(6).toString();
+    // console.log(formattedTotalReward);
+
     return (
         <>
             <Overlay />
@@ -185,9 +244,9 @@ const DApp = () => {
                 <NavbarDApp />
                 <TopGrid>
                     <GridTitle>Dashboard</GridTitle>
-                    <ButtonCard handleClick={() => sendClaimAllRewards()} cardContent='Rewards' contentValue={test.toString()}buttonValue='Claim/Compound' />
+                    <ButtonCard handleClick={() => sendClaimAllRewards()} cardContent='Rewards' contentValue={totalReward} buttonValue='Claim/Compound' />
                     <TextOnlyCard cardLeftContent='Rewards per day' leftContentValue='0.0000 MTN' cardRightContent='USD per day' rightContentValue='$0.00' />
-                    <ButtonCard cardContent='Monthly Fee' contentValue='tgfdp' buttonValue='Pay all fees' />
+                    <ButtonCard cardContent='Monthly Fee' contentValue='Not implemented' buttonValue='Pay all fees' />
                     <TextOnlyCard cardLeftContent='MTN Price' leftContentValue='0.0000 $' cardRightContent='MTN Balance' rightContentValue={formattedBalance} />
                     <BlankCard style={{ gridColumn: "2 span" }}>
 
