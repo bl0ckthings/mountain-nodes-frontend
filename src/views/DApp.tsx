@@ -137,7 +137,7 @@ const DApp = () => {
     allRewards.toString() !== "NaN" ?
         totalReward = Number(utils.formatEther(BigNumber.from(allRewards.toString()))).toFixed(5)
         :
-        totalReward = '0.00000';
+        totalReward = 'Calculating';
 
     return (
         <>

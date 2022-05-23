@@ -203,10 +203,10 @@ export const useGetAllRewards = (chainId: number, account: string) => {
 
     const nodeIds = useGetAllNodeIdsOfAccount(chainId, account);
 
-    const calls = nodeIds.map((index) => ({
+    const calls = nodeIds.map((value) => ({
         contract: MountainContract,
         method: 'calculateRewards',
-        args: [nodeIds[index - 1]]
+        args: [value]
     })) ?? []
 
     const results = useCalls(calls) ?? []
