@@ -1,4 +1,9 @@
+import { AvalancheTestnet, Mainnet, shortenAddress, useEthers } from "@usedapp/core";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import Web3Modal from 'web3modal';
 import styled, { css } from "styled-components";
+import { CardButton } from "../Cards";
+import { useEffect } from "react";
 
 const Button = styled.button<{ secondary?: boolean }>`
     display: flex;
@@ -9,7 +14,7 @@ const Button = styled.button<{ secondary?: boolean }>`
     border-radius: 10px 0 0 10px;
     color: #272727;
     column-gap: 12px;
-    font-size: 100%;
+    font-size: var(--font-size-base);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     background-color: rgba(255, 255, 255, 0.7);
@@ -56,5 +61,55 @@ const Button = styled.button<{ secondary?: boolean }>`
         }
     }
 `
+
+export const ConnectButton: React.FC<{className?: string}> = (props) => {
+    const { account, activate, library, chainId, switchNetwork, deactivate } = useEthers();
+
+    const handleConnect = async () => {
+        try {
+            const providerOptions = {
+                injected: {
+                    display: {
+                        name: 'Metamask',
+                        description: 'Connect with the provider of your wallet',
+                    },
+                    package: null,
+                },
+                walletconnect: {
+                    package: WalletConnectProvider,
+                    options: {
+                        rpc: {
+
+                        }
+                    },
+                },
+            }
+            const web3modal = new Web3Modal({
+                providerOptions,
+            })
+
+            const provider = await web3modal.connect();
+            await activate(provider);
+            console.log(account);
+        }
+        catch (error) {
+
+        }
+    }
+
+
+
+    const isRightNetwork: boolean = chainId == AvalancheTestnet.chainId;
+    return ( 
+        account ?
+            isRightNetwork ?
+            <CardButton onClick={deactivate}>{shortenAddress(account)}</CardButton>
+            :
+            <CardButton className="wrongNetwork" onClick={() => switchNetwork(AvalancheTestnet.chainId)}>Switch Network</CardButton>
+        :
+        <CardButton className={"rounded dapp-button " + props.className} onClick={handleConnect}>Connect Wallet</CardButton>
+        
+        )
+}
 
 export default Button;

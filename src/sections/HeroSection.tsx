@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled, { css, keyframes } from "styled-components";
 import { AnimatedText } from "../components/AnimatedText";
 import Button from "../components/Button";
@@ -79,9 +80,9 @@ const Logo = styled.img`
     height: 52px;
 `
 
-const IconSocials = styled.img`
-    width:30px;
-    height:30px;
+export const IconSocials = styled.img`
+    width: 32px;
+    height: 32px;
 `
 
 const ButtonContainer = styled.div`
@@ -97,10 +98,20 @@ const ButtonContainer = styled.div`
         width: 100%;
         
         & ${Button} {
-            width: 50%;
+            width: 100%;
+            padding: 8px 16px;
+            justify-content: center;
         }
     }
-
+    @media (max-width: 400px){
+        ${Button} {
+            padding : 4px 8px;       
+            width: 50%;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+    
     & * {
         z-index: 1;
     }
@@ -221,9 +232,13 @@ const Overlay = styled.div<{ playAnimation?: boolean }>`
 
 const HeroSection = () => {
     const [playAnimation, setPlayAnimation] = useState(false);
+    const navigate = useNavigate();
 
     const openDapp = () => {
         setPlayAnimation(true);
+        setTimeout(() => {
+            navigate('/app');
+        }, 1280);
     }
 
     return (
