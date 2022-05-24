@@ -143,6 +143,14 @@ const ButtonContainer = styled.div`
         background-attachment: fixed;
     }
 `
+
+const shake = keyframes`
+    0%{transform:rotateZ(0)}
+    33%{transform:rotateZ(10deg)}
+    66%{transform:rotateZ(-10deg)}
+    100%{transform:rotateZ(0deg)}
+`
+
 const Social = styled.div`
     display: flex;
     place-content: center;
@@ -153,15 +161,8 @@ const Social = styled.div`
     transition: .1s ease-in-out;
     cursor: pointer;
 
-    @keyframes shake {
-        0%{transform:rotateZ(0)}
-        33%{transform:rotateZ(10deg)}
-        66%{transform:rotateZ(-10deg)}
-        100%{transform:rotateZ(0deg)}
-    }
-
     &:hover {
-        animation: shake 0.7s ;
+        animation: ${shake} 0.7s;
         background-color: rgba(255,255,255,0.5);
     }
 
