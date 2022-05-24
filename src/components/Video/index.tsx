@@ -1,6 +1,6 @@
 import { useEffect, forwardRef } from "react";
 import { isIOS } from "react-device-detect";
-import styled, { DefaultTheme, StyledComponent } from "styled-components";
+import styled, { StyledComponent } from "styled-components";
 import { useForwardedRef } from "../../hooks";
 
 export const StyledVideo = styled.video`

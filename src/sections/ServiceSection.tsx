@@ -1,28 +1,38 @@
 import styled from "styled-components";
 import { ParallaxSection } from "../components/Containers"
+import { Video } from "../components/Video";
+import { BackgroundVideo } from "./HeroSection";
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     width: 100%;
+    margin-bottom: 64px;
 `
 
 const Services = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 24px;
+    grid-gap: 52px;
     flex-direction: row;
     align-items: center;
     justify-content: stretch;
     margin-top: 10vh;
-    height: 45vh;
+    height: auto;
     width: 100%;
+    max-width: 1480px;
+    align-self: center;
 
-    @media (max-width: 800px) {
+    @media (max-width: 1400px) {
         grid-template-columns: repeat(1, 1fr);
         grid-template-rows: repeat(3, 1fr);
         min-height: 100vh;
+        width: 40%;
+    }
+
+    @media (max-width: 800px) {
+        width: 100%;
     }
 `
 
@@ -38,9 +48,10 @@ const Service = styled.div`
     border-radius: 48px;
     backdrop-filter: blur(16px);
     width: 100%;
+    gap: 32px;
 
     & p {
-        font-size: 90%;
+        font-size: 100%;
     }
     
     @media (max-width: 800px) {
@@ -63,18 +74,19 @@ const ServiceHeader = styled.div`
 const Icon = styled.img`
     width: 60px;
     height: 60px;
+`
 
-    @media (max-width: 720px) {
-
-    }
+const Subtitle = styled.h4`
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.35);
 `
 
 const ServiceSection = () => {
     return (
-        <ParallaxSection id="services" style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/ServicesSection_Background.png"})` }}>
+        <ParallaxSection id="services">
+            <Video styledVideoComponent={BackgroundVideo} src={process.env.PUBLIC_URL + "videos/Lava.mp4"} isMuted loop />
             <Container>
                 <h1 style={{ color: "#fffd92", fontSize: "5vmax", overflow: 'unset', textOverflow: 'unset', whiteSpace: 'unset' }} className="title">NEXT-GEN SERVICES</h1>
-                <h4>Our innovative solutions to unlock the true potential of our protocol</h4>
+                <Subtitle>Our innovative solutions to unlock the true potential of our protocol</Subtitle>
                 <Services>
                     <Service>
                         <ServiceHeader>

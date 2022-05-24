@@ -1,8 +1,10 @@
 import { useEthers, useTokenBalance } from "@usedapp/core";
-import { utils } from "ethers";
+import { BigNumber, utils } from "ethers";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useCreateNodeAndTransferToPools, useGetAccountNodeByIndex, useGetNumberOfNodes } from "../../hooks";
+import { useCreateNodeAndTransferToPools, useGetAvaxPriceInUSDC, useGetTokenPriceInAVAX } from "../../hooks";
+import { getContract } from "../../hooks/contracts";
+import { InputField } from "../Input";
 import { Video } from "../Video";
 import test from './test.svg';
 
@@ -106,8 +108,13 @@ export const CardButton = styled.button`
 
     }
 
-    :not(.inputMaxButton){       
-        &:hover {
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    &:not(.inputMaxButton){       
+        &:hover:not(:disabled) {
         background: white;
         color: black;
         box-shadow: 0px 0px 72px rgba(255, 255, 255, 0.45);
@@ -115,7 +122,7 @@ export const CardButton = styled.button`
         z-index: 2;
         }
     
-    &:active {
+    &:active:not(:disabled) {
         transition:0s;
 
         z-index: 2;
@@ -127,22 +134,22 @@ export const CardButton = styled.button`
         width: 100%;
         pointer-events: none;
         background-color: rgba(34, 34, 34, 0.7);
-     }
+    }
     
-     &.wrongNetwork {
+    &.wrongNetwork {
         background-color: rgb(229, 68, 68);
         color: white;
         border: 1px solid rgb(229, 68, 68);
-         &:hover{
-             background-color: rgb(255, 53, 65);
-             border: 1px solid rgba(255, 118, 127, 0.8);
-             box-shadow: 0px 0px 72px rgba(255, 96, 107, 0.75)
-         }
+        &:hover{
+            background-color: rgb(255, 53, 65);
+            border: 1px solid rgba(255, 118, 127, 0.8);
+            box-shadow: 0px 0px 72px rgba(255, 96, 107, 0.75)
+        }
 
-         &:active{
-             background-color: rgb(207, 42, 53);
-         }
-     }
+        &:active{
+            background-color: rgb(207, 42, 53);
+        }
+    }
 
     @media (max-width: 800px) {
         padding: 8px 16px;
@@ -156,10 +163,7 @@ export const CardButton = styled.button`
             //transform: perspective(200px);
         }
     }
-   
-    }
-
-   
+}
 `
 
 export const ButtonCard: React.FC<{ cardContent: string, contentValue: string, buttonValue: string, handleClick?: React.MouseEventHandler<HTMLButtonElement> | undefined }> = (props) => {
@@ -205,11 +209,11 @@ const Overlay = styled.div`
     display: flex;
     position: fixed;
     background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(32px);
+    backdrop-filter: blur(16px);
     top: 0px;
     bottom: 0px;
     right: 0px;
-    left: 0px;
+    left: 0px;  
     z-index: 999;
 `
 
@@ -223,12 +227,12 @@ const CloseOverlay = styled.img`
     z-index: 5;
 `
 const OverlayContainer = styled.div`
-    display:grid;
-    width:100%;
-    height:100%;
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:0.3fr 0.5fr 1fr;
-    padding:15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
 `
 const OverlayTitle = styled.div`
     grid-column:span 2;
@@ -237,55 +241,59 @@ const OverlayTitle = styled.div`
     justify-content: center;
     align-items: center;
 `
-const OverlayGridContent = styled.div`
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    `
-
-const GridBottomTitle = styled.p`
-    color:rgba(255,255,255,0.5);
-    padding:15px;
-`
-
-const OverlayBottomContent = styled.div`
-    display:grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-rows:0.2fr 1fr 1.5fr;
-    padding:10px;
-    width:100%;
-    grid-column:span 2;
-    text-align:center;
-
-   & ${GridBottomTitle} {
-   overflow-wrap: break-word;
-   }
-`
 
 const GridBottomContent = styled.div`
-    text-align:start;
-    display:flex;
-    flex-direction:column;
-    place-content:center;
-    padding:15px;
+    display: flex;
+    text-align: start;
+    flex-direction: column;
+    place-content: center;
+    padding: 15px;
 `
 
-const NodeName = styled.span<{ color: string }>`
-    color:${p => p.color};
+const OverlayTable = styled.table<{ titleColor: string }>`
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 120px 24px;
+    
+    & td, & th {
+        padding: 12px;
+    }
+
+    & tbody tr {
+        margin: 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.5);
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    & th {
+        text-align: left;
+    }
+
+    & td:first-child {
+        display: flex;
+        flex-direction: column;
+    }
+
+    & td:first-child span:first-child {
+        color: ${p => p.titleColor};
+        font-weight: 800;
+        font-size: 120%;
+    }
 `
 
-const GridBottomText = styled.h6`
-    margin:0;
-    text-align:center;
-`
-export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fee: number, fallbackImage?: string, color: string, MTNprice: number, cost: number, balance: number, nodeType: number }> = (props) => {
+export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: number, reward: number, fallbackImage?: string, color: string, MTNprice: number, cost: number, balance: number, nodeType: number }> = (props) => {
     const [overlayOpened, setOverlayOpened] = useState(false);
-
-
     const { account, chainId } = useEthers();
-
+    const tokenBalance = useTokenBalance(getContract("Mountain", chainId!), account);
+    const tokenPriceInAVAX = useGetTokenPriceInAVAX(chainId!, BigNumber.from(props.price) || BigNumber.from("0"));
+    const avaxPriceInUSDC = useGetAvaxPriceInUSDC(chainId!);
     const { send: sendCreateNodeAndTransfer, state: createNodeAndTransferState } = useCreateNodeAndTransferToPools(chainId!);
+
+    const [refferalCode, setRefferalCode] = useState("");
 
     useEffect(() => {
         if (createNodeAndTransferState.status === "Success") {
@@ -296,7 +304,13 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
             alert("Failed to mint node");
         }
 
-    }, [createNodeAndTransferState])
+        console.log("MTN Price:", props.price);
+        console.log("Prices:", tokenPriceInAVAX, avaxPriceInUSDC);
+        console.log("TokenPriceInUSDC:", tokenPriceInAVAX * avaxPriceInUSDC);
+
+    }, [createNodeAndTransferState, tokenPriceInAVAX, avaxPriceInUSDC, props.price])
+
+    const isInputValid = (refferalCode.trim().length === 42 && refferalCode.startsWith("0x")) || refferalCode.trim().length === 0;
 
     return (
         <NodeContainer onClick={(e) => {
@@ -312,40 +326,47 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                     <OverlayContainer>
                         <OverlayTitle>MINT {props.nodeName}</OverlayTitle>
 
-                        <OverlayGridContent style={{ gridColumn: "2 span" }}>
-                            <span>MTN Price</span>
-                            <span>$34</span>
-                        </OverlayGridContent>
+                        <OverlayTable titleColor={props.color}>
+                            <thead>
+                                <tr>
+                                    <th>COST</th>
+                                    <th>BALANCE</th>
+                                    <th>COST</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span>MTN</span>
+                                        <span>{props.price.toFixed(2)}</span>
+                                    </td>
+                                    <td>{(tokenBalance && parseInt(utils.formatEther(tokenBalance)).toFixed(2)) || 0}</td>
+                                    <td>{(tokenPriceInAVAX * (10 ** 18)).toFixed(6) || "0.00"} AVAX</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>USDC.e</span>
+                                        <span>{((tokenPriceInAVAX * avaxPriceInUSDC) * (10 ** 18)).toFixed(2) || "0.00"}</span>
+                                    </td>
+                                    <td>{(tokenBalance && parseInt(utils.formatEther(tokenBalance)).toFixed(2)) || 0}</td>
+                                    <td>{((tokenPriceInAVAX * avaxPriceInUSDC) * (10 ** 18)).toFixed(2) || "0.00"} $</td>
+                                </tr>
+                            </tbody>
+                        </OverlayTable>
 
-                        <OverlayBottomContent>
-                            <GridBottomTitle style={{ textAlign: 'start' }}>Cost</GridBottomTitle>
-                            <GridBottomTitle>Balance</GridBottomTitle>
-                            <GridBottomTitle>Cost in $</GridBottomTitle>
-
-                            <GridBottomContent>
-                                <NodeName color={props.color}>MTN</NodeName>
-                                <GridBottomText style={{ textAlign: 'start' }}>{props.MTNprice}</GridBottomText>
-                            </GridBottomContent>
-                            <GridBottomContent>
-                                <GridBottomText>{props.balance}</GridBottomText>
-                            </GridBottomContent>
-                            <GridBottomContent>
-                                <GridBottomText>$ {props.cost}</GridBottomText>
-                            </GridBottomContent>
-                            <GridBottomContent style={{ gridColumn: "3 span" }}>
-                                <CardButton onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, "0x0000000000000000000000000000000000000000")}>Confirm Mint</CardButton>
-                            </GridBottomContent>
-                        </OverlayBottomContent>
+                        <GridBottomContent style={{ gridColumn: "3 span" }}>
+                            <InputField isValid={isInputValid} value={refferalCode} onChange={(event) => { setRefferalCode(event.target.value) }} placeholder="Refferal code..." />
+                            <CardButton disabled={!isInputValid} onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, (refferalCode.trim().length === 42 && refferalCode.startsWith("0x")) ? refferalCode.trim() : "0x0000000000000000000000000000000000000000")}>Confirm Mint</CardButton>
+                        </GridBottomContent>
                     </OverlayContainer>
                 </Overlay>
             }
             <Video fallbackImage={props.fallbackImage} src={props.videoUrl} isMuted loop></Video>
             <h3>{props.nodeName}</h3>
-            <div>
+            <div style={{ marginBottom: 12 }}>
                 <NodeRow><div>Cost</div><div>{props.price} MTN</div></NodeRow>
                 <NodeRow><div>Rewards per Day</div><div className="rewards">{props.reward} MTN</div></NodeRow>
-                <NodeRow><div>Monthly Fee</div><div>{props.fee} $</div></NodeRow>
-            </div >
+            </div>
 
         </NodeContainer>
     )

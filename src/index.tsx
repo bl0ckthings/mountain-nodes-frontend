@@ -6,15 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import DApp from './views/DApp';
 import Nodes from './views/Nodes';
-import { AvalancheTestnet, DAppProvider } from '@usedapp/core';
+import { AvalancheTestnet, Config, DAppProvider } from '@usedapp/core';
 import { getDefaultProvider } from 'ethers';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-
-const config = {
+export const config: Config = {
+  supportedChains: [AvalancheTestnet.chainId],
   readOnlyChainId: AvalancheTestnet.chainId,
   readOnlyUrls: {
     [AvalancheTestnet.chainId]: getDefaultProvider('https://api.avax-test.network/ext/bc/C/rpc'),
