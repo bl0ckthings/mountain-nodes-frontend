@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { Mountain__factory } from "./Mountain__factory";
+export { PangolinPair__factory } from "./PangolinPair__factory";

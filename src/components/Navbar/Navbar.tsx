@@ -147,8 +147,8 @@ export const NavbarDApp: React.FC = () => {
             <DappNavContainer>
                 <NavbarItems onClick={() => navigate('/app')}>HOME</NavbarItems>
                 <NavbarItems onClick={() => navigate('/mint-node')}>MINT NODE</NavbarItems>
-                <NavbarItems onClick={() => scrollAndClose("roadmap")}>TRADE $MNT</NavbarItems>
-                <NavbarItems onClick={() => window.open('https://discord.gg/mountain-nodes')}>TOKENS</NavbarItems>
+                <NavbarItems onClick={() => scrollAndClose("roadmap")}>TRADE $MTN</NavbarItems>
+                <NavbarItems onClick={() => window.open('https://mountain-nodes.gitbook.io/untitled/main-info/smart-contracts')}>TOKENS</NavbarItems>
             </DappNavContainer>
             {
                 !navOpened && <ConnectButton className="hide-on-mobile" />

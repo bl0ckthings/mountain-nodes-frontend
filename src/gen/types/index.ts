@@ -2,5 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { Mountain } from "./Mountain";
+export type { PangolinPair } from "./PangolinPair";
 export * as factories from "./factories";
 export { Mountain__factory } from "./factories/Mountain__factory";
+export { PangolinPair__factory } from "./factories/PangolinPair__factory";

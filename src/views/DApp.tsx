@@ -1,19 +1,20 @@
 import { useEthers } from '@usedapp/core';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { ConnectButton } from '../components/Button';
 import { BlankCard, ButtonCard, CardButton, TextOnlyCard } from '../components/Cards';
 import { Section } from '../components/Containers';
 import { NavbarDApp } from '../components/Navbar/Navbar';
-import { useClaimAllRewards, useIsNodeOwner, useGetNumberOfNodes, useGetAccountNodeByIndex, useCalculateRewards, useNodeMapping, useBalanceOf, useTotalSupply, useGetAllNodeIdsOfAccount, useGetAllRewards, useGetNodePrice, useGetDailyRewards, useNumberOfNodes } from '../hooks';
+import { useClaimAllRewards, useIsNodeOwner, useBalanceOf, useTotalSupply, useGetAllRewards, useGetDailyRewards, useNumberOfNodes, useGetTokenPriceInAVAX, useGetAvaxPriceInUSDC } from '../hooks';
 import { TableComponent } from '../components/Table';
 import { BigNumber, utils } from 'ethers';
 
 const Text = styled.h5`
-    text-align:center;
+    text-align: center;
     margin-bottom: 32px;
 `
+
 const unfade = keyframes`
     to {
         opacity: 0;
@@ -111,7 +112,7 @@ const DApp = () => {
 
     useEffect(() => {
         if (claimAllRewardsState.status === 'Success') {
-            alert("Successfully claimed all rewards");
+            // alert("Successfully claimed all rewards");
         }
 
         if (claimAllRewardsState.status === 'Fail') {
@@ -121,6 +122,7 @@ const DApp = () => {
     }, [claimAllRewardsState])
     let isUserNodeOwner = useIsNodeOwner(chainId!, account!);
 
+    const [tokenPriceInAVAX, avaxPriceInUSDC] = [useGetTokenPriceInAVAX(chainId!, utils.parseEther("1")), useGetAvaxPriceInUSDC(chainId!)];
 
     const mtnBalance = useBalanceOf(chainId!, account!);
 
@@ -130,6 +132,7 @@ const DApp = () => {
     const allRewards: number = useGetAllRewards(chainId!, account!);
 
     const dailyRewards = useGetDailyRewards(chainId!, account!);
+    const dailyRewardsInUSDC = ((tokenPriceInAVAX * dailyRewards) * avaxPriceInUSDC);
 
     const totalNumberOfNode = useNumberOfNodes(chainId!);
 
@@ -147,9 +150,9 @@ const DApp = () => {
                 <TopGrid>
                     <GridTitle>Dashboard</GridTitle>
                     <ButtonCard handleClick={() => sendClaimAllRewards()} cardContent='Rewards' contentValue={totalReward} buttonValue='Claim/Compound' />
-                    <TextOnlyCard cardLeftContent='Rewards per day' leftContentValue={dailyRewards.toString()} cardRightContent='USD per day' rightContentValue='$0.00' />
+                    <TextOnlyCard cardLeftContent='Rewards per day' leftContentValue={dailyRewards.toFixed(5)} cardRightContent='USD per day' rightContentValue={`${dailyRewardsInUSDC.toFixed(2)} $`} />
                     <MtnPriceCardContainer>
-                        <TextOnlyCard cardLeftContent='MTN Price' leftContentValue='0.0000 $' cardRightContent='MTN Balance' rightContentValue={formattedBalance} />
+                        <TextOnlyCard cardLeftContent='MTN Price' leftContentValue={`${(tokenPriceInAVAX * avaxPriceInUSDC).toFixed(2)} $`} cardRightContent='MTN Balance' rightContentValue={formattedBalance} />
                     </MtnPriceCardContainer>
                     <GridBlankCard>
                         {isUserNodeOwner ?

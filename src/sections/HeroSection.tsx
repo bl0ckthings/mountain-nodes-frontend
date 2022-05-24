@@ -4,6 +4,7 @@ import styled, { css, keyframes } from "styled-components";
 import { AnimatedText } from "../components/AnimatedText";
 import Button from "../components/Button";
 import { ParallaxSection } from "../components/Containers"
+import { Video } from "../components/Video";
 
 const SuperFrame = styled.div`
     display: flex;
@@ -89,9 +90,9 @@ const ButtonContainer = styled.div`
     display: flex;
     padding: 24px;
     margin: 48px 0px;
+    border: 3px solid rgba(255, 255, 255, 0.5);
     border-radius: 10px;
     position: relative;
-
     
     @media (max-width: 800px){
         margin: 48px 0px;
@@ -114,33 +115,6 @@ const ButtonContainer = styled.div`
     
     & * {
         z-index: 1;
-    }
-
-    &:before, &:after {
-        content: "";
-        position: absolute;
-        z-index: 0;
-    }
-
-    &:before {
-        top: -3px;
-        left: -3px;
-        right: -3px;
-        bottom: -3px;
-        border-radius: 8px;
-        background-image: linear-gradient(150deg, rgba(255, 255, 255, 0.7), transparent);
-    }
-
-    &:after {
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        border-radius: 8px;
-        background-image: url(${process.env.PUBLIC_URL + "img/backgrounds/HeroSection_Background.png"});
-        background-position: center center;
-        background-size: cover;
-        background-attachment: fixed;
     }
 `
 const Social = styled.div`
@@ -229,6 +203,17 @@ const Overlay = styled.div<{ playAnimation?: boolean }>`
     overflow: hidden;
 `
 
+export const BackgroundVideo = styled.video`
+    background: black;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+`
+
 const HeroSection = () => {
     const [playAnimation, setPlayAnimation] = useState(false);
     const navigate = useNavigate();
@@ -241,7 +226,8 @@ const HeroSection = () => {
     }
 
     return (
-        <ParallaxSection id="home" style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/HeroSection_Background.png"})` }}>
+        <ParallaxSection id="home">
+            <Video styledVideoComponent={BackgroundVideo} src={process.env.PUBLIC_URL + "videos/Ice.mp4"} isMuted loop/>
             <Overlay playAnimation={playAnimation} />
             <SuperFrame>
                 <Content>

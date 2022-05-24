@@ -1,7 +1,9 @@
+import { useEthers } from "@usedapp/core";
 import styled from "styled-components";
 import { NodeCard } from "../components/Cards";
 import { Section } from "../components/Containers";
 import { NavbarDApp } from "../components/Navbar/Navbar";
+import { useDailyReward, useGetNodePrice } from "../hooks";
 
 const GridContainer = styled.div`
     display: grid;
@@ -41,13 +43,22 @@ const GridContainer = styled.div`
 `
 
 const Nodes = () => {
+    const { chainId } = useEthers();
+    const icePrice = useGetNodePrice(chainId!, 0);
+    const leafPrice = useGetNodePrice(chainId!, 1);
+    const lavaPrice = useGetNodePrice(chainId!, 2);
+
+    const iceReward = useDailyReward(chainId!, 0);
+    const leafReward = useDailyReward(chainId!, 1);
+    const lavaReward = useDailyReward(chainId!, 2);
+
     return (
-        <Section style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/background.png"})`, backgroundPosition: 'center', backgroundSize: 'cover', alignItems: "center", padding: "16px"}}>
+        <Section style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/background.png"})`, backgroundPosition: 'center', backgroundSize: 'cover', alignItems: "center", padding: "16px" }}>
             <NavbarDApp />
             <GridContainer>
-                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Glace.png"} cost={112} balance={10} MTNprice={200.00} nodeName='Ice Node' color='blue' videoUrl={process.env.PUBLIC_URL + "/media/ice.webm"} price={10} fee={53} reward={9} nodeType={0} />
-                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Lave.png"} cost={180} balance={2} MTNprice={150.00} nodeName='Fire Node' color='red' videoUrl={process.env.PUBLIC_URL + "/media/lava.webm"} price={20} fee={75} reward={36} nodeType={2} />
-                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Green.png"} cost={87} balance={9} MTNprice={100.00} nodeName='Earth Node' color='green' videoUrl={process.env.PUBLIC_URL + "/media/green.webm"} price={15} fee={34} reward={56} nodeType={1} />
+                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Glace.png"} cost={112} balance={10} MTNprice={200.00} nodeName='Ice Node' color='#4c95fc' videoUrl={process.env.PUBLIC_URL + "/media/ice.webm"} price={icePrice || 10} reward={iceReward * icePrice || 0} nodeType={0} />
+                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Lave.png"} cost={180} balance={2} MTNprice={150.00} nodeName='Lava Node' color='#e68937' videoUrl={process.env.PUBLIC_URL + "/media/lava.webm"} price={lavaPrice || 20} reward={lavaReward * lavaPrice || 0} nodeType={2} />
+                <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Green.png"} cost={87} balance={9} MTNprice={100.00} nodeName='Earth Node' color='#3dd468' videoUrl={process.env.PUBLIC_URL + "/media/green.webm"} price={leafPrice || 15} reward={leafReward * leafPrice || 0} nodeType={1} />
             </GridContainer>
         </Section>
     )

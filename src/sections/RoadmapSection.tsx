@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { ParallaxSection } from "../components/Containers"
+import { Video } from "../components/Video";
+import { BackgroundVideo } from "./HeroSection";
 
 const RoadmapPoint = styled.div`
     display: flex;
@@ -24,6 +26,10 @@ const RoadmapPoint = styled.div`
     backdrop-filter: blur(24px);
     border: 2px solid rgba(200, 250, 200, 0.8);
     transition: all 0.35s cubic-bezier(0.77, 0, 0.175, 1);
+
+    & li {
+        font-size: 100%;
+    }
 `;
 
 const RoadmapContainer = styled.div`
@@ -51,13 +57,20 @@ const RoadmapContainer = styled.div`
     }
 `;
 
+const RoadmapVideo = styled(BackgroundVideo)`
+    @media (max-width: 800px) {
+        
+    }
+`
+
 const RoadmapSection = () => {
     return (
-        <ParallaxSection id="roadmap" style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/AboutSection_Background.png"})` }}>
+        <ParallaxSection id="roadmap">
+            <Video styledVideoComponent={RoadmapVideo} src={process.env.PUBLIC_URL + "videos/Leaf.mp4"} isMuted loop />
             <RoadmapContainer>
-                <h1 className="title" style={{marginTop: 32, color: 'rgb(255, 237, 151)'}}>ROADMAP</h1>
+                <h1 className="title" style={{ marginTop: 32, color: 'rgb(255, 237, 151)' }}>ROADMAP</h1>
                 <RoadmapPoint>
-                    <h3>May 2022 - Launch</h3>
+                    <h3>July 2022 - Launch</h3>
                     <ul>
                         <li>Launch of our website and social medias</li>
                         <li>Begin pre-sale to raise an initial liquidity</li>
@@ -65,7 +78,7 @@ const RoadmapSection = () => {
                     </ul>
                 </RoadmapPoint>
                 <RoadmapPoint>
-                    <h3>June 2022 - Launch</h3>
+                    <h3>August 2022 - Launch</h3>
                     <ul>
                         <li>Listing on Coingecko and CoinMarketCap</li>
                         <li>Begin a social media marketing campaign</li>
@@ -74,7 +87,7 @@ const RoadmapSection = () => {
                     </ul>
                 </RoadmapPoint>
                 <RoadmapPoint>
-                    <h3>August 2022 - Launch</h3>
+                    <h3>September 2022 - Growth & Future</h3>
                     <ul>
                         <li>Huge marketing push & Community build/events</li>
                         <li>Lottery system for $MNT holders (Add token utility)</li>
@@ -82,11 +95,11 @@ const RoadmapSection = () => {
                     </ul>
                 </RoadmapPoint>
                 <RoadmapPoint>
-                    <h3>September 2022 - Launch</h3>
+                    <h3>October 2022 - Growth & Future</h3>
                     <ul>
                         <li>Create a R2E that will allow you to play with your NFTs</li>
                         <li>
-                            Explore becoming a hybrid DaaS/NaaS project <br/>
+                            Explore becoming a hybrid DaaS/NaaS project <br />
                             by launching validator nodes for the community. <strong>(Important step for our tokenomic)</strong></li>
                     </ul>
                 </RoadmapPoint>
