@@ -96,8 +96,6 @@ export const ConnectButton: React.FC<{className?: string}> = (props) => {
         }
     }
 
-
-
     const isRightNetwork = chainId === AvalancheTestnet.chainId;
     return ( 
         account ?
