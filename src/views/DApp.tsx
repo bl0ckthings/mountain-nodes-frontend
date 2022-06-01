@@ -169,7 +169,7 @@ const DApp = () => {
                     <GridTitle span={3}>Protocol Stats</GridTitle>
                     <TextOnlyCard cardLeftContent='Total Nodes' leftContentValue={totalNumberOfNode.toString()}></TextOnlyCard>
                     <TextOnlyCard cardLeftContent='Total MTN supply' leftContentValue={totalSupply}></TextOnlyCard>
-                    <TextOnlyCard cardLeftContent='Calculating MTN' leftContentValue={totalSupply}></TextOnlyCard>
+                    <TextOnlyCard cardLeftContent='Circulating MTN' leftContentValue={totalSupply}></TextOnlyCard>
 
                 </BottomGrid>
                 <Footer>
