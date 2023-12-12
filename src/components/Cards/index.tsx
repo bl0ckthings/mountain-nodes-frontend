@@ -7,6 +7,8 @@ import { getContract } from "../../hooks/contracts";
 import { InputField } from "../Input";
 import { Video } from "../Video";
 import test from './test.svg';
+import toast, { Toaster } from "react-hot-toast";
+
 
 const Container = styled.div`
     display: flex;
@@ -297,7 +299,7 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
 
     useEffect(() => {
         if (createNodeAndTransferState.status === "Success") {
-            alert("Successfully minted node");
+            toast.success("Successfully minted node");
         }
 
         if (createNodeAndTransferState.status === "Fail") {
@@ -357,6 +359,7 @@ export const NodeCard: React.FC<{ nodeName: string, videoUrl: string, price: num
                         <GridBottomContent style={{ gridColumn: "3 span" }}>
                             <InputField isValid={isInputValid} value={refferalCode} onChange={(event) => { setRefferalCode(event.target.value) }} placeholder="Refferal code..." />
                             <CardButton disabled={!isInputValid} onClick={() => sendCreateNodeAndTransfer(utils.parseEther(props.price.toString()), props.nodeType, (refferalCode.trim().length === 42 && refferalCode.startsWith("0x")) ? refferalCode.trim() : "0x0000000000000000000000000000000000000000")}>Confirm Mint</CardButton>
+                            <Toaster />
                         </GridBottomContent>
                     </OverlayContainer>
                 </Overlay>

@@ -337,7 +337,7 @@ const useGetDailyInterestOfOwnedNodes = (chainId: number, account: string) => {
         return null;
     })
 
-    // console.log(rewardPerNodeArr);
+
     return rewardPerNodeArr;
 }
 

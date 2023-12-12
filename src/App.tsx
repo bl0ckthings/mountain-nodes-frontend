@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar/Navbar';
 import RoadmapSection from './sections/RoadmapSection';
 import HeroSection from './sections/HeroSection';
 import ServiceSection from './sections/ServiceSection';
+import toast, { Toaster } from 'react-hot-toast';
 
 export const AppContainer = styled.div`
   display: flex;
@@ -18,8 +19,9 @@ function App() {
   return (
     <AppContainer>
       <Navbar />
+
       <HeroSection />
-      <ServiceSection/>
+      <ServiceSection />
       <RoadmapSection />
     </AppContainer>
   );

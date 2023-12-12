@@ -66,7 +66,7 @@ const RoadmapVideo = styled(BackgroundVideo)`
 const RoadmapSection = () => {
     return (
         <ParallaxSection id="roadmap">
-            <Video styledVideoComponent={RoadmapVideo} src={process.env.PUBLIC_URL + "videos/Leaf.mp4"} isMuted loop />
+
             <RoadmapContainer>
                 <h1 className="title" style={{ marginTop: 32, color: 'rgb(255, 237, 151)' }}>ROADMAP</h1>
                 <RoadmapPoint>

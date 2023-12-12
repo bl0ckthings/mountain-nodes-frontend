@@ -99,13 +99,16 @@ const ButtonContainer = styled.div`
         width: 100%;
         
         & ${Button} {
+        
             width: 100%;
             padding: 8px 16px;
             justify-content: center;
+            
         }
     }
     @media (max-width: 400px){
         ${Button} {
+        
             padding : 4px 8px;       
             width: 50%;
             flex-direction: column;
@@ -117,6 +120,9 @@ const ButtonContainer = styled.div`
         z-index: 1;
     }
 `
+
+
+
 
 const shake = keyframes`
     0%{transform:rotateZ(0)}
@@ -228,7 +234,7 @@ const HeroSection = () => {
 
     return (
         <ParallaxSection id="home">
-            <Video styledVideoComponent={BackgroundVideo} src={process.env.PUBLIC_URL + "videos/Ice.mp4"} isMuted loop/>
+            <Video styledVideoComponent={BackgroundVideo} src={process.env.PUBLIC_URL + "videos/Ice.mp4"} isMuted loop />
             <Overlay playAnimation={playAnimation} />
             <SuperFrame>
                 <Content>
@@ -236,8 +242,15 @@ const HeroSection = () => {
                     <h3 className="subtitle">The peaks of the strongest <br /> and highest yields.</h3>
                     <Powered> <h4>Powered by</h4> <Logo src={process.env.PUBLIC_URL + "/img/avax.png"} /></Powered>
                     <ButtonContainer>
-                        <Button onClick={openDapp}><h4>Launch dAPP</h4> <Logo className='hovering' src={process.env.PUBLIC_URL + "/img/rightarrow.png"} /> </Button>
-                        <Button secondary><h4>Whitepaper</h4> <Logo src={process.env.PUBLIC_URL + "/img/downarrow.png"} /></Button>
+                        <Button>
+                            <h4>Launch dAPP (SOON)</h4>
+                            <Logo className='hovering' src={process.env.PUBLIC_URL + "/img/rightarrow.png"} />
+
+                        </Button>
+                        <Button secondary>
+                            <h4>Whitepaper</h4>
+                            <Logo src={process.env.PUBLIC_URL + "/img/downarrow.png"} />
+                        </Button>
                     </ButtonContainer>
                 </Content>
                 <SocialNetwork>

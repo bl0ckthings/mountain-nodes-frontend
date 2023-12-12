@@ -9,6 +9,7 @@ import {
 import { useEthers } from "@usedapp/core";
 import { BigNumber, utils } from "ethers";
 import { CardButton } from "../Cards";
+import toast, { Toaster } from "react-hot-toast";
 
 const TableContainer = styled.div`
   display: flex;
@@ -106,18 +107,26 @@ const TableRow: React.FC<{ nodeId: number }> = (props) => {
   const nodeRewards = useCalculateRewards(chainId!, props.nodeId);
   const { send: sendClaimRewards, state: claimRewardsState } = useClaimRewards(chainId!);
 
-  const claimRewardsFromOneNode = (id: BigNumber) => {
-    sendClaimRewards(id);
-    console.log(id);
+
+  const claimRewardsFromOneNode = async (id: BigNumber) => {
+    try {
+      await sendClaimRewards(id);
+      console.log(id);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to claim rewards: ");
+    }
   }
+
 
   useEffect(() => {
     if (claimRewardsState.status === "Success") {
-      // alert("Successfully claimed rewards");
+      toast.success("Successfully claimed rewards")
     }
 
     if (claimRewardsState.status === "Fail") {
       alert("Failed to claim rewards");
+      toast.error("Failed to claim rewards")
     }
 
   }, [claimRewardsState, nodeRewards])

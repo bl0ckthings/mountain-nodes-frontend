@@ -56,6 +56,7 @@ const Nodes = () => {
         <Section style={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/img/backgrounds/background.png"})`, backgroundPosition: 'center', backgroundSize: 'cover', alignItems: "center", padding: "16px" }}>
             <NavbarDApp />
             <GridContainer>
+
                 <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Glace.png"} cost={112} balance={10} MTNprice={200.00} nodeName='Ice Node' color='#4c95fc' videoUrl={process.env.PUBLIC_URL + "/media/ice.webm"} price={icePrice || 10} reward={iceReward * icePrice || 0} nodeType={0} />
                 <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Lave.png"} cost={180} balance={2} MTNprice={150.00} nodeName='Lava Node' color='#e68937' videoUrl={process.env.PUBLIC_URL + "/media/lava.webm"} price={lavaPrice || 20} reward={lavaReward * lavaPrice || 0} nodeType={2} />
                 <NodeCard fallbackImage={process.env.PUBLIC_URL + "media/Green.png"} cost={87} balance={9} MTNprice={100.00} nodeName='Earth Node' color='#3dd468' videoUrl={process.env.PUBLIC_URL + "/media/green.webm"} price={leafPrice || 15} reward={leafReward * leafPrice || 0} nodeType={1} />

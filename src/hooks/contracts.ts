@@ -1,16 +1,16 @@
-import { AvalancheTestnet } from "@usedapp/core";
+import { Avalanche } from "@usedapp/core";
 import { config } from "..";
 import { ContractAddress } from "./types";
 
 export const applicationContracts: { [key: string]: ContractAddress } = {
     "Mountain": {
-        [AvalancheTestnet.chainId]: "0x2968cC756FB2CBc2e1a1c17267f69Ff651041d6a"
+        [Avalanche.chainId]: "0xD965aC836A59c608458999E7fD23Ddc53F44a215"
     },
     "PangolinPair": {
-        [AvalancheTestnet.chainId]: "0x512af65bc65836d6d04144d4d11ce565e4f37852"
+        [Avalanche.chainId]: "0xEC7E1F9B0f19bb8cD5302892773eD78ECa501a53"
     },
     "USDCPair": {
-        [AvalancheTestnet.chainId]: "0x67A760Ab698C6E4D0A82854134E50fb71b32abde"
+        [Avalanche.chainId]: "0x5425890298aed601595a70AB815c96711a31Bc65"
     }
 }
 

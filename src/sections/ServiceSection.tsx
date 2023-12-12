@@ -83,7 +83,6 @@ const Subtitle = styled.h4`
 const ServiceSection = () => {
     return (
         <ParallaxSection id="services">
-            <Video styledVideoComponent={BackgroundVideo} src={process.env.PUBLIC_URL + "videos/Lava.mp4"} isMuted loop />
             <Container>
                 <h1 style={{ color: "#fffd92", fontSize: "5vmax", overflow: 'unset', textOverflow: 'unset', whiteSpace: 'unset' }} className="title">NEXT-GEN SERVICES</h1>
                 <Subtitle>Our innovative solutions to unlock the true potential of our protocol</Subtitle>
